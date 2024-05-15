@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import EventsList from './components/EventsList';
+import Summary from './components/Summary';
+import Header from './components/Header';
 
 function App() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch('http://localhost:3001/events');
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    }
+
+    fetchEvents();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <main className="main-content">
+        <EventsList events={events} />
+        <Summary eventCount={events.length} />
+      </main>
     </div>
   );
 }

@@ -1,0 +1,83 @@
+.event-container {
+  background-color: #464545;
+  border-radius: 25px;
+  color: white;
+  margin-bottom: 10px;
+  padding: 10px 20px; /* Adjusted padding to reduce space */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.event-details {
+  flex-grow: 1;
+}
+
+.event-time, .event-title, .event-host, .event-location, .event-registration, .event-tags {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #B9B9B9;
+  margin-top: 0; /* Ensure no top margin */
+  padding-top: 0; /* Ensure no top padding */
+}
+
+.event-time {
+  margin-top: 0; /* Ensure no top margin */
+  padding-top: 0; /* Ensure no top padding */
+}
+
+.event-title {
+  font-weight: bold;
+  font-size: 21px;
+  overflow-wrap: break-word;
+  color: #FFFFFF; /* Set color to white */
+}
+
+.event-host, .event-location, .event-registration, .event-tags {
+  margin-bottom: 5px;
+  margin-top: 0; /* Ensure no top margin */
+  padding-top: 0; /* Ensure no top padding */
+}
+
+.event-location {
+  margin-bottom: 0; /* Reduce bottom margin */
+  padding-bottom: 0; /* Reduce bottom padding */
+}
+
+.event-registration {
+  margin-top: 5px; /* Add a bit of space above the registration status */
+  margin-bottom: 0; /* Reduce bottom margin */
+  padding-bottom: 0; /* Reduce bottom padding */
+}
+
+.event-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.host-logo {
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+  margin-left: 1px;
+  vertical-align: middle;
+}
+
+.location-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.registration-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
