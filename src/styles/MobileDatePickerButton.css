@@ -1,0 +1,35 @@
+/* MobileDatePickerButton.css */
+.mobile-date-picker-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.calendar-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.date-picker-wrapper {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  transition: bottom 0.5s ease-in-out;
+  z-index: 1000;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+.date-picker-wrapper.slide-up {
+  bottom: 0;
+}
+
+.date-picker-wrapper.slide-down {
+  bottom: -100%;
+}
+
+.date-picker-button-container {
+  display: inline-block;
+  margin-right: 10px;
+}
