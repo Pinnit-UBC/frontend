@@ -1,80 +1,53 @@
-.summary-container {
-  background-color: #464545;
-  border-radius: 25px;
-  color: white;
-  height: 200px;
-  margin-bottom: 10px;
+/* src/styles/Summary.css */
+#summary {
   padding: 20px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  margin-right: 20px;
-  flex-direction: column;
+  background-color: #2F2E2E;
+  border-radius: 20px; /* Corner Rounding */
+  box-shadow: inset 0 0 0 5px #4F4D4D; /* Border Size */
+  margin: 10px auto; /* Center the summary and apply vertical margins */
+  max-width: 800px; /* Ensure max width to line up with other components */
+  width: calc(100% - 40px); /* Ensure it takes full width of the parent with respect to padding */
   position: relative;
 }
 
-.summary-container::after {
-  content: '';
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  height: 2px;
-  background: #fff;
-  top: 45%;
-  transform: translateY(-50%);
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Take up the entire width of the summary section */
 }
 
 .summary-numbers-wrapper {
   display: flex;
-  justify-content: center;
-  width: 100%;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 0px;
 }
 
 .summary-et-numbers {
-  font-size: 40px;
   font-weight: bold;
-  text-align: center;
-  margin: 0;
-}
-
-.summary-titles-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  font-size: 2rem;
+  color: #fff;
 }
 
 .summary-et-titles {
-  font-size: 14px;
-  text-align: center;
-  margin: 0;
+  font-size: 1rem;
+  color: #fff;
 }
 
 .sponsored-event {
   display: flex;
-  font-size: 20px;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
+  margin-top: 20px;
+}
+
+.left-logo {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.custom-divider {
+  background-color: #fff;
   width: 100%;
-  margin-top: auto;
-  margin-bottom: 5px;
-  height: 50px;
-  font-weight: bold;
-}
-
-.sponsored-event > span {
-  padding: 0 20px;
-}
-
-.left-logo, .right-logo {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
+  height: 2px; /* Adjust height for thicker divider */
 }

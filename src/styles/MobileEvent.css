@@ -1,0 +1,44 @@
+.mobile-event-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.mobile-event-details {
+  flex: 1;
+}
+
+.mobile-event-time,
+.mobile-event-title,
+.mobile-event-location,
+.mobile-event-host,
+.mobile-event-registration,
+.mobile-event-tags {
+  margin: 5px 0;
+}
+
+.mobile-location-logo,
+.mobile-host-logo,
+.mobile-registration-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.mobile-event-image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.mobile-tag {
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin-right: 5px;
+  display: inline-block;
+}
