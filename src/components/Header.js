@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import subscribeIcon from '../assets/subscribe-icon.png';
 import pinnitLogo from '../assets/pinnit_logo.png';
 import '../styles/Header.css';
+import '../styles/MobileHeader.css'; // Import the mobile-specific styles
 
 function Header() {
   const navigate = useNavigate();
