@@ -1,3 +1,4 @@
+/* App.css */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -62,7 +63,7 @@ body {
 
 .mobile-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 10px;
   background-color: #2F2E2E;
@@ -72,26 +73,31 @@ body {
 
 .mobile-button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the buttons horizontally */
   width: 100%;
+  max-width: 600px; /* Optional: limit the max width to prevent excessive stretching */
   padding: 0 10px;
+  gap: 10px; /* Add space between the buttons */
 }
 
 .mobile-button {
   background-color: #464545;
   border-radius: 20px;
-  padding: 10px;
+  padding: 8px; /* Reduced padding to make the button smaller */
   margin: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1; /* Allow buttons to grow equally */
+  max-width: 80px; /* Limit the max width for buttons */
 }
 
 .mobile-timeline-container {
   background-color: #464545;
   border-radius: 20px;
-  padding: 5px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 220px; /* Increase the size of the middle button */
 }

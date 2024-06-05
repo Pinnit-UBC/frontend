@@ -1,12 +1,14 @@
+/* MobileEvent.css */
+
 .mobile-event-container {
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #464545; /* Updated background color */
   border-radius: 10px;
   margin: 10px 0;
   padding: 10px;
   overflow: hidden;
+  color: #fff;
 }
 
 .mobile-event-details {
@@ -20,6 +22,12 @@
 .mobile-event-registration,
 .mobile-event-tags {
   margin: 5px 0;
+}
+
+.mobile-event-title {
+  font-size: x-large;
+  font-weight: bold;
+
 }
 
 .mobile-location-logo,
@@ -36,9 +44,29 @@
 }
 
 .mobile-tag {
-  background-color: #eee;
+  background-color: #2F2E2E; /* Adjusted tag background color for contrast */
   border-radius: 5px;
   padding: 2px 5px;
   margin-right: 5px;
   display: inline-block;
+}
+
+
+.mobile-event-image {
+  width: 90vw;
+  height: 300px; /* Fixed height to create a square */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.mobile-event-image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%; /* Ensure the image covers the full height */
+  width: auto;
+  transform: translate(-50%, -50%);
+  max-height: 100%;
+  max-width: none;
 }
