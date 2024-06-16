@@ -49,17 +49,19 @@ function App() {
               {isMobile ? (
                 <div className="mobile-header">
                   <div className="mobile-button-container">
-                    <div className="mobile-button">
+                    <div className="map-button-container">
                       <MobileMapButton events={events} />
                     </div>
-                    <div className="mobile-button">
+                    <div className="timeline-button">
                       <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
                     </div>
-                    <div className="mobile-button">
+                    <div className="date-picker-button-container">
                       <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                     </div>
                   </div>
-                  <MobileEventsList events={events} onEventClick={() => {}} />
+                  <div className="mobile-events-list">
+                    <MobileEventsList events={events} onEventClick={() => {}} />
+                  </div>
                 </div>
               ) : (
                 <>

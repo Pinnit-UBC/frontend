@@ -43,40 +43,11 @@ body {
   gap: 10px; /* Add gap between DatePickerComponent, Summary, and MapComponent */
 }
 
-.event-container {
-  background-color: #464545;
-  border-radius: 25px;
-  color: white;
-  margin-bottom: 10px;
-  padding: 15px 25px !important; /* First variable controls the vertical padding, second controls horizontal */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-}
-
-.date-picker-container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.mobile-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  background-color: #2F2E2E;
-  width: 100vw; /* Ensure it takes the full width of the viewport */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
 .mobile-button-container {
   display: flex;
   justify-content: center; /* Center the buttons horizontally */
   width: 100%;
   max-width: 600px; /* Optional: limit the max width to prevent excessive stretching */
-  padding: 0 10px;
   gap: 10px; /* Add space between the buttons */
 }
 
@@ -92,12 +63,12 @@ body {
   max-width: 80px; /* Limit the max width for buttons */
 }
 
-.mobile-timeline-container {
-  background-color: #464545;
-  border-radius: 20px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 220px; /* Increase the size of the middle button */
+
+ /* Drawer Container Logic */
+ .drawer-container {
+  position: relative;
+}
+
+.drawer-container.open .mobile-event-drawer {
+  transform: translateX(0);
 }

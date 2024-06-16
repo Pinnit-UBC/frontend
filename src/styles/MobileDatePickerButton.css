@@ -6,35 +6,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 65px;
+  height: 65px; /* Ensure the button is square */
+  padding: 0;
+  margin: 0;
 }
 
 .calendar-icon {
-  width: 40px;
-  height: 40px;
-}
-
-.date-picker-wrapper {
-  position: fixed;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  transition: bottom 0.5s ease-in-out;
-  z-index: 1000;
-  border-radius: 20px 20px 0 0;
-  overflow: hidden;
-}
-
-.date-picker-wrapper.slide-up {
-  bottom: 0;
-}
-
-.date-picker-wrapper.slide-down {
-  bottom: -100%;
+  width: 80%;
+  height: 80%;
 }
 
 .date-picker-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  background-color: #464545;
+  border-radius: 20px;
+  width: 65px;
+  height: 65px; /* Ensure the container is square */
 }
