@@ -6,16 +6,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 60px;
+  height: 60px; /* Ensure the button is square */
+  margin: 0; /* Remove margin */
 }
 
 .map-marker-icon {
-  width: 40px;
-  height: 40px;
+  width: 80%;
+  height: 80%;
 }
 
 .map-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  width: 65px;
+  height: 65px;
+  background-color: #464545;
+  border-radius: 20px;
+  margin: 0 0px; /* Adjust margin for better spacing */
 }

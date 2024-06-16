@@ -1,9 +1,7 @@
 /* MobileEventsList.css */
 #mobile-events {
-    padding: 10px;
-  }
-  
-  .mobile-event-container {
-    margin-bottom: 15px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}

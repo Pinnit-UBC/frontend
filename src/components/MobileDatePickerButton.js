@@ -60,7 +60,7 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
     };
 
     return (
-        <>
+        <div className="date-picker-button-container">
             <button className="mobile-date-picker-button" onClick={handleClick}>
                 <img src={calendarIcon} alt="Calendar Icon" className="calendar-icon" />
             </button>
@@ -81,7 +81,7 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

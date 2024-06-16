@@ -8,7 +8,7 @@ const MobileMapButton = ({ events }) => {
   const [showMap, setShowMap] = useState(false);
 
   return (
-    <div>
+    <div className="map-button-container">
       <button className="mobile-map-button" onClick={() => setShowMap(!showMap)}>
         <img src={mapMarkerIcon} alt="Map Marker Icon" className="map-marker-icon" />
       </button>
