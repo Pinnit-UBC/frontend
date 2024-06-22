@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-mobile-datepicker';
 import '../styles/MobileDatePickerButton.css';
@@ -41,6 +41,10 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [time, setTime] = useState(new Date(selectedDate));
     const [showPicker, setShowPicker] = useState(false);
+
+    useEffect(() => {
+        setTime(new Date(selectedDate));
+    }, [selectedDate]);
 
     const handleClick = () => {
         setIsOpen(true);

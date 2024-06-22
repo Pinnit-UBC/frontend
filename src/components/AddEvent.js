@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,13 +10,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SimpleMap from './SimpleMap';
+import dayjs from 'dayjs';
 import '../styles/AddEvent.css';
 
 function AddEvent() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    user_id: '', // Added user_id to the state
-    pass_key: '', // Added pass_key to the state
+    user_id: '',
+    pass_key: '',
     event_date: '',
     event_title: '',
     host_organization: '',
@@ -33,6 +34,10 @@ function AddEvent() {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top on component mount
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +70,6 @@ function AddEvent() {
     setIsSubmitting(true);
     setOpenDialog(false);
 
-    // Check if a file is attached
     if (!selectedFile && !markerPosition) {
       setDialogContent('Please pin a location on the map and attach event image before submitting.');
       setOpenDialog(true);
@@ -83,7 +87,6 @@ function AddEvent() {
       return;
     }
 
-    // Verify the pass key
     const verifyKeyResponse = await fetch('http://localhost:3001/verify-key', {
       method: 'POST',
       headers: {
@@ -133,7 +136,9 @@ function AddEvent() {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    const today = dayjs().format('YYYY-MM-DD');
+    navigate(`/?date=${today}`);
+    window.scrollTo(0, 0); // Ensure the page scrolls to the top
   };
 
   const handleCloseDialog = () => {

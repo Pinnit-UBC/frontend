@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -9,7 +9,6 @@ import locationIcon from '../assets/mdi_location.png';
 import registrationIcon from '../assets/Signing A Document.png';
 import closeButton from '../assets/close-button.png';
 import shareButton from '../assets/share-button.png';
-import learnIcon from '../assets/Info.png';
 import DrawerMap from './DrawerMap';
 import '../styles/EventDrawer.css';
 
@@ -21,6 +20,8 @@ function formatTime(time) {
 }
 
 function EventDrawer({ event, open, onClose }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   if (!event) {
     return (
       <Drawer
@@ -52,8 +53,7 @@ function EventDrawer({ event, open, onClose }) {
   }
 
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
-
-  console.log('Event data:', event); // Debugging statement
+  const truncatedDescription = event.activity_description.split(' ').slice(0, 50).join(' ') + '... see more';
 
   return (
     <Drawer
@@ -92,6 +92,10 @@ function EventDrawer({ event, open, onClose }) {
           </Box>
         )}
         <Box className="drawer-info-container">
+          <Typography variant="h6" className="drawer-section-header">
+            The Event
+          </Typography>
+          <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
           <Box className="drawer-info-item">
             <img src={locationIcon} alt="Location Logo" className="drawer-location-icon" />
             <Typography variant="body2" className="drawer-info-text">
@@ -110,51 +114,59 @@ function EventDrawer({ event, open, onClose }) {
               {event.registration_status}
             </Typography>
           </Box>
+          {event.reference_link && (
+            <Box className="drawer-info-item" sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                href={event.reference_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  backgroundColor: '#6AA6F8',
+                  borderColor: 'transparent',
+                  width: '75%',
+                  '&:hover': {
+                    backgroundColor: '#6AA6F8',
+                  },
+                }}
+              >
+                Check it out
+              </Button>
+            </Box>
+          )}
         </Box>
-        {event.reference_link && (
-          <Box className="drawer-info-item">
-            <Button
-              variant="outlined"
-              href={event.reference_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              startIcon={<img src={learnIcon} alt="Learn More" className="button-icon" />}
-              sx={{ color: 'white', fontWeight: 'bold', borderColor: 'white' }}
-            >
-              Learn more
-            </Button>
-          </Box>
-        )}
         {event.activity_description && (
-          <>
+          <Box className="drawer-event-details-container">
             <Typography variant="h6" className="drawer-section-header">
-              The Event
+              The Details
             </Typography>
             <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
-            <Typography variant="body2" className="drawer-event-description">
-              {event.activity_description}
+            <Typography variant="body2" className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}>
+              {isExpanded ? event.activity_description : truncatedDescription}
+              <span
+                className="drawer-see-more"
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                {isExpanded ? ' see less' : ' see more'}
+              </span>
             </Typography>
-          </>
+          </Box>
         )}
-        <Box className="drawer-event-tags">
-          {event.tags && event.tags.map((tag, index) => (
-            <Typography key={index} component="span" className="drawer-event-tag">
-              {tag}
-            </Typography>
-          ))}
-        </Box>
         <Box sx={{ mt: 2 }}>
           <DrawerMap latitude={event.latitude} longitude={event.longitude} />
         </Box>
         {/* New section "About Us" */}
-        <Typography variant="h6" className="drawer-section-header" sx={{ mt: 2 }}>
-          About Us
-        </Typography>
-        <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
-        <Typography variant="body2" className="drawer-about-us-description">
-          {/* Add your "About Us" content here */}
-          We are a team of dedicated professionals committed to organizing and promoting events that enrich the community. Join us and be a part of the excitement!
-        </Typography>
+        <Box className="drawer-info-container">
+          <Typography variant="h6" className="drawer-section-header">
+            About Us
+          </Typography>
+          <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
+          <Typography variant="body2" className="drawer-about-us-description">
+            We are a team of dedicated professionals committed to organizing and promoting events that enrich the community. Join us and be a part of the excitement!
+          </Typography>
+        </Box>
       </Box>
     </Drawer>
   );
