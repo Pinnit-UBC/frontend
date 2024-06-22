@@ -53,13 +53,15 @@
   color: white;
 }
 
-.drawer-info-container {
+.drawer-info-container,
+.drawer-event-details-container {
   background-color: #585858; /* Container background color */
   border-radius: 15px; /* Rounded corners */
   padding: 16px; /* Padding inside the container */
   display: flex;
   flex-direction: column;
   gap: 5px; /* Reduced gap between info items */
+  width: 100%; /* Ensure it takes the full width */
 }
 
 .drawer-info-item {
@@ -101,7 +103,6 @@
 }
 
 .drawer-event-description {
-  margin-top: -10px !important;
   font-size: 16.5px !important; /* Font size for description */
   color: white;
 }
@@ -110,12 +111,14 @@
   margin-top: 16px !important;
   display: flex;
   justify-content: center;
+  width: 100%; /* Ensure it takes the full width */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
 }
 
 .drawer-event-image {
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 .drawer-event-tag {
@@ -163,17 +166,17 @@
   margin-top: 8px;
 }
 
-
 @media (max-width: 768px) {
   .drawer-container {
     padding: 10px;
     gap: 10px;
   }
   .drawer-event-title {
-    font-size: 20px !important;
+    font-size: 25px !important;
   }
   .drawer-event-time {
-    font-size: 14px;
+    font-size: 17px !important;
+    color: #D7D5D5
   }
   .drawer-info-container {
     padding: 10px;

@@ -1,5 +1,3 @@
-/* MobileEvent.css */
-
 .mobile-event-container {
   display: flex;
   flex-direction: column;
@@ -49,9 +47,22 @@
   margin-right: 5px;
 }
 
-.mobile-event-image img {
-  width: 100%;
+.mobile-event-image {
+  display: flex; /* Add this */
+  justify-content: center; /* Add this */
+  width: 100%; /* Adjust the width to 100% */
+  height: 300px;
+  position: relative;
+  overflow: hidden;
   border-radius: 10px;
+  margin: 0; /* Remove auto margin */
+}
+
+.mobile-event-image img {
+  height: 100%;
+  width: auto;
+  max-height: 100%;
+  border-radius: 10px; /* Apply border-radius to the image */
 }
 
 .mobile-tag {
@@ -60,23 +71,4 @@
   padding: 2px 5px;
   margin-right: 5px;
   display: inline-block;
-}
-
-.mobile-event-image {
-  width: 90vw;
-  height: 300px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.mobile-event-image img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 100%;
-  width: auto;
-  transform: translate(-50%, -50%);
-  max-height: 100%;
-  max-width: none;
 }

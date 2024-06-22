@@ -52,16 +52,14 @@ function App() {
                     <div className="map-button-container">
                       <MobileMapButton events={events} />
                     </div>
-                    <div className="timeline-button">
+                    <div className="mobile-timeline-container">
                       <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
                     </div>
                     <div className="date-picker-button-container">
                       <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                     </div>
                   </div>
-                  <div className="mobile-events-list">
-                    <MobileEventsList events={events} onEventClick={() => {}} />
-                  </div>
+                  {events.length > 0 && <MobileEventsList events={events} onEventClick={() => {}} />}
                 </div>
               ) : (
                 <>

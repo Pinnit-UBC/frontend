@@ -15,7 +15,7 @@
   height: 40px;
   cursor: pointer;
   padding: 0px; /* Remove padding */
-  margin: -10px; /* Remove margin */ /* This is changed frp, -30px*/
+  margin: -20px; /* Remove margin */ /* This is changed frp, -30px*/ /* Used for arrow distance*/
   background-color: transparent; /* Make background transparent */
 }
 
