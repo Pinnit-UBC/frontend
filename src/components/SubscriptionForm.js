@@ -23,9 +23,10 @@ const SubscriptionForm = () => {
           alert('Subscribed successfully!');
         } else {
           alert('Failed to subscribe.');
+          console.error('Response:', response);
         }
       } catch (error) {
-        console.error('Error subscribing:', error);
+        console.error('Error subscribing:', error.response || error.message);
         alert('There was an error subscribing. Please try again later.');
       }
     } else {

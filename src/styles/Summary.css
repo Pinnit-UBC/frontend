@@ -1,12 +1,12 @@
 /* src/styles/Summary.css */
 #summary {
   padding: 20px;
-  background-color: #2F2E2E;
-  border-radius: 20px; /* Corner Rounding */
-  box-shadow: inset 0 0 0 5px #4F4D4D; /* Border Size */
-  margin: 10px auto; /* Center the summary and apply vertical margins */
-  max-width: 800px; /* Ensure max width to line up with other components */
-  width: calc(100% - 40px); /* Ensure it takes full width of the parent with respect to padding */
+  background-color: #2f2e2e;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 5px #4f4d4d;
+  margin: 10px auto;
+  max-width: 800px;
+  width: calc(100% - 40px);
   position: relative;
 }
 
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Take up the entire width of the summary section */
+  width: 100%;
 }
 
 .summary-numbers-wrapper {
@@ -38,6 +38,7 @@
   display: flex;
   align-items: center;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .left-logo {
@@ -49,5 +50,9 @@
 .custom-divider {
   background-color: #fff;
   width: 100%;
-  height: 2px; /* Adjust height for thicker divider */
+  height: 2px;
+}
+
+.sponsored-event:hover {
+  opacity: 0.8;
 }
