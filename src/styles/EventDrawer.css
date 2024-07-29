@@ -1,23 +1,16 @@
-/* Styles for the drawer container */
+/* src/styles/EventDrawer.css */
+
 .drawer-container {
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   height: 100%;
-  background-color: #393838 !important; /* Drawer background color */
-  border-radius: 15px 0px 0px 15px; /* Rounded top-left and bottom-left corners */
-  overflow: auto; /* Ensure content is scrollable */
-  border: 2px solid #464545 !important; /* Add border and override any default styles */
+  background-color: #393838 !important;
+  border-radius: 15px 0px 0px 15px !important;
+  overflow: auto;
 }
 
-/* Override any border on the drawer paper */
-.MuiDrawer-paper {
-  border: none !important;
-  box-shadow: none !important; /* Remove any box-shadow that might create a border-like effect */
-}
-
-/* Other existing styles */
 .drawer-header {
   display: flex;
   justify-content: space-between;
@@ -25,43 +18,41 @@
 }
 
 .drawer-close-button {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
   cursor: pointer;
 }
 
 .drawer-share-button {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
   cursor: pointer;
 }
 
 .drawer-event-title {
   font-weight: bold !important;
-  font-size: 28px !important; /* Font size for event title */
-  text-align: center; /* Centered text */
+  font-size: 28px !important;
+  text-align: center;
   color: white;
   margin-bottom: 0;
-  line-height: 1.2 !important; /* Spacing between Title lines */
+  line-height: 1.2 !important;
 }
 
 .drawer-event-time {
-  font-size: 17px; /* Font size for event time */
+  font-size: 17px;
   font-weight: bold !important;
-  text-align: center; /* Centered text */
-  margin-bottom: 0px !important; /* Margin below the time */
+  text-align: center;
+  margin-bottom: 0px !important;
   color: white;
 }
 
-.drawer-info-container,
-.drawer-event-details-container {
-  background-color: #585858; /* Container background color */
-  border-radius: 15px; /* Rounded corners */
-  padding: 16px; /* Padding inside the container */
+.drawer-info-container {
+  background-color: #585858;
+  border-radius: 15px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 5px; /* Reduced gap between info items */
-  width: 100%; /* Ensure it takes the full width */
+  gap: 5px;
 }
 
 .drawer-info-item {
@@ -70,95 +61,70 @@
   gap: 8px;
 }
 
-.drawer-info-icon {
+.drawer-location-icon,
+.drawer-host-icon,
+.drawer-registration-icon {
   width: 20px;
   height: 21px;
 }
 
-.drawer-location-icon {
-  width: 20px; /* Adjust width for location icon */
-  height: 23px; /* Adjust height for location icon */
-}
-
-.drawer-host-icon {
-  width: 19px; /* Adjust width for host icon */
-  height: 22px; /* Adjust height for host icon */
-}
-
-.drawer-registration-icon {
-  width: 20px; /* Adjust width for registration icon */
-  height: 22px; /* Adjust height for registration icon */
-}
-
 .drawer-info-text {
-  font-size: 17px !important; /* Font size for info text */
+  font-size: 17px !important;
   color: white;
   font-weight: 200 !important;
-  line-height: 1.4 !important; /* Spacing between lines */
-}
-
-.button-icon {
-  width: 20px;
-  height: 20px;
+  line-height: 1.4 !important;
 }
 
 .drawer-event-description {
-  font-size: 16.5px !important; /* Font size for description */
+  margin-top: -10px !important;
+  font-size: 16.5px !important;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.drawer-see-more {
+  color: #6aa6f8;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.drawer-event-description.expanded {
+  -webkit-line-clamp: unset;
+  white-space: normal;
+}
+
+.drawer-event-details-container {
+  background-color: #474343;
+  border-radius: 15px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.drawer-event-details-container .drawer-section-header {
+  margin-bottom: -10px !important;
+}
+
+.drawer-event-details-container .drawer-event-description {
+  margin-top: 0 !important;
 }
 
 .drawer-event-image-container {
-  margin-top: 16px !important;
+  width: 100%;
   display: flex;
   justify-content: center;
-  width: 100%; /* Ensure it takes the full width */
-  box-sizing: border-box; /* Ensure padding and borders are included in the width */
 }
 
 .drawer-event-image {
   max-width: 100%;
   height: auto;
-  border-radius: 25px;
-}
-
-.drawer-event-tag {
-  margin-right: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  padding: 4px;
-  font-size: 12px; /* Font size for tags */
-  color: #464545; /* Text color for tags */
-}
-
-.drawer-reference-link {
-  margin-top: 16px;
-  font-size: 16px; /* Font size for the link */
-  color: #1e90ff; /* Color for the link */
-  text-align: center; /* Center the link */
-}
-
-.drawer-reference-link a {
-  color: inherit; /* Use the same color as the parent */
-  text-decoration: none; /* Remove underline */
-}
-
-.drawer-reference-link a:hover {
-  text-decoration: underline; /* Underline on hover */
-}
-
-.drawer-section-header {
-  font-weight: bold !important;
-  color: white;
-  margin-bottom: -20px !important; /* Reduce spacing below the header */
-}
-
-.drawer-section-divider {
-  border: 0;
-  height: 2px; /* Increase the height for better visibility */
-  background: white;
-  margin: 4px 0 8px; /* Adjust the margins for better placement */
-  width: 80%; /* Adjust the width to not cross the entire drawer */
-  margin-left: 0; /* Align to the left */
+  border-radius: 10px;
 }
 
 .drawer-about-us-description {
@@ -171,16 +137,20 @@
     padding: 10px;
     gap: 10px;
   }
+
   .drawer-event-title {
     font-size: 25px !important;
   }
+
   .drawer-event-time {
     font-size: 17px !important;
-    color: #D7D5D5
+    color: #d7d5d5;
   }
+
   .drawer-info-container {
     padding: 10px;
   }
+
   .drawer-event-description {
     font-size: 14px !important;
   }

@@ -1,3 +1,4 @@
+/* Header.css */
 header {
   width: 100%; /* Ensure the header takes the full width of the screen */
 }
@@ -23,6 +24,7 @@ header {
 .header-logo {
   display: block;
   max-height: 100px; /* Adjust the size to make the logo smaller */
+
 }
 
 .subscribe-banner {
@@ -37,6 +39,7 @@ header {
   align-items: center;
   justify-content: center;
   z-index: 11; /* Ensure the banner is above the background image */
+  height: 36px;
 }
 
 .subscribe-icon {
@@ -62,7 +65,7 @@ header {
 
 .add-event-button {
   position: absolute !important;
-  top: 4px !important;
+  top: 10px !important;
   right: 10px !important;
   z-index: 12 !important; /* Ensure the button is above other elements */
   padding: 5px 10px; /* Reduce the padding to make the button smaller */
@@ -75,3 +78,12 @@ header {
 .add-event-icon {
   display: none; /* Hide by default */
 }
+
+.menu-button-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 12; /* Ensure the button is above other elements */
+}
+
+

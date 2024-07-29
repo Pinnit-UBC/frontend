@@ -1,0 +1,91 @@
+/* MenuDrawer.css */
+
+.menu-drawer-paper {
+  width: 15vw !important; /* Reduce the width */
+  max-width: 15vw !important; /* Adjust the maximum width */
+  background-color: #393838 !important;
+  border-radius: 0px 15px 15px 0px !important;
+  overflow: auto !important;
+  border: none !important;
+}
+
+@media (max-width: 768px) {
+  .menu-drawer-paper {
+    width: 25vw !important; /* Adjust width for smaller screens */
+  }
+}
+
+.drawer-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  background-color: #393838 !important; /* Drawer background color */
+  border-radius: 0px 15px 15px 0px !important; /* Rounded top-right and bottom-right corners */
+  overflow: auto; /* Ensure content is scrollable */
+  border: 2px solid #464545 !important; /* Add border and override any default styles */
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* Ensure positioning of close button is relative to this container */
+}
+
+.drawer-close-button {
+  width: 40px !important;
+  height: 35px !important;
+  cursor: pointer;
+  position: absolute;
+  top: -15px !important; /* Adjust this value to move the button towards the top */
+  left: -5px; /* Adjust this value to move the button towards the left */
+}
+
+.drawer-title {
+  font-weight: bold !important;
+  font-size: 28px !important; /* Font size for title */
+  text-align: center; /* Centered text */
+  color: white;
+  margin-bottom: 0;
+  line-height: 1.2 !important; /* Spacing between lines */
+}
+
+.menu-button {
+  width: 40px !important; /* Adjust width to reduce size */
+  height: 32px !important; /* Adjust height to reduce size */
+  cursor: pointer;
+  z-index: 13; /* Ensure the button is above other elements */
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+.drawer-footer {
+  margin-top: auto; /* Push the footer to the bottom */
+  padding-top: 20px;
+  border-top: 1px solid #464545;
+  text-align: center;
+}
+
+.dark-mode-button {
+  color: white !important;
+  border-color: white !important;
+}
+
+@media (max-width: 768px) {
+  .drawer-container {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .drawer-title {
+    font-size: 25px !important;
+  }
+
+  .menu-button {
+    width: 30px; /* Adjust width to reduce size for mobile */
+    height: 30px; /* Adjust height to reduce size for mobile */
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -21,6 +21,23 @@ function formatTime(time) {
 
 function EventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const descriptionRef = useRef(null);
+
+  useEffect(() => {
+    const checkDescriptionHeight = () => {
+      if (descriptionRef.current) {
+        const lineHeight = parseInt(window.getComputedStyle(descriptionRef.current).lineHeight, 10);
+        const maxHeight = lineHeight * 4; // 4 lines
+        setIsTruncated(descriptionRef.current.scrollHeight > maxHeight);
+      }
+    };
+    if (event && event.activity_description) {
+      checkDescriptionHeight();
+      window.addEventListener('resize', checkDescriptionHeight);
+    }
+    return () => window.removeEventListener('resize', checkDescriptionHeight);
+  }, [event]);
 
   if (!event) {
     return (
@@ -30,12 +47,7 @@ function EventDrawer({ event, open, onClose }) {
         onClose={onClose}
         PaperProps={{
           sx: {
-            width: {
-              xs: '30vw', // 30% of viewport width on extra small screens
-              sm: '30vw', // 30% of viewport width on small screens
-              md: '50vw', // 50% of viewport width on medium screens and larger
-            },
-            maxWidth: '50vw', // Ensure the drawer doesn't exceed 50% of viewport width
+            width: '50vw', // 50% of viewport width
             backgroundColor: '#393838',
             borderRadius: '15px 0px 0px 15px',
             overflow: 'auto',
@@ -52,8 +64,11 @@ function EventDrawer({ event, open, onClose }) {
     );
   }
 
+  const truncatedDescription = event.activity_description
+    ? event.activity_description.split(' ').slice(0, 50).join(' ') + '...'
+    : '';
+
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
-  const truncatedDescription = event.activity_description.split(' ').slice(0, 50).join(' ') + '... see more';
 
   return (
     <Drawer
@@ -62,12 +77,7 @@ function EventDrawer({ event, open, onClose }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: {
-            xs: '30vw', // 30% of viewport width on extra small screens
-            sm: '30vw', // 30% of viewport width on small screens
-            md: '50vw', // 50% of viewport width on medium screens and larger
-          },
-          maxWidth: '50vw', // Ensure the drawer doesn't exceed 50% of viewport width
+          width: '50vw', // 50% of viewport width
           backgroundColor: '#393838',
           borderRadius: '15px 0px 0px 15px',
           overflow: 'auto',
@@ -143,21 +153,34 @@ function EventDrawer({ event, open, onClose }) {
               The Details
             </Typography>
             <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
-            <Typography variant="body2" className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}>
-              {isExpanded ? event.activity_description : truncatedDescription}
-              <span
-                className="drawer-see-more"
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                {isExpanded ? ' see less' : ' see more'}
-              </span>
+            <Typography
+              variant="body2"
+              ref={descriptionRef}
+              className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
+            >
+              {isExpanded || !isTruncated ? event.activity_description : truncatedDescription}
+              {isTruncated && !isExpanded && (
+                <span
+                  className="drawer-see-more"
+                  onClick={() => setIsExpanded(true)}
+                >
+                  see more
+                </span>
+              )}
+              {isExpanded && (
+                <span
+                  className="drawer-see-more"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  see less
+                </span>
+              )}
             </Typography>
           </Box>
         )}
         <Box sx={{ mt: 2 }}>
           <DrawerMap latitude={event.latitude} longitude={event.longitude} />
         </Box>
-        {/* New section "About Us" */}
         <Box className="drawer-info-container">
           <Typography variant="h6" className="drawer-section-header">
             About Us

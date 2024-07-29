@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Divider from '@mui/material/Divider';
 import '../styles/Summary.css';
 
-function Summary({ eventCount }) {
+function Summary({ eventCount, sponsoredEvent, onSponsoredEventClick }) {
   return (
     <section id="summary">
       <div className="summary-container">
@@ -12,9 +12,17 @@ function Summary({ eventCount }) {
           <div className="summary-et-titles">Events today</div>
         </div>
         <Divider sx={{ bgcolor: '#fff', width: '100%', height: '2px' }} />
-        <div className="sponsored-event">
+        <div
+          className="sponsored-event"
+          onClick={() => {
+            console.log('Sponsored event clicked in Summary');
+            onSponsoredEventClick();
+          }}
+        >
           <img src="fire.png" alt="Fire Logo" className="left-logo" />
-          <span>Working at GeoComply: Vancouver's Tech Unicorn</span>
+          {sponsoredEvent ? (
+            <span>{sponsoredEvent.event_title}</span>
+          ) : null}
         </div>
       </div>
     </section>
@@ -23,6 +31,8 @@ function Summary({ eventCount }) {
 
 Summary.propTypes = {
   eventCount: PropTypes.number.isRequired,
+  sponsoredEvent: PropTypes.object,
+  onSponsoredEventClick: PropTypes.func.isRequired,
 };
 
 export default Summary;
