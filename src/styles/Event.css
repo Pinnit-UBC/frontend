@@ -12,6 +12,7 @@
   overflow: hidden;
   padding-top: 20px;
   padding-bottom: 20px;
+  cursor: pointer; /* Add this line */
 }
 
 .event-details {
