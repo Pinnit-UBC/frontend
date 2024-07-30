@@ -1,12 +1,12 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import closeButton from '../assets/close-button.png';
 import '../styles/MenuDrawer.css';
+import { useNavigate } from 'react-router-dom';
 
 const DarkModeButton = styled(Button)(({ theme, darkMode }) => ({
   color: darkMode ? '#FFFFFF' : '#000000',
@@ -17,9 +17,9 @@ const DarkModeButton = styled(Button)(({ theme, darkMode }) => ({
   textTransform: 'none',
   fontSize: 16,
   padding: '6px 12px',
-  border: 'none', // Remove the border
+  border: 'none',
   lineHeight: 1.5,
-  boxShadow: 'none', // Remove the box shadow
+  boxShadow: 'none',
   '&:active': {
     boxShadow: 'none',
     backgroundColor: darkMode ? '#000000' : '#FFFFFF',
@@ -31,10 +31,15 @@ const DarkModeButton = styled(Button)(({ theme, darkMode }) => ({
 
 function MenuDrawer({ open, onClose }) {
   const [darkMode, setDarkMode] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setDarkMode(!darkMode);
-    // Implement dark mode functionality here
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    onClose(); // Close the drawer after navigating
   };
 
   return (
@@ -48,10 +53,21 @@ function MenuDrawer({ open, onClose }) {
         <Box className="drawer-header">
           <img src={closeButton} alt="Close" className="drawer-close-button" onClick={onClose} />
         </Box>
-        <Typography variant="h6" className="drawer-title">
-          Menu
-        </Typography>
-        {/* Add more menu items here */}
+        <Box className="menu-item" onClick={() => handleNavigation('/')}>
+          <span className="menu-item-text">Home</span>
+        </Box>
+        <Box className="menu-item" onClick={() => handleNavigation('/news')}>
+          <span className="menu-item-text">Campus News</span>
+        </Box>
+        <Box className="menu-item" onClick={() => handleNavigation('/clubs')}>
+          <span className="menu-item-text">Clubs & Organizations</span>
+        </Box>
+        <Box className="menu-item" onClick={() => handleNavigation('/about')}>
+          <span className="menu-item-text">About</span>
+        </Box>
+        <Box className="menu-item" onClick={() => handleNavigation('/help')}>
+          <span className="menu-item-text">Help</span>
+        </Box>
         <Box className="drawer-footer">
           <Stack direction="row" spacing={2} justifyContent="center">
             <DarkModeButton darkMode={darkMode ? 1 : 0} variant="contained" onClick={handleToggle}>

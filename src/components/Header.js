@@ -6,7 +6,7 @@ import pinnitLogo from '../assets/pinnit_logo.png';
 import MenuDrawer from './MenuDrawer';
 import menuButtonIcon from '../assets/Menu.png';
 import '../styles/Header.css';
-import '../styles/MobileHeader.css'; // Import the mobile-specific styles
+import '../styles/MobileHeader.css';
 
 function Header() {
   const navigate = useNavigate();
@@ -31,9 +31,20 @@ function Header() {
           <img src={pinnitLogo} alt="Pinnit Logo" className="header-logo" />
         </div>
       </div>
-      <div className="subscribe-banner" onClick={handleSubscribeClick}>
-        <img src={subscribeIcon} alt="Subscribe Icon" className="subscribe-icon" />
-        <span className="subscribe-text">Subscribe</span> to the UBC event newsletter
+      <div className="subscribe-banner">
+        <img
+          src={subscribeIcon}
+          alt="Subscribe Icon"
+          className="subscribe-icon"
+          onClick={handleSubscribeClick} // Apply onClick to the icon
+        />
+        <span
+          className="subscribe-text"
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={handleSubscribeClick} // Apply onClick to the text
+        >
+          Click here to subscribe to the UBC events newsletter
+        </span>
       </div>
       <Button
         variant="contained"

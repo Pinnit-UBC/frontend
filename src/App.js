@@ -15,6 +15,10 @@ import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
+import About from './components/About'; // Assuming these components exist
+import ClubsAndOrganizations from './components/ClubsAndOrganizations'; // Assuming these components exist
+import News from './components/News'; // Assuming these components exist
+import Help from './components/Help'; // Assuming these components exist
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
 
@@ -137,6 +141,10 @@ function App() {
         />
         <Route path="/add-event" element={<AddEvent />} />
         <Route path="/subscribe" element={<SubscriptionForm />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/clubs" element={<ClubsAndOrganizations />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/help" element={<Help />} />
       </Routes>
     </div>
   );

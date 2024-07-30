@@ -39,6 +39,7 @@
   align-items: center;
   margin-top: 20px;
   cursor: pointer;
+  font-weight: bold !important;
 }
 
 .left-logo {

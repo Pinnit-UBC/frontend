@@ -270,11 +270,11 @@ function AddEvent() {
           <SimpleMap markerPosition={markerPosition} handleMapClick={handleMapClick} />
         </div>
         <div className="form-buttons">
-          <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
-            Submit
-          </Button>
           <Button variant="outlined" color="secondary" onClick={handleBackClick}>
             Back
+          </Button>
+          <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+            Submit
           </Button>
         </div>
       </form>
