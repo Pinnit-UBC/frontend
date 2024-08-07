@@ -27,7 +27,6 @@ function AddEvent() {
     activity_description: '',
     registration_status: '',
     reference_link: '',
-    image_url: '',
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -41,10 +40,7 @@ function AddEvent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleFileChange = (e) => {
@@ -70,28 +66,23 @@ function AddEvent() {
     setIsSubmitting(true);
     setOpenDialog(false);
 
-    if (!selectedFile && !markerPosition) {
-      setDialogContent('Please pin a location on the map and attach event image before submitting.');
-      setOpenDialog(true);
-      setIsSubmitting(false);
-      return;
-    } else if (!selectedFile) {
+    if (!selectedFile) {
       setDialogContent('Please attach a file before submitting.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
-    } else if (!markerPosition) {
+    }
+    if (!markerPosition) {
       setDialogContent('Please pin a location on the map before submitting.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
     }
 
+    // Verify the pass key
     const verifyKeyResponse = await fetch('http://localhost:3001/verify-key', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: formData.user_id, pass_key: formData.pass_key }),
     });
 
@@ -104,23 +95,21 @@ function AddEvent() {
       return;
     }
 
+    // Prepare form data for submission
     const formDataToSend = new FormData();
-    for (const key in formData) {
+    Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
-    }
-    if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
-    }
-    if (markerPosition) {
-      formDataToSend.append('latitude', markerPosition.lat);
-      formDataToSend.append('longitude', markerPosition.lng);
-    }
+    });
+    formDataToSend.append('image', selectedFile);
+    formDataToSend.append('latitude', markerPosition.lat);
+    formDataToSend.append('longitude', markerPosition.lng);
 
     try {
       const response = await fetch('http://localhost:3001/add-event', {
         method: 'POST',
         body: formDataToSend,
       });
+
       if (response.ok) {
         setDialogContent('Successfully added event!');
       } else {
