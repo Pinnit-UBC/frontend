@@ -15,10 +15,11 @@ import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
-import About from './components/About'; // Assuming these components exist
-import ClubsAndOrganizations from './components/ClubsAndOrganizations'; // Assuming these components exist
-import News from './components/News'; // Assuming these components exist
-import Help from './components/Help'; // Assuming these components exist
+import About from './components/About';
+import ClubsAndOrganizations from './components/ClubsAndOrganizations';
+import News from './components/News';
+import AddNews from './components/AddNews';
+import Help from './components/Help';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
 
@@ -36,22 +37,11 @@ function App() {
   };
 
   const handleSponsoredEventClick = () => {
-    console.log('handleSponsoredEventClick called');
     if (sponsoredEvent) {
-      console.log('Sponsored event:', sponsoredEvent);
-      console.log('Events:', events);
-
-      // Log each event title in the events array
-      events.forEach((event) => {
-        console.log(`Event title in events array: '${event.event_title}'`);
-      });
-
       const matchingEvent = events.find(e => e.event_title.trim() === sponsoredEvent.event_title.trim());
-      console.log('Matching event:', matchingEvent);
       if (matchingEvent) {
         setSelectedEvent(matchingEvent);
         setIsEventDrawerOpen(true);
-        console.log('Drawer open:', isEventDrawerOpen);
       }
     }
   };
@@ -62,11 +52,16 @@ function App() {
   };
 
   useEffect(() => {
+    console.log('Selected date changed:', selectedDate); // Log the selected date
+
     async function fetchEvents(date) {
       try {
+        console.log('Fetching events for date:', date); // Log the date being fetched
         const response = await fetch(`http://localhost:3001/events?date=${date}`);
         const data = await response.json();
+        console.log('Response data:', data); // Log the response data
         if (Array.isArray(data)) {
+          console.log('Fetched events:', data); // Log the fetched events
           setEvents(data);
         } else {
           console.error('Error: Data is not an array');
@@ -78,8 +73,10 @@ function App() {
 
     async function fetchSponsoredEvent(date) {
       try {
+        console.log('Fetching sponsored event for date:', date); // Log the date being fetched
         const response = await fetch(`http://localhost:3001/sponsored_event?date=${date}`);
         const data = await response.json();
+        console.log('Fetched sponsored event:', data); // Log the fetched sponsored event
         setSponsoredEvent(data);
       } catch (error) {
         console.error('Error fetching sponsored event:', error);
@@ -145,6 +142,7 @@ function App() {
         <Route path="/clubs" element={<ClubsAndOrganizations />} />
         <Route path="/news" element={<News />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/addnews" element={<AddNews />} />
       </Routes>
     </div>
   );
