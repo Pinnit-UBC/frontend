@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { GoogleMap, LoadScriptNext, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScriptNext } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
