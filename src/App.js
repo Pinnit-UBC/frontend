@@ -57,7 +57,7 @@ function App() {
     async function fetchEvents(date) {
       try {
         console.log('Fetching events for date:', date); // Log the date being fetched
-        const response = await fetch(`http://localhost:3001/events?date=${date}`);
+        const response = await fetch(`https://backend-8eis.onrender.com/events?date=${date}`);
         const data = await response.json();
         console.log('Response data:', data); // Log the response data
         if (Array.isArray(data)) {
@@ -74,7 +74,7 @@ function App() {
     async function fetchSponsoredEvent(date) {
       try {
         console.log('Fetching sponsored event for date:', date); // Log the date being fetched
-        const response = await fetch(`http://localhost:3001/sponsored_event?date=${date}`);
+        const response = await fetch(`https://backend-8eis.onrender.com/sponsored_event?date=${date}`);
         const data = await response.json();
         console.log('Fetched sponsored event:', data); // Log the fetched sponsored event
         setSponsoredEvent(data);

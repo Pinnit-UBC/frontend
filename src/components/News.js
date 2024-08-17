@@ -7,7 +7,7 @@ function News() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await fetch('http://localhost:3001/news');
+        const response = await fetch('https://backend-8eis.onrender.com/news');
         const data = await response.json();
         console.log('Fetched news data:', data); // Debugging: log fetched data
         setNewsItems(data);

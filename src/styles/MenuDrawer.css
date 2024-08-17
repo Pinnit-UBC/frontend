@@ -7,6 +7,12 @@
   border-radius: 0px 15px 15px 0px !important;
   overflow: auto !important;
   border: none !important;
+  transition: transform 0.3s ease; /* Smooth transition */
+  position: fixed; /* Fix the position so it overlays */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Full height of the viewport */
+  z-index: 1000; /* Ensure it’s on top */
 }
 
 @media (max-width: 768px) {
@@ -81,17 +87,17 @@
   padding-top: 0px;
   padding-bottom: 5px;
   display: flex;
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-  height: 50px; /* Set a fixed height for consistent spacing */
-  cursor: pointer; /* Add this line */
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  cursor: pointer;
 }
 
 .menu-item-text {
   color: white;
   font-weight: 900 !important;
   text-align: center;
-  cursor: pointer; /* Add this line */
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

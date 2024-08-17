@@ -14,7 +14,7 @@ const SubscriptionForm = () => {
     e.preventDefault();
     if (subscribe) {
       try {
-        const response = await axios.post('http://localhost:3001/subscribe', {
+        const response = await axios.post('https://backend-8eis.onrender.com/subscribe', {
           name,
           email,
         });
