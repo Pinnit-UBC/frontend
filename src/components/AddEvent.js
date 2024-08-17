@@ -80,7 +80,7 @@ function AddEvent() {
     }
 
     // Verify the pass key
-    const verifyKeyResponse = await fetch('http://localhost:3001/verify-key', {
+    const verifyKeyResponse = await fetch('https://backend-8eis.onrender.com/verify-key', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: formData.user_id, pass_key: formData.pass_key }),
@@ -105,7 +105,7 @@ function AddEvent() {
     formDataToSend.append('longitude', markerPosition.lng);
 
     try {
-      const response = await fetch('http://localhost:3001/add-event', {
+      const response = await fetch('https://backend-8eis.onrender.com/add-event', {
         method: 'POST',
         body: formDataToSend,
       });

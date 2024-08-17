@@ -1,8 +1,7 @@
 /* Header.css */
 header {
   width: 100%; /* Ensure the header takes the full width of the screen */
-  top: 0;
-  left: 0;
+  position: relative; /* Keep relative for stacking context */
 }
 
 .background-image {
@@ -88,3 +87,4 @@ header {
   left: 10px;
   z-index: 12; /* Ensure the button is above other elements */
 }
+
