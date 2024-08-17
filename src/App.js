@@ -22,6 +22,7 @@ import AddNews from './components/AddNews';
 import Help from './components/Help';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
+import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -31,6 +32,7 @@ function App() {
   const [isEventDrawerOpen, setIsEventDrawerOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const isMobile = useMediaQuery('(max-width: 600px)');
+  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const toggleMenuDrawer = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -88,63 +90,65 @@ function App() {
   }, [selectedDate]);
 
   return (
-    <div className="App">
-      <Header onMenuClick={toggleMenuDrawer} />
-      <MenuDrawer open={isMenuOpen} onClose={toggleMenuDrawer} />
-      <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              {isMobile ? (
-                <div className="mobile-header">
-                  <div className="mobile-button-container">
-                    <div className="map-button-container">
-                      <MobileMapButton events={events} />
-                    </div>
-                    <div className="mobile-timeline-container">
-                      <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
-                    </div>
-                    <div className="date-picker-button-container">
-                      <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                    </div>
-                  </div>
-                  {events.length > 0 && <MobileEventsList events={events} onEventClick={() => {}} />}
-                </div>
-              ) : (
-                <>
-                  <Timeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
-                  <main className="main-content">
-                    <div className="left-content">
-                      <EventsList events={events} />
-                    </div>
-                    <div className="right-content">
-                      <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
-                        <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+    <GoogleMapsScriptLoader apiKey={googleMapsApiKey}>
+      <div className="App">
+        <Header onMenuClick={toggleMenuDrawer} />
+        <MenuDrawer open={isMenuOpen} onClose={toggleMenuDrawer} />
+        <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                {isMobile ? (
+                  <div className="mobile-header">
+                    <div className="mobile-button-container">
+                      <div className="map-button-container">
+                        <MobileMapButton events={events} />
                       </div>
-                      <Summary
-                        eventCount={events.length}
-                        sponsoredEvent={sponsoredEvent}
-                        onSponsoredEventClick={handleSponsoredEventClick}
-                      />
-                      <MapComponent events={events} />
+                      <div className="mobile-timeline-container">
+                        <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
+                      </div>
+                      <div className="date-picker-button-container">
+                        <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                      </div>
                     </div>
-                  </main>
-                </>
-              )}
-            </>
-          }
-        />
-        <Route path="/add-event" element={<AddEvent />} />
-        <Route path="/subscribe" element={<SubscriptionForm />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/clubs" element={<ClubsAndOrganizations />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/addnews" element={<AddNews />} />
-      </Routes>
-    </div>
+                    {events.length > 0 && <MobileEventsList events={events} onEventClick={() => {}} />}
+                  </div>
+                ) : (
+                  <>
+                    <Timeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
+                    <main className="main-content">
+                      <div className="left-content">
+                        <EventsList events={events} />
+                      </div>
+                      <div className="right-content">
+                        <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
+                          <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                        </div>
+                        <Summary
+                          eventCount={events.length}
+                          sponsoredEvent={sponsoredEvent}
+                          onSponsoredEventClick={handleSponsoredEventClick}
+                        />
+                        <MapComponent events={events} />
+                      </div>
+                    </main>
+                  </>
+                )}
+              </>
+            }
+          />
+          <Route path="/add-event" element={<AddEvent />} />
+          <Route path="/subscribe" element={<SubscriptionForm />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/clubs" element={<ClubsAndOrganizations />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/addnews" element={<AddNews />} />
+        </Routes>
+      </div>
+    </GoogleMapsScriptLoader>
   );
 }
 
