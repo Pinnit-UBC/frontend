@@ -8,28 +8,26 @@ const containerStyle = {
 
 function DrawerMap({ latitude, longitude }) {
   const mapRef = useRef(null);
-  const [mapInstance, setMapInstance] = useState(null); // This line was causing the error
-
   const apiKey = process.env.REACT_APP_DRAWER_MAP_API_KEY;
 
   useEffect(() => {
     if (latitude && longitude) {
       const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
-      if (mapInstance) {
-        mapInstance.panTo(position);
+      if (mapRef.current) {
+        mapRef.current.panTo(position);
 
         // Remove previous markers to avoid duplicate markers
-        if (mapInstance.markers) {
-          mapInstance.markers.forEach(marker => marker.setMap(null));
+        if (mapRef.current.markers) {
+          mapRef.current.markers.forEach(marker => marker.setMap(null));
         }
-        mapInstance.markers = [];
+        mapRef.current.markers = [];
 
         const marker = new window.google.maps.Marker({
           position,
-          map: mapInstance,
+          map: mapRef.current,
         });
 
-        mapInstance.markers.push(marker);
+        mapRef.current.markers.push(marker);
       }
       
       console.log('Map center set to:', position); // Debugging statement
@@ -37,7 +35,7 @@ function DrawerMap({ latitude, longitude }) {
     } else {
       console.log('Invalid latitude or longitude'); // Debugging statement
     }
-  }, [latitude, longitude, mapInstance]);
+  }, [latitude, longitude]);
 
   if (!apiKey) {
     console.error('Google Maps API key is missing');
@@ -52,7 +50,6 @@ function DrawerMap({ latitude, longitude }) {
         zoom={15}
         onLoad={(map) => {
           mapRef.current = map;
-          setMapInstance(map);
         }}
       >
         {/* Marker will be added dynamically */}
