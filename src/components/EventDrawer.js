@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react'; // Removed useEffect import
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -139,7 +139,7 @@ function EventDrawer({ event, open, onClose }) {
               className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
               style={{
                 display: '-webkit-box',
-                WebkitLineClamp: isExpanded ? 'unset' : 6, // Show only 8 lines when not expanded
+                WebkitLineClamp: isExpanded ? 'unset' : 8, // Show only 8 lines when not expanded
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 whiteSpace: 'normal',
