@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -16,11 +16,8 @@ function formatTime(time) {
 
 function EventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
   const descriptionRef = useRef(null);
-
-  const handleToggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   if (!event) {
     return (
@@ -30,11 +27,11 @@ function EventDrawer({ event, open, onClose }) {
         onClose={onClose}
         PaperProps={{
           sx: {
-            width: '50vw',
+            width: '50vw', // 50% of viewport width
             backgroundColor: '#393838',
             borderRadius: '15px 0px 0px 15px',
             overflow: 'auto',
-            border: 'none',
+            border: 'none', // Ensure no border from the Drawer itself
           },
         }}
       >
@@ -47,6 +44,10 @@ function EventDrawer({ event, open, onClose }) {
     );
   }
 
+  const truncatedDescription = event.activity_description
+    ? event.activity_description.split(' ').slice(0, 50).join(' ') + '...'
+    : '';
+
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
 
   return (
@@ -56,11 +57,11 @@ function EventDrawer({ event, open, onClose }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: '50vw',
+          width: '50vw', // 50% of viewport width
           backgroundColor: '#393838',
           borderRadius: '15px 0px 0px 15px',
           overflow: 'auto',
-          border: 'none',
+          border: 'none', // Ensure no border from the Drawer itself
         },
       }}
     >
@@ -137,22 +138,25 @@ function EventDrawer({ event, open, onClose }) {
               variant="body2"
               ref={descriptionRef}
               className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
-              style={{
-                display: '-webkit-box',
-                WebkitLineClamp: isExpanded ? 'unset' : 6, // Show only 8 lines when not expanded
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                whiteSpace: 'normal',
-              }}
             >
-              {event.activity_description}
+              {isExpanded || !isTruncated ? event.activity_description : truncatedDescription}
+              {isTruncated && !isExpanded && (
+                <span
+                  className="drawer-see-more"
+                  onClick={() => setIsExpanded(true)}
+                >
+                  see more
+                </span>
+              )}
+              {isExpanded && (
+                <span
+                  className="drawer-see-more"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  see less
+                </span>
+              )}
             </Typography>
-            <Button
-              sx={{ color: '#6AA6F8', marginTop: '8px' }}
-              onClick={handleToggleExpand}
-            >
-              {isExpanded ? 'see less' : 'see more'}
-            </Button>
           </Box>
         )}
         <Box sx={{ mt: 2 }}>
