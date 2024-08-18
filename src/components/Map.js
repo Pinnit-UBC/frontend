@@ -10,43 +10,52 @@ const containerStyle = {
 
 const MapComponent = ({ events }) => {
   const mapRef = useRef(null);
+  const markerClustererRef = useRef(null);
 
-  useEffect(() => {
-    const initMap = async () => {
-      const { Map } = await window.google.maps.importLibrary('maps');
-
-      const map = new Map(mapRef.current, {
+  const initMap = () => {
+    if (mapRef.current) {
+      const map = new window.google.maps.Map(mapRef.current, {
         center: { lat: 49.263036774736136, lng: -123.24970352478029 },
-        zoom: 10, // Set initial zoom level further away
+        zoom: 10,
         mapId: '8882b01a6088871f',
       });
 
-      const markers = events.map(event => {
-        if (event.latitude && event.longitude) {
-          return new window.google.maps.Marker({
-            position: { lat: event.latitude, lng: event.longitude },
-            title: event.event_name,
-          });
-        }
-        return null;
-      }).filter(marker => marker !== null);
+      mapRef.current.mapInstance = map; // Save the map instance to ref
 
-      // Create a new MarkerClusterer instance and add the markers
-      new MarkerClusterer({ map, markers });
+      updateMarkers(map, events);
+    }
+  };
 
-      // Adjust the map to fit all the markers with some padding
-      if (markers.length > 0) {
-        const bounds = new window.google.maps.LatLngBounds();
-        markers.forEach(marker => {
-          bounds.extend(marker.getPosition());
+  const updateMarkers = (map, events) => {
+    if (!map) return; // Add this guard clause to ensure map is valid
+
+    if (markerClustererRef.current) {
+      markerClustererRef.current.clearMarkers();
+    }
+
+    const markers = events.map(event => {
+      if (event.latitude && event.longitude) {
+        return new window.google.maps.Marker({
+          position: { lat: event.latitude, lng: event.longitude },
+          title: event.event_name,
         });
-        map.fitBounds(bounds, { padding: 20 });
-      } else {
-        map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
-        map.setZoom(10);
       }
-    };
+      return null;
+    }).filter(marker => marker !== null);
 
+    markerClustererRef.current = new MarkerClusterer({ map, markers });
+
+    if (markers.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      markers.forEach(marker => bounds.extend(marker.getPosition()));
+      map.fitBounds(bounds);
+    } else {
+      map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
+      map.setZoom(10);
+    }
+  };
+
+  useEffect(() => {
     if (window.google && window.google.maps) {
       initMap();
     } else {
@@ -56,6 +65,12 @@ const MapComponent = ({ events }) => {
           initMap();
         }
       }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mapRef.current && mapRef.current.mapInstance) {
+      updateMarkers(mapRef.current.mapInstance, events);
     }
   }, [events]);
 
