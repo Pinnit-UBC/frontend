@@ -10457,6 +10457,11 @@ signal-exit@^4.0.1:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
+simple-sharer@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/simple-sharer/-/simple-sharer-4.0.0.tgz"
+  integrity sha512-1sAEKhpQq5nHjHxzDSBPLPDA5hGTVXenYVfp3LxMIhSQqlXTm8j7RLUUnNtiEiZsQrTPdHLb76COVP/ZlMM+mA==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz"

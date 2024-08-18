@@ -177,15 +177,6 @@ function EventDrawer({ event, open, onClose }) {
         <Box sx={{ mt: 2 }}>
           <DrawerMap latitude={event.latitude} longitude={event.longitude} />
         </Box>
-        <Box className="drawer-info-container">
-          <Typography variant="h6" className="drawer-section-header">
-            About Us
-          </Typography>
-          <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
-          <Typography variant="body2" className="drawer-about-us-description">
-            We are a team of dedicated professionals committed to organizing and promoting events that enrich the community. Join us and be a part of the excitement!
-          </Typography>
-        </Box>
       </Box>
     </Drawer>
   );
