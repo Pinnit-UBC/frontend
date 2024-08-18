@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Event.css';
-import userIcon from '../assets/teenyicons_user-solid.png'; // Import the host logo
-import locationIcon from '../assets/mdi_location.png'; // Import the location logo
-import registrationIcon from '../assets/Signing A Document.png'; // Import the registration logo
 
 function formatTime(time) {
   const [hours, minutes] = time.split(':');
@@ -39,15 +36,15 @@ function Event({ event, onEventClick }) {
         </div>
         <div className="event-title">{event.event_title}</div>
         <div className="event-location">
-          <img src={locationIcon} alt="Location Logo" className="location-logo" />
+          <img src="/assets/mdi_location.png" alt="Location Logo" className="location-logo" />
           {event.location}
         </div>
         <div className="event-host">
-          <img src={userIcon} alt="Host Logo" className="host-logo" />
+          <img src="/assets/teenyicons_user-solid.png" alt="Host Logo" className="host-logo" />
           {event.host_organization}
         </div>
         <div className="event-registration">
-          <img src={registrationIcon} alt="Registration Logo" className="registration-logo" />
+          <img src="/assets/Signing A Document.png" alt="Registration Logo" className="registration-logo" />
           {event.registration_status}
         </div>
         <div className="event-tags">
