@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { GoogleMap, LoadScriptNext } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -8,34 +8,28 @@ const containerStyle = {
 
 function DrawerMap({ latitude, longitude }) {
   const mapRef = useRef(null);
+  const markerRef = useRef(null); // Store the marker reference
   const apiKey = process.env.REACT_APP_DRAWER_MAP_API_KEY;
 
   useEffect(() => {
-    if (latitude && longitude) {
+    if (mapRef.current && latitude && longitude) {
       const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
-      if (mapRef.current) {
-        mapRef.current.panTo(position);
-
-        // Remove previous markers to avoid duplicate markers
-        if (mapRef.current.markers) {
-          mapRef.current.markers.forEach(marker => marker.setMap(null));
-        }
-        mapRef.current.markers = [];
-
-        const marker = new window.google.maps.Marker({
-          position,
-          map: mapRef.current,
-        });
-
-        mapRef.current.markers.push(marker);
-      }
       
-      console.log('Map center set to:', position); // Debugging statement
-      console.log('Marker position set to:', position); // Debugging statement
-    } else {
-      console.log('Invalid latitude or longitude'); // Debugging statement
+      // Pan to the new location
+      mapRef.current.panTo(position);
+
+      // Remove previous marker if it exists
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+      }
+
+      // Add new marker
+      markerRef.current = new window.google.maps.Marker({
+        position,
+        map: mapRef.current,
+      });
     }
-  }, [latitude, longitude]);
+  }, [latitude, longitude]); // Only update when latitude or longitude changes
 
   if (!apiKey) {
     console.error('Google Maps API key is missing');
@@ -46,13 +40,21 @@ function DrawerMap({ latitude, longitude }) {
     <LoadScriptNext googleMapsApiKey={apiKey}>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={{ lat: 0, lng: 0 }} // Initial center
+        center={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }} // Center based on provided coordinates
         zoom={15}
         onLoad={(map) => {
           mapRef.current = map;
+          const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+          map.panTo(position);
+
+          // Add initial marker
+          markerRef.current = new window.google.maps.Marker({
+            position,
+            map,
+          });
         }}
       >
-        {/* Marker will be added dynamically */}
+        {/* Marker will be managed via useEffect */}
       </GoogleMap>
     </LoadScriptNext>
   );
