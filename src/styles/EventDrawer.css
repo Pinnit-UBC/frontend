@@ -132,6 +132,18 @@
   margin-top: 8px;
 }
 
+.custom-close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  left: -5px;
+}
+
 @media (max-width: 768px) {
   .drawer-container {
     padding: 10px;

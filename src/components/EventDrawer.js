@@ -82,8 +82,9 @@ function EventDrawer({ event, open, onClose }) {
     >
       <Box className="drawer-container">
         <Box className="drawer-header">
-          <img src="/assets/close-button.png" alt="Close" className="drawer-close-button" onClick={onClose} />
-          <img src="/assets/share-button.png" alt="Share" className="drawer-share-button" />
+          <button className="custom-close-button" onClick={onClose}>
+            &times;
+          </button>
         </Box>
         <Typography variant="h6" className="drawer-event-title">
           {event.event_title}
