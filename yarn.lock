@@ -9509,7 +9509,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -9828,6 +9828,13 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-show-more-text@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.npmjs.org/react-show-more-text/-/react-show-more-text-1.7.1.tgz"
+  integrity sha512-k+NyTogrBgPVpE84r6AdDLgf60k9cR4F0zlhp3w8Hoquq+UStKjAOatsVYDLwfWD8wqF6smRXohi2rvQZRpQDQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -9838,7 +9845,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-"react@^16.8 || ^17 || ^18", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0", "react@^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.1.0, react@^18.3.1, "react@>= 16", "react@>= 16.8.0", react@>=0.14, react@>=0.14.0, react@>=15.0.0, react@>=16.14.0, react@>=16.3, react@>=16.3.0, react@>=16.6.0, react@>=16.8, react@>=16.8.0:
+"react@^16.8 || ^17 || ^18", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0", "react@^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.1.0, react@^18.3.1, "react@>= 16", "react@>= 16.8.0", react@>=0.14, react@>=0.14.0, react@>=15.0.0, react@>=16.14.0, react@>=16.3, react@>=16.3.0, react@>=16.6.0, react@>=16.8, react@>=16.8.0, "react@16 - 18.x":
   version "18.3.1"
   resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz"
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==

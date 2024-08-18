@@ -16,23 +16,11 @@ function formatTime(time) {
 
 function EventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isTruncated, setIsTruncated] = useState(false);
   const descriptionRef = useRef(null);
 
-  useEffect(() => {
-    const checkDescriptionHeight = () => {
-      if (descriptionRef.current) {
-        const lineHeight = parseInt(window.getComputedStyle(descriptionRef.current).lineHeight, 10);
-        const maxHeight = lineHeight * 4; // 4 lines
-        setIsTruncated(descriptionRef.current.scrollHeight > maxHeight);
-      }
-    };
-    if (event && event.activity_description) {
-      checkDescriptionHeight();
-      window.addEventListener('resize', checkDescriptionHeight);
-    }
-    return () => window.removeEventListener('resize', checkDescriptionHeight);
-  }, [event]);
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   if (!event) {
     return (
@@ -42,11 +30,11 @@ function EventDrawer({ event, open, onClose }) {
         onClose={onClose}
         PaperProps={{
           sx: {
-            width: '50vw', // 50% of viewport width
+            width: '50vw',
             backgroundColor: '#393838',
             borderRadius: '15px 0px 0px 15px',
             overflow: 'auto',
-            border: 'none', // Ensure no border from the Drawer itself
+            border: 'none',
           },
         }}
       >
@@ -59,10 +47,6 @@ function EventDrawer({ event, open, onClose }) {
     );
   }
 
-  const truncatedDescription = event.activity_description
-    ? event.activity_description.split(' ').slice(0, 50).join(' ') + '...'
-    : '';
-
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
 
   return (
@@ -72,11 +56,11 @@ function EventDrawer({ event, open, onClose }) {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: '50vw', // 50% of viewport width
+          width: '50vw',
           backgroundColor: '#393838',
           borderRadius: '15px 0px 0px 15px',
           overflow: 'auto',
-          border: 'none', // Ensure no border from the Drawer itself
+          border: 'none',
         },
       }}
     >
@@ -153,25 +137,22 @@ function EventDrawer({ event, open, onClose }) {
               variant="body2"
               ref={descriptionRef}
               className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: isExpanded ? 'unset' : 6, // Show only 8 lines when not expanded
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                whiteSpace: 'normal',
+              }}
             >
-              {isExpanded || !isTruncated ? event.activity_description : truncatedDescription}
-              {isTruncated && !isExpanded && (
-                <span
-                  className="drawer-see-more"
-                  onClick={() => setIsExpanded(true)}
-                >
-                  see more
-                </span>
-              )}
-              {isExpanded && (
-                <span
-                  className="drawer-see-more"
-                  onClick={() => setIsExpanded(false)}
-                >
-                  see less
-                </span>
-              )}
+              {event.activity_description}
             </Typography>
+            <Button
+              sx={{ color: '#6AA6F8', marginTop: '8px' }}
+              onClick={handleToggleExpand}
+            >
+              {isExpanded ? 'see less' : 'see more'}
+            </Button>
           </Box>
         )}
         <Box sx={{ mt: 2 }}>
