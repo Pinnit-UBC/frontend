@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/MobileEvent.css';
-import userIcon from '../assets/teenyicons_user-solid.png'; // Import the host logo
-import locationIcon from '../assets/mdi_location.png'; // Import the location logo
-import registrationIcon from '../assets/Signing A Document.png'; // Import the registration logo
 import MobileEventDrawer from './MobileEventDrawer'; // Import the drawer
 
 function formatTime(time) {
@@ -46,15 +43,15 @@ function MobileEvent({ event, onEventClick }) {
           </div>
           <div className="mobile-event-title">{event.event_title}</div>
           <div className="mobile-event-location">
-            <img src={locationIcon} alt="Location Logo" className="mobile-location-logo" />
+            <img src="/assets/mdi_location.png" alt="Location Logo" className="mobile-location-logo" />
             {event.location}
           </div>
           <div className="mobile-event-host">
-            <img src={userIcon} alt="Host Logo" className="mobile-host-logo" />
+            <img src="/assets/teenyicons_user-solid.png" alt="Host Logo" className="mobile-host-logo" />
             {event.host_organization}
           </div>
           <div className="mobile-event-registration">
-            <img src={registrationIcon} alt="Registration Logo" className="mobile-registration-logo" />
+            <img src="/assets/Signing A Document.png" alt="Registration Logo" className="mobile-registration-logo" />
             {event.registration_status}
           </div>
           <div className="mobile-event-tags">
