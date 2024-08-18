@@ -84,6 +84,11 @@
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  white-space: normal; /* Ensures text wraps to the next line */
+  word-wrap: break-word; /* Breaks long words at the end of the line */
+  overflow-wrap: break-word; /* Also handles word breaking for overflow */
+  margin-bottom: 10px; /* Optional: adds some space at the bottom */
+  line-height: 1.5; /* Optional: sets the line height for better readability */
 }
 
 .drawer-see-more {
