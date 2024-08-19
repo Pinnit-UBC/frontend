@@ -12,7 +12,7 @@ function ClubsAndOrganizations() {
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const response = await fetch('http://localhost:3001/clubs-organizations'); // Replace with your server URL
+        const response = await fetch('http://localhost:3001/clubs-organizations');
         const data = await response.json();
         setClubs(data);
       } catch (error) {
@@ -46,7 +46,8 @@ function ClubsAndOrganizations() {
             <Avatar
               alt={club.name}
               src={`https://${process.env.REACT_APP_CLOUDFRONT_DOMAIN_NAME}/${club.image}`}
-              sx={{ width: 150, height: 150 }} // Adjust size as needed
+              sx={{ width: 150, height: 150 }}
+              onError={(e) => { e.target.src = '/path-to-fallback-image.png'; }} // Fallback image
             />
             <Typography variant="caption" className="avatar-name">
               {club.name}
