@@ -6,15 +6,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { IconButton } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import '../styles/DatePickerComponent.css';
 
 export default function DatePickerComponent({ selectedDate, setSelectedDate }) {
   const inputRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const handleDateChange = (newValue) => {
     setSelectedDate(newValue.format('YYYY-MM-DD'));
@@ -55,48 +51,6 @@ export default function DatePickerComponent({ selectedDate, setSelectedDate }) {
       }, 0);
     }
   };
-
-  if (isMobile) {
-    return (
-      <div>
-        <IconButton onClick={() => setOpen(true)}>
-          <CalendarTodayIcon sx={{ color: '#ffffff' }} />
-        </IconButton>
-        {open && (
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              open={open}
-              onClose={() => setOpen(false)}
-              value={dayjs(selectedDate)}
-              onChange={handleDateChange}
-              PopperProps={{
-                sx: {
-                  '& .MuiPaper-root': {
-                    backgroundColor: '#ffffff', // Set background color to white
-                  },
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  inputRef={inputRef}
-                  onChange={(e) => {
-                    handleInputChange(e);
-                    params.inputProps.onChange(e);
-                  }}
-                  inputProps={{
-                    ...params.inputProps,
-                    maxLength: 10, // Limit the input length to 10 characters including the slashes
-                  }}
-                />
-              )}
-            />
-          </LocalizationProvider>
-        )}
-      </div>
-    );
-  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
