@@ -1,5 +1,6 @@
 // DatePickerComponent.js
 import React, { useRef, useState } from 'react';
+// Removed unused 'open' from imports
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -10,11 +11,11 @@ import '../styles/DatePickerComponent.css';
 
 export default function DatePickerComponent({ selectedDate, setSelectedDate }) {
   const inputRef = useRef(null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // <--- remove this if not needed
 
   const handleDateChange = (newValue) => {
     setSelectedDate(newValue.format('YYYY-MM-DD'));
-    setOpen(false);
+    setOpen(false); // <--- remove or keep depending on your use case
   };
 
   const handleInputChange = (event) => {
