@@ -50,7 +50,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": "warn" // Add this line
+    }
   },
   "browserslist": {
     "production": [
@@ -64,6 +67,7 @@
       "last 1 safari version"
     ]
   },
+  
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.24.6",
@@ -75,4 +79,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   }
+  
 }
