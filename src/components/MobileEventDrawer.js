@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -16,6 +16,11 @@ function formatTime(time) {
 
 function MobileEventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const descriptionRef = useRef(null);
+
+  const handleToggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   if (!event) {
     return (
@@ -43,7 +48,6 @@ function MobileEventDrawer({ event, open, onClose }) {
   }
 
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
-  const truncatedDescription = event.activity_description.split(' ').slice(0, 50).join(' ') + '... see more';
 
   return (
     <Drawer
@@ -62,8 +66,9 @@ function MobileEventDrawer({ event, open, onClose }) {
     >
       <Box className="drawer-container">
         <Box className="drawer-header">
-          <img src="/assets/close-button.png" alt="Close" className="drawer-close-button" onClick={onClose} />
-          <img src="/assets/share-button.png" alt="Share" className="drawer-share-button" />
+          <button className="custom-close-button" onClick={onClose}>
+            &times;
+          </button>
         </Box>
         <Typography variant="h6" className="drawer-event-title">
           {event.event_title}
@@ -131,15 +136,26 @@ function MobileEventDrawer({ event, open, onClose }) {
               The Details
             </Typography>
             <Divider variant="middle" sx={{ borderColor: 'white', width: '100%', margin: '4px 0 8px' }} />
-            <Typography variant="body2" className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}>
-              {isExpanded ? event.activity_description : truncatedDescription}
-              <span
-                className="drawer-see-more"
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                {isExpanded ? ' see less' : ' see more'}
-              </span>
+            <Typography
+              variant="body2"
+              ref={descriptionRef}
+              className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: isExpanded ? 'unset' : 8, // Show only 8 lines when not expanded
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                whiteSpace: 'normal',
+              }}
+            >
+              {event.activity_description}
             </Typography>
+            <Button
+              sx={{ color: '#6AA6F8', marginTop: '8px' }}
+              onClick={handleToggleExpand}
+            >
+              {isExpanded ? 'see less' : 'see more'}
+            </Button>
             <MobileDrawerMap latitude={event.latitude} longitude={event.longitude} />
           </Box>
         )}
