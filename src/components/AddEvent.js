@@ -69,10 +69,10 @@ function AddEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return; // Prevent multiple submissions
-
+  
     setIsSubmitting(true);
     setOpenDialog(false);
-
+  
     if (!selectedFile) {
       setDialogContent('Please attach a file before submitting.');
       setOpenDialog(true);
@@ -85,41 +85,44 @@ function AddEvent() {
       setIsSubmitting(false);
       return;
     }
-
+  
     // Verify the pass key
     const verifyKeyResponse = await fetch('https://backend-8eis.onrender.com/verify-key', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: formData.user_id, pass_key: formData.pass_key }),
     });
-
+  
     const verifyKeyData = await verifyKeyResponse.json();
-
+  
     if (!verifyKeyData.valid) {
       setDialogContent('Invalid Pass Key. Please try again.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
     }
-
+  
     // Prepare form data for submission
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
     formDataToSend.append('image', selectedFile);
-
+  
     if (!isOnlineEvent) { // Only append location if it's not an online event
       formDataToSend.append('latitude', markerPosition.lat);
       formDataToSend.append('longitude', markerPosition.lng);
+    } else { // Set latitude and longitude to null for online events
+      formDataToSend.append('latitude', null);
+      formDataToSend.append('longitude', null);
     }
-
+  
     try {
       const response = await fetch('https://backend-8eis.onrender.com/add-event', {
         method: 'POST',
         body: formDataToSend,
       });
-
+  
       if (response.ok) {
         setDialogContent('Successfully added event!');
       } else {
