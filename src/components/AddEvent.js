@@ -9,6 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox'; // Import Checkbox
+import FormControlLabel from '@mui/material/FormControlLabel'; // Import FormControlLabel
 import SimpleMap from './SimpleMap';
 import dayjs from 'dayjs';
 import '../styles/AddEvent.css';
@@ -30,6 +32,7 @@ function AddEvent() {
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
+  const [isOnlineEvent, setIsOnlineEvent] = useState(false); // State for checkbox
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,6 +62,10 @@ function AddEvent() {
     });
   };
 
+  const handleCheckboxChange = (e) => {
+    setIsOnlineEvent(e.target.checked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return; // Prevent multiple submissions
@@ -72,7 +79,7 @@ function AddEvent() {
       setIsSubmitting(false);
       return;
     }
-    if (!markerPosition) {
+    if (!isOnlineEvent && !markerPosition) { // Only require location if not an online event
       setDialogContent('Please pin a location on the map before submitting.');
       setOpenDialog(true);
       setIsSubmitting(false);
@@ -101,8 +108,11 @@ function AddEvent() {
       formDataToSend.append(key, formData[key]);
     });
     formDataToSend.append('image', selectedFile);
-    formDataToSend.append('latitude', markerPosition.lat);
-    formDataToSend.append('longitude', markerPosition.lng);
+
+    if (!isOnlineEvent) { // Only append location if it's not an online event
+      formDataToSend.append('latitude', markerPosition.lat);
+      formDataToSend.append('longitude', markerPosition.lng);
+    }
 
     try {
       const response = await fetch('https://backend-8eis.onrender.com/add-event', {
@@ -141,6 +151,7 @@ function AddEvent() {
     <div className="add-event-container">
       <h1>Add Event</h1>
       <form onSubmit={handleSubmit} className="add-event-form">
+        {/* Form Fields */}
         <TextField
           label="User ID"
           name="user_id"
@@ -224,6 +235,7 @@ function AddEvent() {
           value={formData.reference_link}
           onChange={handleChange}
         />
+
         <div className="upload-section">
           <label>Upload event image</label>
           <Button
@@ -254,10 +266,18 @@ function AddEvent() {
             </Button>
           </div>
         )}
+
         <label>Select event location</label>
-        <div className="map-container">
-          <SimpleMap markerPosition={markerPosition} handleMapClick={handleMapClick} />
-        </div>
+        <FormControlLabel
+          control={<Checkbox checked={isOnlineEvent} onChange={handleCheckboxChange} />}
+          label="The event is online"
+        />
+        {!isOnlineEvent && (
+          <div className="map-container">
+            <SimpleMap markerPosition={markerPosition} handleMapClick={handleMapClick} />
+          </div>
+        )}
+
         <div className="form-buttons">
           <Button variant="outlined" color="secondary" onClick={handleBackClick}>
             Back
