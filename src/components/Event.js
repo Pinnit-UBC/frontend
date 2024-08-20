@@ -32,7 +32,8 @@ function Event({ event, onEventClick }) {
     <div className="event-container" onClick={() => onEventClick(event)}>
       <div className="event-details">
         <div className="event-time">
-          {`${formatTime(event.start_time)} to ${formatTime(event.end_time)}`}
+          {formatTime(event.start_time)}
+          {event.end_time && ` to ${formatTime(event.end_time)}`}
         </div>
         <div className="event-title">{event.event_title}</div>
         <div className="event-location">
