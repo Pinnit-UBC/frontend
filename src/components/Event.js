@@ -9,6 +9,14 @@ function formatTime(time) {
   return `${formattedHours}:${minutes}${period}`;
 }
 
+// Function to format the tags from MongoDB format to display format
+function formatTag(tag) {
+  return tag
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' & ');
+}
+
 function Event({ event, onEventClick }) {
   const [imageUrl, setImageUrl] = useState(event.image_url || 'https://via.placeholder.com/120');
 
@@ -49,8 +57,11 @@ function Event({ event, onEventClick }) {
           {event.registration_status}
         </div>
         <div className="event-tags">
+          <img src="/assets/Tag.png" alt="Tag Icon" className="tag-logo" />
           {event.tags && event.tags.map((tag, index) => (
-            <span key={index} className="tag">{tag}</span>
+            <span key={index} className="tag">
+              {formatTag(tag)}
+            </span>
           ))}
         </div>
       </div>
