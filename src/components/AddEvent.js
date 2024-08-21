@@ -9,11 +9,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Checkbox from '@mui/material/Checkbox'; // Import Checkbox
-import FormControlLabel from '@mui/material/FormControlLabel'; // Import FormControlLabel
+import Checkbox from '@mui/material/Checkbox'; 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Select from 'react-select';  // Import react-select
 import SimpleMap from './SimpleMap';
 import dayjs from 'dayjs';
 import '../styles/AddEvent.css';
+
+const tagOptions = [
+  { value: 'culture-community', label: 'Culture & Community' },
+  { value: 'academic-professional', label: 'Academic & Professional' },
+  { value: 'sports-fitness', label: 'Sports & Fitness' },
+  { value: 'arts-performance', label: 'Arts & Performance' },
+  { value: 'social', label: 'Social' },
+  { value: 'other', label: 'Other' }
+];
 
 function AddEvent() {
   const navigate = useNavigate();
@@ -29,10 +39,11 @@ function AddEvent() {
     activity_description: '',
     registration_status: '',
     reference_link: '',
+    tags: [], // Add tags to formData
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
-  const [isOnlineEvent, setIsOnlineEvent] = useState(false); // State for checkbox
+  const [isOnlineEvent, setIsOnlineEvent] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,63 +77,71 @@ function AddEvent() {
     setIsOnlineEvent(e.target.checked);
   };
 
+  const handleTagChange = (selectedOptions) => {
+    setFormData({ ...formData, tags: selectedOptions });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSubmitting) return; // Prevent multiple submissions
-  
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setOpenDialog(false);
-  
+
     if (!selectedFile) {
       setDialogContent('Please attach a file before submitting.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
     }
-    if (!isOnlineEvent && !markerPosition) { // Only require location if not an online event
+    if (!isOnlineEvent && !markerPosition) {
       setDialogContent('Please pin a location on the map before submitting.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
     }
-  
+
     // Verify the pass key
     const verifyKeyResponse = await fetch('https://backend-8eis.onrender.com/verify-key', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_id: formData.user_id, pass_key: formData.pass_key }),
     });
-  
+
     const verifyKeyData = await verifyKeyResponse.json();
-  
+
     if (!verifyKeyData.valid) {
       setDialogContent('Invalid Pass Key. Please try again.');
       setOpenDialog(true);
       setIsSubmitting(false);
       return;
     }
-  
+
     // Prepare form data for submission
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
+      if (key === 'tags') {
+        formDataToSend.append(key, JSON.stringify(formData[key].map(tag => tag.value))); // Convert array to JSON string
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
     });
     formDataToSend.append('image', selectedFile);
-  
-    if (!isOnlineEvent) { // Only append location if it's not an online event
+
+    if (!isOnlineEvent) {
       formDataToSend.append('latitude', markerPosition.lat);
       formDataToSend.append('longitude', markerPosition.lng);
-    } else { // Set latitude and longitude to null for online events
+    } else {
       formDataToSend.append('latitude', null);
       formDataToSend.append('longitude', null);
     }
-  
+
     try {
       const response = await fetch('https://backend-8eis.onrender.com/add-event', {
         method: 'POST',
         body: formDataToSend,
       });
-  
+
       if (response.ok) {
         setDialogContent('Successfully added event!');
       } else {
@@ -150,11 +169,21 @@ function AddEvent() {
     }
   };
 
+  const customStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: 'black',  // Set the text color to black
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: 'black',  // Set the selected option text color to black
+    }),
+  };
+
   return (
     <div className="add-event-container">
       <h1>Add Event</h1>
       <form onSubmit={handleSubmit} className="add-event-form">
-        {/* Form Fields */}
         <TextField
           label="User ID"
           name="user_id"
@@ -237,6 +266,17 @@ function AddEvent() {
           name="reference_link"
           value={formData.reference_link}
           onChange={handleChange}
+        />
+
+        <label>Select Tags</label>
+        <Select
+          isMulti
+          name="tags"
+          options={tagOptions}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleTagChange}
+          styles={customStyles}
         />
 
         <div className="upload-section">
