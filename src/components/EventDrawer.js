@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'; // Removed useEffect import
+import React, { useState, useRef } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -74,7 +74,7 @@ function EventDrawer({ event, open, onClose }) {
           {event.event_title}
         </Typography>
         <Typography variant="subtitle1" className="drawer-event-time">
-          {formatTime(event.start_time)} to {formatTime(event.end_time)}
+          {formatTime(event.start_time)}{event.end_time && ` to ${formatTime(event.end_time)}`}
         </Typography>
         {event.image_url && (
           <Box sx={{ mt: 2, textAlign: 'center' }} className="drawer-event-image-container">
@@ -155,9 +155,11 @@ function EventDrawer({ event, open, onClose }) {
             </Button>
           </Box>
         )}
-        <Box sx={{ mt: 2 }}>
-          <DrawerMap latitude={event.latitude} longitude={event.longitude} />
-        </Box>
+        {(event.latitude !== null && event.longitude !== null) && (
+          <Box sx={{ mt: 2 }}>
+            <DrawerMap latitude={event.latitude} longitude={event.longitude} />
+          </Box>
+        )}
       </Box>
     </Drawer>
   );
