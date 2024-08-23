@@ -14,6 +14,25 @@ function formatTime(time) {
   return `${formattedHours}:${minutes}${period}`;
 }
 
+function formatTag(tag) {
+  switch (tag) {
+    case 'culture-community':
+      return 'Culture & Community';
+    case 'academic-professional':
+      return 'Academic & Professional';
+    case 'sports-fitness':
+      return 'Sports & Fitness';
+    case 'arts-performance':
+      return 'Arts & Performance';
+    case 'social':
+      return 'Social';
+    case 'other':
+      return 'Other';
+    default:
+      return tag;
+  }
+}
+
 function EventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const descriptionRef = useRef(null);
@@ -104,6 +123,18 @@ function EventDrawer({ event, open, onClose }) {
               {event.registration_status}
             </Typography>
           </Box>
+          {event.tags && event.tags.length > 0 && (
+            <Box className="drawer-info-item">
+              <img src="/assets/Tag.png" alt="Tag Logo" className="drawer-tag-icon" />
+              <Box className="drawer-tag-container">
+                {event.tags.map((tag, index) => (
+                  <span key={index} className="drawer-tag">
+                    {formatTag(tag)}
+                  </span>
+                ))}
+              </Box>
+            </Box>
+          )}
           {event.reference_link && (
             <Box className="drawer-info-item" sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
               <Button
@@ -139,7 +170,7 @@ function EventDrawer({ event, open, onClose }) {
               className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
               style={{
                 display: '-webkit-box',
-                WebkitLineClamp: isExpanded ? 'unset' : 8, // Show only 8 lines when not expanded
+                WebkitLineClamp: isExpanded ? 'unset' : 8,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 whiteSpace: 'normal',
