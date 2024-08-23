@@ -149,6 +149,33 @@
   left: -5px;
 }
 
+.drawer-tag-icon {
+  width: 16px; /* Smaller size for the tag icon */
+  height: 16px; /* Smaller size for the tag icon */
+  margin-right: 8px; /* Adjusted spacing to keep it consistent */
+}
+
+.drawer-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Space between tags */
+}
+
+.drawer-tag {
+  display: inline-block;
+  padding: 2px 8px; /* Reduced vertical padding for the tag bubble */
+  background-color: #464545;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 17px; /* Ensure consistent font size with other text */
+  color: #ccc; /* Black text color */
+}
+
+.drawer-tag:hover {
+  background-color: #e0e0e0;
+}
+
+
 @media (max-width: 768px) {
   .drawer-container {
     padding: 10px;
