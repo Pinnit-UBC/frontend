@@ -31,26 +31,33 @@ function Filter({ onFilterChange }) {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const formatTagForFiltering = (tag) => {
+        return tag.toLowerCase().replace(/ & /g, '-');
+    };
+
     const handleTagChange = (tag) => {
-        const updatedTags = selectedTags.includes(tag)
-            ? selectedTags.filter((t) => t !== tag)
-            : [...selectedTags, tag];
+        const formattedTag = formatTagForFiltering(tag);
+        const updatedTags = selectedTags.includes(formattedTag)
+            ? selectedTags.filter((t) => t !== formattedTag)
+            : [...selectedTags, formattedTag];
         setSelectedTags(updatedTags);
         onFilterChange(updatedTags, selectedFaculty, selectedDegreeLevel);
     };
 
     const handleFacultyChange = (faculty) => {
-        const updatedFaculty = selectedFaculty.includes(faculty)
-            ? selectedFaculty.filter((f) => f !== faculty)
-            : [...selectedFaculty, faculty];
+        const formattedFaculty = formatTagForFiltering(faculty);
+        const updatedFaculty = selectedFaculty.includes(formattedFaculty)
+            ? selectedFaculty.filter((f) => f !== formattedFaculty)
+            : [...selectedFaculty, formattedFaculty];
         setSelectedFaculty(updatedFaculty);
         onFilterChange(selectedTags, updatedFaculty, selectedDegreeLevel);
     };
 
     const handleDegreeLevelChange = (degree) => {
-        const updatedDegreeLevel = selectedDegreeLevel.includes(degree)
-            ? selectedDegreeLevel.filter((d) => d !== degree)
-            : [...selectedDegreeLevel, degree];
+        const formattedDegree = formatTagForFiltering(degree);
+        const updatedDegreeLevel = selectedDegreeLevel.includes(formattedDegree)
+            ? selectedDegreeLevel.filter((d) => d !== formattedDegree)
+            : [...selectedDegreeLevel, formattedDegree];
         setSelectedDegreeLevel(updatedDegreeLevel);
         onFilterChange(selectedTags, selectedFaculty, updatedDegreeLevel);
     };
@@ -84,11 +91,11 @@ function Filter({ onFilterChange }) {
                             {tagOptions.map((tag, index) => (
                                 <div
                                     key={index}
-                                    className={`dropdown-item ${selectedTags.includes(tag) ? 'selected' : ''}`}
+                                    className={`dropdown-item ${selectedTags.includes(formatTagForFiltering(tag)) ? 'selected' : ''}`}
                                     onClick={() => handleTagChange(tag)}
                                 >
                                     {tag}
-                                    {selectedTags.includes(tag) && <span className="checkmark">✔</span>}
+                                    {selectedTags.includes(formatTagForFiltering(tag)) && <span className="checkmark">✔</span>}
                                 </div>
                             ))}
                         </div>
@@ -97,11 +104,11 @@ function Filter({ onFilterChange }) {
                             {facultyOptions.map((faculty, index) => (
                                 <div
                                     key={index}
-                                    className={`dropdown-item ${selectedFaculty.includes(faculty) ? 'selected' : ''}`}
+                                    className={`dropdown-item ${selectedFaculty.includes(formatTagForFiltering(faculty)) ? 'selected' : ''}`}
                                     onClick={() => handleFacultyChange(faculty)}
                                 >
                                     {faculty}
-                                    {selectedFaculty.includes(faculty) && <span className="checkmark">✔</span>}
+                                    {selectedFaculty.includes(formatTagForFiltering(faculty)) && <span className="checkmark">✔</span>}
                                 </div>
                             ))}
                         </div>
@@ -110,11 +117,11 @@ function Filter({ onFilterChange }) {
                             {degreeLevelOptions.map((degree, index) => (
                                 <div
                                     key={index}
-                                    className={`dropdown-item ${selectedDegreeLevel.includes(degree) ? 'selected' : ''}`}
+                                    className={`dropdown-item ${selectedDegreeLevel.includes(formatTagForFiltering(degree)) ? 'selected' : ''}`}
                                     onClick={() => handleDegreeLevelChange(degree)}
                                 >
                                     {degree}
-                                    {selectedDegreeLevel.includes(degree) && <span className="checkmark">✔</span>}
+                                    {selectedDegreeLevel.includes(formatTagForFiltering(degree)) && <span className="checkmark">✔</span>}
                                 </div>
                             ))}
                         </div>
@@ -124,17 +131,17 @@ function Filter({ onFilterChange }) {
             <div className="selected-options">
                 {selectedTags.map((tag, index) => (
                     <span key={index} className="selected-option">
-                        {tag} <span className="remove-option" onClick={() => removeTag(tag)}>✖</span>
+                        {tag.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} <span className="remove-option" onClick={() => removeTag(tag)}>✖</span>
                     </span>
                 ))}
                 {selectedFaculty.map((faculty, index) => (
                     <span key={index} className="selected-option">
-                        {faculty} <span className="remove-option" onClick={() => removeFaculty(faculty)}>✖</span>
+                        {faculty.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} <span className="remove-option" onClick={() => removeFaculty(faculty)}>✖</span>
                     </span>
                 ))}
                 {selectedDegreeLevel.map((degree, index) => (
                     <span key={index} className="selected-option">
-                        {degree} <span className="remove-option" onClick={() => removeDegree(degree)}>✖</span>
+                        {degree.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} <span className="remove-option" onClick={() => removeDegree(degree)}>✖</span>
                     </span>
                 ))}
             </div>
