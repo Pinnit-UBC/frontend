@@ -11,7 +11,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox'; 
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Select from 'react-select';  // Import react-select
+import Select from 'react-select';
 import SimpleMap from './SimpleMap';
 import dayjs from 'dayjs';
 import '../styles/AddEvent.css';
@@ -23,6 +23,26 @@ const tagOptions = [
   { value: 'arts-performance', label: 'Arts & Performance' },
   { value: 'social', label: 'Social' },
   { value: 'other', label: 'Other' }
+];
+
+const facultyOptions = [
+  { value: 'applied-science', label: 'Applied Science' },
+  { value: 'arts', label: 'Arts' },
+  { value: 'commerce', label: 'Commerce' },
+  { value: 'economics', label: 'Economics' },
+  { value: 'forestry', label: 'Forestry' },
+  { value: 'kinesiology', label: 'Kinesiology' },
+  { value: 'land-food-systems', label: 'Land & Food Systems' },
+  { value: 'law', label: 'Law' },
+  { value: 'science', label: 'Science' },
+  { value: 'other', label: 'Other' },
+  { value: 'none', label: 'None' }
+];
+
+const degreeLevelOptions = [
+  { value: 'undergraduate', label: 'Undergraduate' },
+  { value: 'graduate', label: 'Graduate' },
+  { value: 'none', label: 'None' }
 ];
 
 function AddEvent() {
@@ -40,6 +60,8 @@ function AddEvent() {
     registration_status: '',
     reference_link: '',
     tags: [], // Add tags to formData
+    faculty: [], // Add faculty to formData
+    degree_level: [] // Add degree level to formData
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -81,6 +103,14 @@ function AddEvent() {
     setFormData({ ...formData, tags: selectedOptions });
   };
 
+  const handleFacultyChange = (selectedOptions) => {
+    setFormData({ ...formData, faculty: selectedOptions });
+  };
+
+  const handleDegreeLevelChange = (selectedOptions) => {
+    setFormData({ ...formData, degree_level: selectedOptions });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
@@ -120,8 +150,8 @@ function AddEvent() {
     // Prepare form data for submission
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
-      if (key === 'tags') {
-        formDataToSend.append(key, JSON.stringify(formData[key].map(tag => tag.value))); // Convert array to JSON string
+      if (key === 'tags' || key === 'faculty' || key === 'degree_level') {
+        formDataToSend.append(key, JSON.stringify(formData[key].map(option => option.value))); // Convert array to JSON string
       } else {
         formDataToSend.append(key, formData[key]);
       }
@@ -276,6 +306,28 @@ function AddEvent() {
           className="basic-multi-select"
           classNamePrefix="select"
           onChange={handleTagChange}
+          styles={customStyles}
+        />
+
+        <label>Select Faculty</label>
+        <Select
+          isMulti
+          name="faculty"
+          options={facultyOptions}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleFacultyChange}
+          styles={customStyles}
+        />
+
+        <label>Select Degree Level</label>
+        <Select
+          isMulti
+          name="degree_level"
+          options={degreeLevelOptions}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleDegreeLevelChange}
           styles={customStyles}
         />
 
