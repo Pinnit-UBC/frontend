@@ -63,6 +63,16 @@ function Event({ event, onEventClick }) {
               {formatTag(tag)}
             </span>
           ))}
+          {event.faculty && event.faculty.map((faculty, index) => (
+            <span key={index} className="tag">
+              {formatTag(faculty)}
+            </span>
+          ))}
+          {event.degree_level && event.degree_level.map((degree, index) => (
+            <span key={index} className="tag">
+              {formatTag(degree)}
+            </span>
+          ))}
         </div>
       </div>
       <div className="event-image">
@@ -87,6 +97,8 @@ Event.propTypes = {
     host_organization: PropTypes.string,
     location: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
+    faculty: PropTypes.arrayOf(PropTypes.string), // Added propType for faculty
+    degree_level: PropTypes.arrayOf(PropTypes.string), // Added propType for degree_level
     image_url: PropTypes.string,
     registration_status: PropTypes.string,
   }).isRequired,
