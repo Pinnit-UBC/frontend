@@ -10,21 +10,6 @@ function MobileEventsList({ events, onEventClick }) {
     setFilteredEvents(events); // Reset filtered events whenever the events prop changes
   }, [events]);
 
-  const handleFilterChange = (selectedTags, selectedFaculty, selectedDegreeLevel) => {
-    const filtered = events.filter(event => {
-      const eventTags = event.tags || [];
-      const eventFaculty = event.faculty || [];
-      const eventDegreeLevel = event.degree_level || [];
-
-      const matchTags = selectedTags.length === 0 || eventTags.some(tag => selectedTags.includes(tag));
-      const matchFaculty = selectedFaculty.length === 0 || eventFaculty.some(fac => selectedFaculty.includes(fac));
-      const matchDegreeLevel = selectedDegreeLevel.length === 0 || eventDegreeLevel.some(degree => selectedDegreeLevel.includes(degree));
-      return matchTags && matchFaculty && matchDegreeLevel;
-    });
-
-    setFilteredEvents(filtered);
-  };
-
   if (!filteredEvents || filteredEvents.length === 0) {
     return <div>No events found for the selected filters.</div>;
   }
