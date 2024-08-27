@@ -23,6 +23,7 @@ import News from './components/News';
 import AddNews from './components/AddNews';
 import Help from './components/Help';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
+import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -56,27 +57,52 @@ function App() {
 
   useEffect(() => {
     async function fetchEvents(date) {
-      try {
-        const response = await fetch(`https://backend-8eis.onrender.com/events?date=${date}`);
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setEvents(data);
-          setFilteredEvents(data); // Also set filteredEvents to the fetched data initially
-        } else {
-          console.error('Error: Data is not an array');
+      if (navigator.onLine) {
+        try {
+          const response = await fetch(`https://backend-8eis.onrender.com/events?date=${date}`);
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setEvents(data);
+            setFilteredEvents(data); // Also set filteredEvents to the fetched data initially
+            await cacheEvents(date, data); // Cache events after fetching
+          } else {
+            console.error('Error: Data is not an array');
+          }
+        } catch (error) {
+          console.error('Error fetching events:', error);
         }
-      } catch (error) {
-        console.error('Error fetching events:', error);
+      } else {
+        const cachedData = await loadCachedEvents(date);
+        if (cachedData.length > 0) {
+          setEvents(cachedData);
+          setFilteredEvents(cachedData);
+        } else {
+          console.log('No cached events found for this date.');
+          setEvents([]);
+          setFilteredEvents([]);
+        }
       }
     }
 
     async function fetchSponsoredEvent(date) {
-      try {
-        const response = await fetch(`https://backend-8eis.onrender.com/sponsored_event?date=${date}`);
-        const data = await response.json();
-        setSponsoredEvent(data);
-      } catch (error) {
-        console.error('Error fetching sponsored event:', error);
+      if (navigator.onLine) {
+        try {
+          const response = await fetch(`https://backend-8eis.onrender.com/sponsored_event?date=${date}`);
+          const data = await response.json();
+          setSponsoredEvent(data);
+          await cacheSponsoredEvent(date, data); // Cache sponsored event after fetching
+        } catch (error) {
+          console.error('Error fetching sponsored event:', error);
+          setSponsoredEvent(null);
+        }
+      } else {
+        const cachedData = await loadCachedSponsoredEvent(date);
+        if (cachedData) {
+          setSponsoredEvent(cachedData);
+        } else {
+          console.log('No cached sponsored event found for this date.');
+          setSponsoredEvent(null);
+        }
       }
     }
 

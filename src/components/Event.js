@@ -9,7 +9,6 @@ function formatTime(time) {
   return `${formattedHours}:${minutes}${period}`;
 }
 
-// Function to format the tags from MongoDB format to display format
 function formatTag(tag) {
   return tag
     .split('-')
@@ -18,23 +17,18 @@ function formatTag(tag) {
 }
 
 function Event({ event, onEventClick }) {
-  const [imageUrl, setImageUrl] = useState(event.image_url || 'https://via.placeholder.com/120');
+  const [imageSrc, setImageSrc] = useState(
+    event.image_base64 || '/path/to/local/placeholder.png'
+  );
 
   useEffect(() => {
-    console.log('Event image URL:', event.image_url);
-
-    // Check if the image URL is valid
-    const testImage = new Image();
-    testImage.src = event.image_url;
-    testImage.onload = () => {
-      console.log('Image loaded successfully:', event.image_url);
-      setImageUrl(event.image_url);
-    };
-    testImage.onerror = () => {
-      console.error('Image failed to load:', event.image_url);
-      setImageUrl('https://via.placeholder.com/120');
-    };
-  }, [event.image_url]);
+    if (navigator.onLine && event.image_url && !event.image_base64) {
+      const img = new Image();
+      img.src = event.image_url;
+      img.onload = () => setImageSrc(event.image_url);
+      img.onerror = () => setImageSrc('/path/to/local/placeholder.png');
+    }
+  }, [event.image_url, event.image_base64]);
 
   return (
     <div className="event-container" onClick={() => onEventClick(event)}>
@@ -77,11 +71,12 @@ function Event({ event, onEventClick }) {
       </div>
       <div className="event-image">
         <img 
-          src={imageUrl} 
+          src={imageSrc} 
           alt="Event" 
           onError={(e) => {
-            console.error("Image failed to load: ", e.target.src);
-            e.target.src = 'https://via.placeholder.com/120';
+            if (navigator.onLine) {
+              e.target.src = '/path/to/local/placeholder.png';
+            }
           }}
         />
       </div>
@@ -100,6 +95,7 @@ Event.propTypes = {
     faculty: PropTypes.arrayOf(PropTypes.string), // Added propType for faculty
     degree_level: PropTypes.arrayOf(PropTypes.string), // Added propType for degree_level
     image_url: PropTypes.string,
+    image_base64: PropTypes.string, // Added propType for image_base64
     registration_status: PropTypes.string,
   }).isRequired,
   onEventClick: PropTypes.func.isRequired,
