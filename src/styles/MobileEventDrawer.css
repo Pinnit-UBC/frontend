@@ -22,22 +22,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  margin-bottom: 60px; /* Add margin to create space below the header */
 }
 
 .drawer-close-button {
-  width: 30px;
-  height: 30px;
+  width: 50px; /* Increase the size of the close button */
+  height: 50px;
   cursor: pointer;
   position: absolute;
-  top: -15px !important;
-  left: -1px !important; /* Move the button more to the left */
-}
-
-.drawer-share-button {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  right: 10px;
+  top: 0px; /* Adjusted to move the button down */
+  left: 10px; /* Move the button to the right */
+  color: white;
+  background: none; /* Remove button background */
+  border: none;
+  font-size: 40px; /* Increase the font size of the "X" */
+  z-index: 1001; /* Ensure it's on top of other elements */
 }
 
 .drawer-event-title {
@@ -45,7 +45,8 @@
   font-size: 28px !important; /* Font size for event title */
   text-align: center; /* Centered text */
   color: white;
-  margin-bottom: 0;
+  margin-top: 40px; /* Added more margin to push the title down */
+  margin-bottom: 20px; /* Adjusted margin to control spacing below the title */
   line-height: 1.2 !important; /* Spacing between Title lines */
 }
 
@@ -53,7 +54,7 @@
   font-size: 17px; /* Font size for event time */
   font-weight: bold !important;
   text-align: center; /* Centered text */
-  margin-bottom: 0px !important; /* Margin below the time */
+  margin-bottom: 10px !important; /* Added margin below the time */
   color: white;
 }
 
@@ -101,9 +102,13 @@
   line-height: 1.4 !important; /* Spacing between lines */
 }
 
-.button-icon {
-  width: 20px;
-  height: 20px;
+.drawer-event-tag {
+  margin-top: 10px; /* Adjust to position below the registration icon */
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 12px; /* Font size for tags */
+  color: #464545; /* Text color for tags */
 }
 
 .drawer-event-description {
@@ -135,15 +140,6 @@
   max-width: 100%;
   height: auto;
   border-radius: 25px;
-}
-
-.drawer-event-tag {
-  margin-right: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  padding: 4px;
-  font-size: 12px; /* Font size for tags */
-  color: #464545; /* Text color for tags */
 }
 
 .drawer-reference-link {
@@ -199,8 +195,7 @@
   height: 200px;
   border-radius: 15px;
   overflow: hidden;
-  margin-bottom:10px;
-  
+  margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
@@ -210,6 +205,7 @@
   }
   .drawer-event-title {
     font-size: 25px !important;
+    margin-top: 15px; /* Adjusted for mobile */
   }
   .drawer-event-time {
     font-size: 17px !important;
@@ -217,8 +213,5 @@
   }
   .drawer-info-container {
     padding: 10px;
-  }
-  .drawer-close-button {
-    left: -10px !important; /* Adjust the position for mobile */
   }
 }

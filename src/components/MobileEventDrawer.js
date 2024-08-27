@@ -108,6 +108,16 @@ function MobileEventDrawer({ event, open, onClose }) {
               {event.registration_status}
             </Typography>
           </Box>
+          {/* Add the tags inside the "The Event" container */}
+          {event.tags && (
+            <Box className="drawer-info-item drawer-tag-container">
+              {event.tags.map((tag, index) => (
+                <Typography key={index} component="span" className="drawer-event-tag">
+                  {tag}
+                </Typography>
+              ))}
+            </Box>
+          )}
           {event.reference_link && (
             <Box className="drawer-info-item drawer-check-it-out-container">
               <Button
@@ -163,13 +173,6 @@ function MobileEventDrawer({ event, open, onClose }) {
             <MobileDrawerMap latitude={event.latitude} longitude={event.longitude} />
           </Box>
         )}
-        <Box className="drawer-event-tags">
-          {event.tags && event.tags.map((tag, index) => (
-            <Typography key={index} component="span" className="drawer-event-tag">
-              {tag}
-            </Typography>
-          ))}
-        </Box>
       </Box>
     </Drawer>
   );
