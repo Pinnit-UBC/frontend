@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Map.css';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
@@ -12,7 +12,7 @@ const MapComponent = ({ events }) => {
   const mapRef = useRef(null);
   const markerClustererRef = useRef(null);
 
-  const initMap = () => {
+  const initMap = useCallback(() => {
     if (mapRef.current) {
       const map = new window.google.maps.Map(mapRef.current, {
         center: { lat: 49.263036774736136, lng: -123.24970352478029 },
@@ -24,7 +24,7 @@ const MapComponent = ({ events }) => {
 
       updateMarkers(map, events); // Update markers when the map is initialized
     }
-  };
+  }, [events]);
 
   const updateMarkers = (map, events) => {
     if (!map || !events || events.length === 0) return; // Ensure map and events are valid
@@ -66,7 +66,7 @@ const MapComponent = ({ events }) => {
         }
       }, 1000);
     }
-  }, []); // Only initialize the map on mount
+  }, [initMap]); // Add initMap to the dependency array
 
   useEffect(() => {
     if (mapRef.current && mapRef.current.mapInstance) {
