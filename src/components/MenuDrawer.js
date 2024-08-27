@@ -28,7 +28,15 @@ const DarkModeButton = styled(Button)(({ theme, darkMode }) => ({
   },
 }));
 
-function MenuDrawer({ open, onClose }) {
+function MenuDrawer({ // Adjust controls for visibility
+  open, 
+  onClose, 
+  showNews = false, //Adjust News
+  showClubs = false,  //Adjust Clubs & Organizations
+  showAbout = false, // About 
+  showHelp = false, // Help
+  showDarkMode = false  //Dark Mode
+}) {
   const [darkMode, setDarkMode] = React.useState(false);
   const navigate = useNavigate();
 
@@ -52,25 +60,35 @@ function MenuDrawer({ open, onClose }) {
         <Box className="menu-item" onClick={() => handleNavigation('/')}>
           <span className="menu-item-text">Home</span>
         </Box>
-        <Box className="menu-item" onClick={() => handleNavigation('/news')}>
-          <span className="menu-item-text">Campus News</span>
-        </Box>
-        <Box className="menu-item" onClick={() => handleNavigation('/clubs')}>
-          <span className="menu-item-text">Clubs & Organizations</span>
-        </Box>
-        <Box className="menu-item" onClick={() => handleNavigation('/about')}>
-          <span className="menu-item-text">About</span>
-        </Box>
-        <Box className="menu-item" onClick={() => handleNavigation('/help')}>
-          <span className="menu-item-text">Help</span>
-        </Box>
-        <Box className="drawer-footer">
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <DarkModeButton darkMode={darkMode ? 1 : 0} variant="contained" onClick={handleToggle}>
-              {darkMode ? "Light Mode" : "Dark Mode"}
-            </DarkModeButton>
-          </Stack>
-        </Box>
+        {showNews && (
+          <Box className="menu-item" onClick={() => handleNavigation('/news')}>
+            <span className="menu-item-text">Campus News</span>
+          </Box>
+        )}
+        {showClubs && (
+          <Box className="menu-item" onClick={() => handleNavigation('/clubs')}>
+            <span className="menu-item-text">Clubs & Organizations</span>
+          </Box>
+        )}
+        {showAbout && (
+          <Box className="menu-item" onClick={() => handleNavigation('/about')}>
+            <span className="menu-item-text">About</span>
+          </Box>
+        )}
+        {showHelp && (
+          <Box className="menu-item" onClick={() => handleNavigation('/help')}>
+            <span className="menu-item-text">Help</span>
+          </Box>
+        )}
+        {showDarkMode && (
+          <Box className="drawer-footer">
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <DarkModeButton darkMode={darkMode ? 1 : 0} variant="contained" onClick={handleToggle}>
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </DarkModeButton>
+            </Stack>
+          </Box>
+        )}
       </Box>
     </Drawer>
   );
