@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Map.css';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
@@ -11,23 +11,10 @@ const containerStyle = {
 const MapComponent = ({ events }) => {
   const mapRef = useRef(null);
   const markerClustererRef = useRef(null);
+  const [mapInitialized, setMapInitialized] = useState(false);
 
-  const initMap = useCallback(() => {
-    if (mapRef.current) {
-      const map = new window.google.maps.Map(mapRef.current, {
-        center: { lat: 49.263036774736136, lng: -123.24970352478029 },
-        zoom: 10,
-        mapId: '8882b01a6088871f',
-      });
-
-      mapRef.current.mapInstance = map; // Save the map instance to ref
-
-      updateMarkers(map, events); // Update markers when the map is initialized
-    }
-  }, [events]);
-
-  const updateMarkers = (map, events) => {
-    if (!map || !events || events.length === 0) return; // Ensure map and events are valid
+  const updateMarkers = useCallback((map, events) => {
+    if (!map || !events || events.length === 0) return;
 
     if (markerClustererRef.current) {
       markerClustererRef.current.clearMarkers();
@@ -53,7 +40,20 @@ const MapComponent = ({ events }) => {
       map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
       map.setZoom(10);
     }
-  };
+  }, []);
+
+  const initMap = useCallback(() => {
+    if (mapRef.current && window.google && window.google.maps) {
+      const map = new window.google.maps.Map(mapRef.current, {
+        center: { lat: 49.263036774736136, lng: -123.24970352478029 },
+        zoom: 10,
+        mapId: '8882b01a6088871f',
+      });
+
+      mapRef.current.mapInstance = map;
+      setMapInitialized(true); // Set mapInitialized to true when map is initialized
+    }
+  }, []);
 
   useEffect(() => {
     if (window.google && window.google.maps) {
@@ -66,13 +66,13 @@ const MapComponent = ({ events }) => {
         }
       }, 1000);
     }
-  }, [initMap]); // Add initMap to the dependency array
+  }, [initMap]);
 
   useEffect(() => {
-    if (mapRef.current && mapRef.current.mapInstance) {
+    if (mapInitialized && mapRef.current && mapRef.current.mapInstance) {
       updateMarkers(mapRef.current.mapInstance, events);
     }
-  }, [events]); // Update markers whenever the events change
+  }, [mapInitialized, events, updateMarkers]); // Ensure that markers are updated when map is initialized and events change
 
   return <div className="map-container" ref={mapRef} style={containerStyle}></div>;
 };
