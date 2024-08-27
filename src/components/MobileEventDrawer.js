@@ -8,6 +8,10 @@ import MobileDrawerMap from './MobileDrawerMap';
 import '../styles/MobileEventDrawer.css';
 
 function formatTime(time) {
+  if (!time) {
+    return ''; // Return an empty string if time is undefined or invalid
+  }
+
   const [hours, minutes] = time.split(':');
   const period = hours >= 12 ? 'pm' : 'am';
   const formattedHours = hours % 12 || 12;
