@@ -18,6 +18,7 @@
 @media (max-width: 768px) {
   .menu-drawer-paper {
     width: 25vw !important;
+    min-width: 200px !important; /* Ensure minimum width is 200px */
   }
 }
 
