@@ -12,17 +12,19 @@ function formatTime(time) {
 }
 
 function MobileEvent({ event, onEventClick }) {
-  const [imageUrl, setImageUrl] = useState('https://via.placeholder.com/120');
+  const [imageSrc, setImageSrc] = useState(
+    event.image_base64 || '/path/to/local/placeholder.png'
+  );
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
-    if (event && event.image_url) {
-      const testImage = new Image();
-      testImage.src = event.image_url;
-      testImage.onload = () => setImageUrl(event.image_url);
-      testImage.onerror = () => setImageUrl('https://via.placeholder.com/120');
+    if (navigator.onLine && event.image_url && !event.image_base64) {
+      const img = new Image();
+      img.src = event.image_url;
+      img.onload = () => setImageSrc(event.image_url);
+      img.onerror = () => setImageSrc('/path/to/local/placeholder.png');
     }
-  }, [event]);
+  }, [event.image_url, event.image_base64]);
 
   const handleEventClick = () => setDrawerOpen(true);
 
@@ -53,7 +55,15 @@ function MobileEvent({ event, onEventClick }) {
           </div>
         </div>
         <div className="mobile-event-image">
-          <img src={imageUrl} alt="Event" />
+          <img 
+            src={imageSrc} 
+            alt="Event" 
+            onError={(e) => {
+              if (navigator.onLine) {
+                e.target.src = '/path/to/local/placeholder.png';
+              }
+            }}
+          />
         </div>
       </div>
       <MobileEventDrawer event={event} open={drawerOpen} onClose={() => setDrawerOpen(false)} />
@@ -70,6 +80,7 @@ MobileEvent.propTypes = {
     location: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
     image_url: PropTypes.string,
+    image_base64: PropTypes.string, // Added propType for image_base64
     registration_status: PropTypes.string,
   }).isRequired,
   onEventClick: PropTypes.func.isRequired,
