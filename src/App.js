@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import dayjs from 'dayjs';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import './App.css';
 import EventsList from './components/EventsList';
 import Summary from './components/Summary';
@@ -20,12 +22,11 @@ import ClubsAndOrganizations from './components/ClubsAndOrganizations';
 import News from './components/News';
 import AddNews from './components/AddNews';
 import Help from './components/Help';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import dayjs from 'dayjs';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 
 function App() {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sponsoredEvent, setSponsoredEvent] = useState(null);
@@ -54,17 +55,13 @@ function App() {
   };
 
   useEffect(() => {
-    console.log('Selected date changed:', selectedDate); // Log the selected date
-
     async function fetchEvents(date) {
       try {
-        console.log('Fetching events for date:', date); // Log the date being fetched
         const response = await fetch(`https://backend-8eis.onrender.com/events?date=${date}`);
         const data = await response.json();
-        console.log('Response data:', data); // Log the response data
         if (Array.isArray(data)) {
-          console.log('Fetched events:', data); // Log the fetched events
           setEvents(data);
+          setFilteredEvents(data); // Also set filteredEvents to the fetched data initially
         } else {
           console.error('Error: Data is not an array');
         }
@@ -75,10 +72,8 @@ function App() {
 
     async function fetchSponsoredEvent(date) {
       try {
-        console.log('Fetching sponsored event for date:', date); // Log the date being fetched
         const response = await fetch(`https://backend-8eis.onrender.com/sponsored_event?date=${date}`);
         const data = await response.json();
-        console.log('Fetched sponsored event:', data); // Log the fetched sponsored event
         setSponsoredEvent(data);
       } catch (error) {
         console.error('Error fetching sponsored event:', error);
@@ -88,6 +83,28 @@ function App() {
     fetchEvents(selectedDate);
     fetchSponsoredEvent(selectedDate);
   }, [selectedDate]);
+
+  // Normalize tags for comparison
+  const normalizeTag = (tag) => tag.toLowerCase().replace(/ & /g, '-');
+
+  const handleFilterChange = (selectedTags, selectedFaculty, selectedDegreeLevel) => {
+    const normalizedTags = selectedTags.map(normalizeTag);
+    const normalizedFaculty = selectedFaculty.map(normalizeTag);
+    const normalizedDegreeLevel = selectedDegreeLevel.map(normalizeTag);
+
+    const filtered = events.filter(event => {
+      const eventTags = (event.tags || []).map(normalizeTag);
+      const eventFaculty = (event.faculty || []).map(normalizeTag);
+      const eventDegreeLevel = (event.degree_level || []).map(normalizeTag);
+
+      const matchTags = normalizedTags.length === 0 || eventTags.some(tag => normalizedTags.includes(tag));
+      const matchFaculty = normalizedFaculty.length === 0 || eventFaculty.some(fac => normalizedFaculty.includes(fac));
+      const matchDegreeLevel = normalizedDegreeLevel.length === 0 || eventDegreeLevel.some(degree => normalizedDegreeLevel.includes(degree));
+      return matchTags && matchFaculty && matchDegreeLevel;
+    });
+
+    setFilteredEvents(filtered);
+  };
 
   return (
     <GoogleMapsScriptLoader apiKey={googleMapsApiKey}>
@@ -104,7 +121,7 @@ function App() {
                   <div className="mobile-header">
                     <div className="mobile-button-container">
                       <div className="filter-button-container">
-                        <MobileFilterButton onFilterChange={setEvents} /> {/* Updated to MobileFilterButton */}
+                        <MobileFilterButton onFilterChange={handleFilterChange} /> {/* Pass the filter handler */}
                       </div>
                       <div className="mobile-timeline-container">
                         <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
@@ -113,25 +130,29 @@ function App() {
                         <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                       </div>
                     </div>
-                    {events.length > 0 && <MobileEventsList events={events} onEventClick={() => {}} />}
+                    {filteredEvents.length > 0 ? (
+                      <MobileEventsList events={filteredEvents} onEventClick={() => {}} />
+                    ) : (
+                      <div>No events found.</div>
+                    )}
                   </div>
                 ) : (
                   <>
                     <Timeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
                     <main className="main-content">
                       <div className="left-content">
-                        <EventsList events={events} />
+                        <EventsList events={filteredEvents} />
                       </div>
                       <div className="right-content">
                         <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
                           <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
                         </div>
                         <Summary
-                          eventCount={events.length}
+                          eventCount={filteredEvents.length}
                           sponsoredEvent={sponsoredEvent}
                           onSponsoredEventClick={handleSponsoredEventClick}
                         />
-                        <MapComponent events={events} />
+                        <MapComponent events={filteredEvents} />
                       </div>
                     </main>
                   </>
