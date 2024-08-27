@@ -12,6 +12,10 @@
   margin: 0 auto;
 }
 
+.add-event-container h1 {
+  color: white !important; /* Force the header color to be white */
+}
+
 .add-event-form {
   width: 100%;
   max-width: 600px;
