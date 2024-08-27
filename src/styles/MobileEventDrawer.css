@@ -104,11 +104,12 @@
 
 .drawer-event-tag {
   margin-top: 10px; /* Adjust to position below the registration icon */
-  background-color: #e0e0e0;
-  border-radius: 4px;
+  background-color: transparent;
+  border-radius: 10px;
   padding: 4px;
   font-size: 12px; /* Font size for tags */
-  color: #464545; /* Text color for tags */
+  color: #C5C5C5; /* Text color for tags */
+  border: 2px solid #C5C5C5; /* Set the border color to #C5C5C5 */
 }
 
 .drawer-event-description {
