@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import closeButton from '../assets/close-button.png';
 import '../styles/MenuDrawer.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,9 +49,6 @@ function MenuDrawer({ open, onClose }) {
       classes={{ paper: 'menu-drawer-paper' }}
     >
       <Box className="drawer-container">
-        <Box className="drawer-header">
-          <img src={closeButton} alt="Close" className="drawer-close-button" onClick={onClose} />
-        </Box>
         <Box className="menu-item" onClick={() => handleNavigation('/')}>
           <span className="menu-item-text">Home</span>
         </Box>

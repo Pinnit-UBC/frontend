@@ -70,7 +70,7 @@ function MobileEventDrawer({ event, open, onClose }) {
     >
       <Box className="drawer-container">
         <Box className="drawer-header">
-          <button className="custom-close-button" onClick={onClose}>
+          <button className="drawer-close-button" onClick={onClose}>
             &times;
           </button>
         </Box>
