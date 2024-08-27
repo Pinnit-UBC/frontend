@@ -9,7 +9,7 @@ import Timeline from './components/Timeline';
 import MapComponent from './components/Map';
 import AddEvent from './components/AddEvent';
 import MobileTimeline from './components/MobileTimeline';
-import MobileMapButton from './components/MobileMapButton';
+import MobileFilterButton from './components/MobileFilterButton'; // Import the new component
 import MobileDatePickerButton from './components/MobileDatePickerButton';
 import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
@@ -103,8 +103,8 @@ function App() {
                 {isMobile ? (
                   <div className="mobile-header">
                     <div className="mobile-button-container">
-                      <div className="map-button-container">
-                        <MobileMapButton events={events} />
+                      <div className="filter-button-container">
+                        <MobileFilterButton onFilterChange={setEvents} /> {/* Updated to MobileFilterButton */}
                       </div>
                       <div className="mobile-timeline-container">
                         <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />

@@ -1,0 +1,22 @@
+.filter-button-container {
+    display: inline-block;
+    position: relative;
+}
+
+.mobile-filter-button {
+    background-color: #3D3C3C;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-filter-button:hover {
+    background-color: #464545;
+}
+
+.filter-icon {
+    width: 50px;
+    height: 50px;
+}
