@@ -1,5 +1,3 @@
-/* MenuDrawer.css */
-
 .menu-drawer-paper {
   width: 15vw !important;
   max-width: 15vw !important;
@@ -18,7 +16,7 @@
 @media (max-width: 768px) {
   .menu-drawer-paper {
     width: 25vw !important;
-    min-width: 200px !important; /* Ensure minimum width is 200px */
+    min-width: 300px !important; /* Ensure minimum width is 300px */
   }
 }
 
@@ -39,16 +37,6 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-}
-
-.drawer-close-button {
-  width: 40px !important;
-  height: 35px !important;
-  cursor: pointer;
-  position: absolute;
-  top: -15px !important;
-  left: -5px;
-  visibility: hidden;
 }
 
 .drawer-title {
