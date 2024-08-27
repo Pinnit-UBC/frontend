@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import '../styles/MobileEvent.css';
 import MobileEventDrawer from './MobileEventDrawer'; // Import the drawer
 
+// Updated formatTime function to handle undefined or invalid time
 function formatTime(time) {
+  if (!time) {
+    return ''; // Return an empty string if the time is undefined or invalid
+  }
+
   const [hours, minutes] = time.split(':');
   const period = hours >= 12 ? 'pm' : 'am';
   const formattedHours = hours % 12 || 12;
