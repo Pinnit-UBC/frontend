@@ -82,13 +82,15 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
                             color: 'white',
                             fontWeight: 'bold',
                             marginBottom: '20px',
+                            height: '60px', // Increased height of the button
+                            fontSize: '16px', // Increased font size of the text
                             transition: 'background-color 0.3s ease',
                             '&:hover': {
                                 backgroundColor: '#5f94e6',
                             }
                         }}
                     >
-                        Popular Events
+                        View Popular Events
                     </Button>
                     <div className="filter-group">
                         <h4>Tags</h4>
