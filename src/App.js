@@ -191,11 +191,11 @@ function App() {
           />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/clubs" element={<ClubsAndOrganizations />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/addnews" element={<AddNews />} />
+          {/*<Route path="/about" element={<About />} /> */}
+          {/*<Route path="/clubs" element={<ClubsAndOrganizations />} />*/}
+          {/*<Route path="/news" element={<News />} />*/}
+          {/*<Route path="/help" element={<Help />} />*/}
+          {/*<Route path="/addnews" element={<AddNews />} />*/}
         </Routes>
       </div>
     </GoogleMapsScriptLoader>
