@@ -68,3 +68,9 @@
     margin-left: 10px;
     color: #FFFFFF;
 }
+
+/* Highlight style for the active Popular Events button */
+.popular-events-active {
+    background-color: #5f94e6 !important;
+    transition: background-color 0.3s ease;
+}

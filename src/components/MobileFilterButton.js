@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button'; // Import Button component
+import Button from '@mui/material/Button';
 import '../styles/MobileFilterButton.css';
 import filterIcon from '../assets/Filter.png';
 
@@ -13,6 +13,7 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedFaculty, setSelectedFaculty] = useState([]);
     const [selectedDegreeLevel, setSelectedDegreeLevel] = useState([]);
+    const [isPopularEventsActive, setIsPopularEventsActive] = useState(false);
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -45,6 +46,11 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
         onFilterChange(selectedTags, selectedFaculty, updatedDegreeLevel);
     };
 
+    const handlePopularEventsClick = () => {
+        onPopularEventsClick();
+        setIsPopularEventsActive(!isPopularEventsActive);
+    };
+
     return (
         <div className="filter-button-container">
             <button className="mobile-filter-button" onClick={toggleDrawer(true)}>
@@ -69,12 +75,14 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
                         variant="contained" 
                         color="primary" 
                         fullWidth
-                        onClick={onPopularEventsClick}
+                        onClick={handlePopularEventsClick}
+                        className={isPopularEventsActive ? 'popular-events-active' : ''}
                         sx={{
                             backgroundColor: '#6AA6F8',
                             color: 'white',
                             fontWeight: 'bold',
                             marginBottom: '20px',
+                            transition: 'background-color 0.3s ease',
                             '&:hover': {
                                 backgroundColor: '#5f94e6',
                             }
