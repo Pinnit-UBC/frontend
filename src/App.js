@@ -17,13 +17,15 @@ import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
-// import About from './components/About';  // Commented out unused imports
-// import ClubsAndOrganizations from './components/ClubsAndOrganizations'; // Commented out unused imports
-// import News from './components/News'; // Commented out unused imports
-// import AddNews from './components/AddNews'; // Commented out unused imports
-// import Help from './components/Help'; // Commented out unused imports
+// Commented out unused imports for now
+// import About from './components/About';
+// import ClubsAndOrganizations from './components/ClubsAndOrganizations';
+// import News from './components/News';
+// import AddNews from './components/AddNews';
+// import Help from './components/Help';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
+import NotFound from './components/NotFound'; // Import the NotFound component
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -191,11 +193,6 @@ function App() {
           />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
-          {/*<Route path="/about" element={<About />} /> */}
-          {/*<Route path="/clubs" element={<ClubsAndOrganizations />} />*/}
-          {/*<Route path="/news" element={<News />} />*/}
-          {/*<Route path="/help" element={<Help />} />*/}
-          {/*<Route path="/addnews" element={<AddNews />} />*/}
           <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
         </Routes>
       </div>
