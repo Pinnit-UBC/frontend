@@ -18,9 +18,13 @@
 }
 
 .drawer-close-button {
-  width: 30px !important;
-  height: 30px !important;
+  width: 50px !important; /* Increased width */
+  height: 50px !important; /* Increased height */
+  font-size: 50px !important; /* Increased font size for the close icon */
   cursor: pointer;
+  border: none;
+  background: none;
+  color: white;
 }
 
 .drawer-share-button {
@@ -141,12 +145,12 @@
   background: none;
   border: none;
   color: white;
-  font-size: 40px;
+  font-size: 10px;
   font-weight: bold;
   cursor: pointer;
   position: absolute;
-  top: -10px;
-  left: -5px;
+  top: 0px !important;
+  left: -300px;
 }
 
 .drawer-tag-icon {

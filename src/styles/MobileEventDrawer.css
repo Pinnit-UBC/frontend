@@ -32,7 +32,7 @@
   cursor: pointer;
   position: absolute;
   top: 0px; /* Adjusted to move the button down */
-  left: 10px; /* Move the button to the right */
+  left: 0px; /* Move the button to the right */
   color: white;
   background: none; /* Remove button background */
   border: none;
