@@ -27,7 +27,8 @@
     padding: 20px;
     color: white;
     background-color: #323131; /* Set the background color of the drawer */
-    height: 100%; /* Ensure the filter options container covers the full height */
+    height: 100%;
+    overflow-y: auto; /* Make the container scrollable if content exceeds the height */
 }
 
 .filter-group {
