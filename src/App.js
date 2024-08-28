@@ -17,15 +17,11 @@ import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
-// Commented out unused imports for now
-// import About from './components/About';
-// import ClubsAndOrganizations from './components/ClubsAndOrganizations';
-// import News from './components/News';
-// import AddNews from './components/AddNews';
-// import Help from './components/Help';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
+import NotFound from './components/NotFound';
+import MobileSpeedDial from './components/MobileSpeedDial'; // Import the MobileSpeedDial component
+
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
-import NotFound from './components/NotFound'; // Import the NotFound component
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -134,6 +130,16 @@ function App() {
     setFilteredEvents(filtered);
   };
 
+  const handleEventsCountClick = () => {
+    // Logic for "# of events today"
+    alert('You clicked on the number of events today');
+  };
+
+  const handlePopularEventsClick = () => {
+    // Logic for "Popular events today"
+    alert('You clicked on popular events today');
+  };
+
   return (
     <GoogleMapsScriptLoader apiKey={googleMapsApiKey}>
       <div className="App">
@@ -166,6 +172,10 @@ function App() {
                     ) : (
                       <div>No events found.</div>
                     )}
+                    <MobileSpeedDial 
+                      onEventsCountClick={handleEventsCountClick} 
+                      onPopularEventsClick={handlePopularEventsClick} 
+                    />
                   </div>
                 ) : (
                   <>
