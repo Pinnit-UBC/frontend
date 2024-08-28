@@ -36,7 +36,7 @@
   border: none;
   font-size: 40px; /* Increase the font size of the "X" */
   z-index: 1001; /* Ensure it's on top of other elements */
-  left: 0px !important;
+  left: -5px !important;
 }
 
 .drawer-event-title {
