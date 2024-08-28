@@ -19,7 +19,6 @@ import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import NotFound from './components/NotFound';
-import MobileSpeedDial from './components/MobileSpeedDial'; // Import the MobileSpeedDial component
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -130,14 +129,15 @@ function App() {
     setFilteredEvents(filtered);
   };
 
-  const handleEventsCountClick = () => {
-    // Logic for "# of events today"
-    alert('You clicked on the number of events today');
-  };
-
-  const handlePopularEventsClick = () => {
-    // Logic for "Popular events today"
-    alert('You clicked on popular events today');
+  const handlePopularEventsClick = async () => {
+    try {
+      const response = await fetch(`https://backend-8eis.onrender.com/popular_events?date=${selectedDate}`);
+      const popularEvents = await response.json();
+      setFilteredEvents(popularEvents);
+    } catch (error) {
+      console.error('Error fetching popular events:', error);
+      alert('Unable to fetch popular events at this time.');
+    }
   };
 
   return (
@@ -155,7 +155,10 @@ function App() {
                   <div className="mobile-header">
                     <div className="mobile-button-container">
                       <div className="filter-button-container">
-                        <MobileFilterButton onFilterChange={handleFilterChange} />
+                        <MobileFilterButton 
+                          onFilterChange={handleFilterChange} 
+                          onPopularEventsClick={handlePopularEventsClick} // Pass the popular events click handler
+                        />
                       </div>
                       <div className="mobile-timeline-container">
                         <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
@@ -172,10 +175,6 @@ function App() {
                     ) : (
                       <div>No events found.</div>
                     )}
-                    <MobileSpeedDial 
-                      onEventsCountClick={handleEventsCountClick} 
-                      onPopularEventsClick={handlePopularEventsClick} 
-                    />
                   </div>
                 ) : (
                   <>
