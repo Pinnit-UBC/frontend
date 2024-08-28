@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button'; // Import Button component
 import '../styles/MobileFilterButton.css';
 import filterIcon from '../assets/Filter.png';
 
@@ -7,7 +8,7 @@ const tagOptions = ['Culture & Community', 'Academic & Professional', 'Sports & 
 const facultyOptions = ['Applied Science', 'Arts', 'Commerce', 'Economics', 'Forestry', 'Kinesiology', 'Land & Food Systems', 'Law', 'Science', 'Other', 'None'];
 const degreeLevelOptions = ['Undergraduate', 'Graduate'];
 
-function MobileFilterButton({ onFilterChange }) {
+function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedFaculty, setSelectedFaculty] = useState([]);
@@ -64,6 +65,23 @@ function MobileFilterButton({ onFilterChange }) {
                 }}
             >
                 <div className="filter-options-container">
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        fullWidth
+                        onClick={onPopularEventsClick}
+                        sx={{
+                            backgroundColor: '#6AA6F8',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            marginBottom: '20px',
+                            '&:hover': {
+                                backgroundColor: '#5f94e6',
+                            }
+                        }}
+                    >
+                        Popular Events
+                    </Button>
                     <div className="filter-group">
                         <h4>Tags</h4>
                         {tagOptions.map((tag, index) => (
