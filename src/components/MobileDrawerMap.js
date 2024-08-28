@@ -1,36 +1,32 @@
-import React, { useEffect, useRef } from 'react'; // Removed useState import
+import React, { useEffect, useRef } from 'react';
 import { GoogleMap, LoadScriptNext } from '@react-google-maps/api';
 import '../styles/MobileDrawerMap.css';
 
 const containerStyle = {
   width: '100%',
-  height: '200px', // Adjust the height to make it slightly smaller
+  height: '200px',
 };
 
 function MobileDrawerMap({ latitude, longitude }) {
   const mapRef = useRef(null);
-  const markerRef = useRef(null); // Store the marker reference
+  const markerRef = useRef(null);
   const apiKey = process.env.REACT_APP_DRAWER_MAP_API_KEY;
 
   useEffect(() => {
-    if (mapRef.current && latitude && longitude) {
+    if (mapRef.current && !isNaN(latitude) && !isNaN(longitude)) {
       const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
-      
-      // Pan to the new location
       mapRef.current.panTo(position);
 
-      // Remove previous marker if it exists
       if (markerRef.current) {
         markerRef.current.setMap(null);
       }
 
-      // Add new marker
       markerRef.current = new window.google.maps.Marker({
         position,
         map: mapRef.current,
       });
     }
-  }, [latitude, longitude]); // Only update when latitude or longitude changes
+  }, [latitude, longitude]);
 
   if (!apiKey) {
     console.error('Google Maps API key is missing');
@@ -41,22 +37,21 @@ function MobileDrawerMap({ latitude, longitude }) {
     <LoadScriptNext googleMapsApiKey={apiKey}>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }} // Center based on provided coordinates
+        center={{ lat: parseFloat(latitude) || 0, lng: parseFloat(longitude) || 0 }}
         zoom={15}
         onLoad={(map) => {
           mapRef.current = map;
-          const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
-          map.panTo(position);
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            const position = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+            map.panTo(position);
 
-          // Add initial marker
-          markerRef.current = new window.google.maps.Marker({
-            position,
-            map,
-          });
+            markerRef.current = new window.google.maps.Marker({
+              position,
+              map,
+            });
+          }
         }}
-      >
-        {/* Marker will be managed via useEffect */}
-      </GoogleMap>
+      />
     </LoadScriptNext>
   );
 }
