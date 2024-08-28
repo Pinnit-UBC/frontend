@@ -4,6 +4,7 @@ body {
   font-family: 'Arial', sans-serif;
   background-color: #2F2E2E;
   color: #fff;
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 .main-content {
@@ -23,10 +24,6 @@ body {
 .header-logo {
   max-height: 85px;
   z-index: 10;
-}
-
-.main-content {
-  display: flex;
 }
 
 .left-content {
@@ -63,9 +60,8 @@ body {
   max-width: 80px; /* Limit the max width for buttons */
 }
 
-
- /* Drawer Container Logic */
- .drawer-container {
+/* Drawer Container Logic */
+.drawer-container {
   position: relative;
 }
 
@@ -73,4 +69,23 @@ body {
   transform: translateX(0);
 }
 
+/* Ensure no horizontal scrolling on mobile devices */
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden;
+  }
 
+  .App {
+    width: 100vw; /* Ensure the app takes full width on mobile */
+    max-width: 100%; /* Prevent elements from exceeding the viewport width */
+  }
+
+  .main-content {
+    padding: 0; /* Remove padding on mobile to prevent overflow */
+  }
+
+  .mobile-header {
+    width: 100vw;
+    max-width: 100%; /* Prevent any element from exceeding the viewport width */
+  }
+}
