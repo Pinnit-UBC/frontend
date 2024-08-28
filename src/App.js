@@ -30,6 +30,7 @@ function App() {
   const [sponsoredEvent, setSponsoredEvent] = useState(null);
   const [isEventDrawerOpen, setIsEventDrawerOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isPopularEventsActive, setIsPopularEventsActive] = useState(false); // New state to track popular events filter
   const isMobile = useMediaQuery('(max-width: 600px)');
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -130,14 +131,22 @@ function App() {
   };
 
   const handlePopularEventsClick = async () => {
-    try {
-      const response = await fetch(`https://backend-8eis.onrender.com/popular_events?date=${selectedDate}`);
-      const popularEvents = await response.json();
-      setFilteredEvents(popularEvents);
-    } catch (error) {
-      console.error('Error fetching popular events:', error);
-      alert('Unable to fetch popular events at this time.');
+    if (isPopularEventsActive) {
+      // If the popular events filter is active, reset to all events for the day
+      setFilteredEvents(events);
+    } else {
+      // Fetch and display popular events
+      try {
+        const response = await fetch(`https://backend-8eis.onrender.com/popular_events?date=${selectedDate}`);
+        const popularEvents = await response.json();
+        setFilteredEvents(popularEvents);
+      } catch (error) {
+        console.error('Error fetching popular events:', error);
+        alert('Unable to fetch popular events at this time.');
+      }
     }
+
+    setIsPopularEventsActive(!isPopularEventsActive); // Toggle the state
   };
 
   return (
