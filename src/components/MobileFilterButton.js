@@ -63,11 +63,6 @@ function MobileFilterButton({ onFilterChange }) {
                     },
                 }}
             >
-                <div className="drawer-header">
-                    <button className="custom-close-button" onClick={toggleDrawer(false)}>
-                        &times;
-                    </button>
-                </div>
                 <div className="filter-options-container">
                     <div className="filter-group">
                         <h4>Tags</h4>

@@ -31,14 +31,15 @@
 }
 
 .filter-group {
-    margin-bottom: 15px; /* Reduced spacing between filter groups */
+    margin-bottom: 40px; /* Adjusted spacing between filter groups */
 }
 
 .filter-group h4 {
     margin-bottom: 5px; /* Reduced space below the heading */
-    margin-top: 0; /* Remove space above the heading */
+    margin-top: 10px; /* Remove space above the heading */
     padding: 0; /* Ensure no padding around the heading */
     font-size: 18px; /* Increased font size for the section titles */
+    font-weight: bold;
     color: #FFFFFF;
 }
 
@@ -50,6 +51,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #464545; /* Add border line below each dropdown item */
 }
 
 .dropdown-item:hover {
@@ -64,16 +66,4 @@
     font-size: 14px;
     margin-left: 10px;
     color: #FFFFFF;
-}
-
-.custom-close-button {
-    position: absolute;
-    top: 20px; /* Adjusted the position lower */
-    right: 20px; /* Adjusted the position to the right */
-    background: none;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-    padding: 0;
 }
