@@ -17,11 +17,11 @@ import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
-import About from './components/About';
-import ClubsAndOrganizations from './components/ClubsAndOrganizations';
-import News from './components/News';
-import AddNews from './components/AddNews';
-import Help from './components/Help';
+// import About from './components/About';  // Commented out unused imports
+// import ClubsAndOrganizations from './components/ClubsAndOrganizations'; // Commented out unused imports
+// import News from './components/News'; // Commented out unused imports
+// import AddNews from './components/AddNews'; // Commented out unused imports
+// import Help from './components/Help'; // Commented out unused imports
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -196,6 +196,7 @@ function App() {
           {/*<Route path="/news" element={<News />} />*/}
           {/*<Route path="/help" element={<Help />} />*/}
           {/*<Route path="/addnews" element={<AddNews />} />*/}
+          <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
         </Routes>
       </div>
     </GoogleMapsScriptLoader>
