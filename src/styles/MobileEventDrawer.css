@@ -27,8 +27,6 @@
 }
 
 .drawer-close-button {
-  width: 50px; /* Increase the size of the close button */
-  height: 50px;
   cursor: pointer;
   position: absolute;
   top: 0px; /* Adjusted to move the button down */
@@ -38,6 +36,7 @@
   border: none;
   font-size: 40px; /* Increase the font size of the "X" */
   z-index: 1001; /* Ensure it's on top of other elements */
+  left: 0px !important;
 }
 
 .drawer-event-title {
