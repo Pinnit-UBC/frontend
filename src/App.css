@@ -5,6 +5,15 @@ body {
   background-color: #2F2E2E;
   color: #fff;
   overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  min-width: 411px; /* Minimum screen width */
+}
+
+html {
+  min-width: 411px; /* Ensure the HTML document does not go smaller than 411px */
+}
+
+.App {
+  min-width: 411px; /* Prevent App container from shrinking below 411px */
 }
 
 .main-content {
