@@ -1,29 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const loadScript = (url) => {
-  const script = document.createElement('script');
-  script.src = url;
-  script.async = true;
-  script.defer = true;
-  document.head.appendChild(script);
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.defer = true;
 
-  script.onload = () => console.log("Google Maps script loaded successfully.");
-  script.onerror = (err) => console.error("Failed to load Google Maps script.", err);
+    script.onload = () => resolve(script);
+    script.onerror = (err) => reject(err);
+
+    document.head.appendChild(script);
+  });
 };
 
 const GoogleMapsScriptLoader = ({ apiKey, children }) => {
-  useEffect(() => {
-    if (!window.google) {
-      try {
-        const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-        loadScript(googleMapsUrl);
-      } catch (error) {
-        console.error('Error loading Google Maps script:', error);
-      }
-    }
-  }, [apiKey]);
+  const [isLoaded, setIsLoaded] = useState(!!window.google);
 
-  return children;
+  useEffect(() => {
+    if (!isLoaded) {
+      const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+      loadScript(googleMapsUrl)
+        .then(() => {
+          setIsLoaded(true);
+          console.log("Google Maps script loaded successfully.");
+        })
+        .catch((error) => {
+          console.error("Failed to load Google Maps script.", error);
+        });
+    }
+  }, [apiKey, isLoaded]);
+
+  return isLoaded ? children : null;
 };
 
 export default GoogleMapsScriptLoader;

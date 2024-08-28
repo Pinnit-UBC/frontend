@@ -33,7 +33,15 @@ function MobileEvent({ event, onEventClick }) {
       <div className="mobile-event-container" onClick={handleEventClick}>
         <div className="mobile-event-details">
           <div className="mobile-event-time">
-            {event.start_time && event.end_time ? `${formatTime(event.start_time)} to ${formatTime(event.end_time)}` : 'Time not available'}
+            {event.start_time ? (
+              event.end_time ? (
+                `${formatTime(event.start_time)} to ${formatTime(event.end_time)}`
+              ) : (
+                formatTime(event.start_time)
+              )
+            ) : (
+              'Time not available'
+            )}
           </div>
           <div className="mobile-event-title">{event.event_title || 'Title not available'}</div>
           <div className="mobile-event-location">
@@ -48,11 +56,13 @@ function MobileEvent({ event, onEventClick }) {
             <img src="/assets/Signing A Document.png" alt="Registration Logo" className="mobile-registration-logo" />
             {event.registration_status || 'Registration status not available'}
           </div>
-          <div className="mobile-event-tags">
-            {event.tags && event.tags.length > 0 ? event.tags.map((tag, index) => (
-              <span key={index} className="mobile-tag">{tag}</span>
-            )) : 'No tags available'}
-          </div>
+          {event.tags && event.tags.length > 0 && (
+            <div className="mobile-event-tags">
+              {event.tags.map((tag, index) => (
+                <span key={index} className="mobile-tag">{tag}</span>
+              ))}
+            </div>
+          )}
         </div>
         <div className="mobile-event-image">
           <img 

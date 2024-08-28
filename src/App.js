@@ -11,7 +11,7 @@ import Timeline from './components/Timeline';
 import MapComponent from './components/Map';
 import AddEvent from './components/AddEvent';
 import MobileTimeline from './components/MobileTimeline';
-import MobileFilterButton from './components/MobileFilterButton'; // Import the new component
+import MobileFilterButton from './components/MobileFilterButton';
 import MobileDatePickerButton from './components/MobileDatePickerButton';
 import MobileEventsList from './components/MobileEventsList';
 import MenuDrawer from './components/MenuDrawer';
@@ -147,7 +147,7 @@ function App() {
                   <div className="mobile-header">
                     <div className="mobile-button-container">
                       <div className="filter-button-container">
-                        <MobileFilterButton onFilterChange={handleFilterChange} /> {/* Pass the filter handler */}
+                        <MobileFilterButton onFilterChange={handleFilterChange} />
                       </div>
                       <div className="mobile-timeline-container">
                         <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
@@ -157,7 +157,10 @@ function App() {
                       </div>
                     </div>
                     {filteredEvents.length > 0 ? (
-                      <MobileEventsList events={filteredEvents} onEventClick={() => {}} />
+                      <MobileEventsList events={filteredEvents} onEventClick={(event) => {
+                        setSelectedEvent(event);
+                        setIsEventDrawerOpen(true);
+                      }} />
                     ) : (
                       <div>No events found.</div>
                     )}

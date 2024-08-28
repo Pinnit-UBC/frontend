@@ -8,10 +8,7 @@ import MobileDrawerMap from './MobileDrawerMap';
 import '../styles/MobileEventDrawer.css';
 
 function formatTime(time) {
-  if (!time) {
-    return ''; // Return an empty string if time is undefined or invalid
-  }
-
+  if (!time) return ''; 
   const [hours, minutes] = time.split(':');
   const period = hours >= 12 ? 'pm' : 'am';
   const formattedHours = hours % 12 || 12;
@@ -22,9 +19,7 @@ function MobileEventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const descriptionRef = useRef(null);
 
-  const handleToggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const handleToggleExpand = () => setIsExpanded(!isExpanded);
 
   if (!event) {
     return (
@@ -52,6 +47,7 @@ function MobileEventDrawer({ event, open, onClose }) {
   }
 
   const imageUrl = event.image_url || 'https://via.placeholder.com/120';
+  const hasValidCoordinates = !isNaN(parseFloat(event.latitude)) && !isNaN(parseFloat(event.longitude));
 
   return (
     <Drawer
@@ -78,7 +74,7 @@ function MobileEventDrawer({ event, open, onClose }) {
           {event.event_title}
         </Typography>
         <Typography variant="subtitle1" className="drawer-event-time">
-          {formatTime(event.start_time)} to {formatTime(event.end_time)}
+          {formatTime(event.start_time)} {event.end_time && `to ${formatTime(event.end_time)}`}
         </Typography>
         {event.image_url && (
           <Box sx={{ mt: 2, textAlign: 'center' }} className="drawer-event-image-container">
@@ -108,8 +104,7 @@ function MobileEventDrawer({ event, open, onClose }) {
               {event.registration_status}
             </Typography>
           </Box>
-          {/* Add the tags inside the "The Event" container */}
-          {event.tags && (
+          {event.tags && event.tags.length > 0 && (
             <Box className="drawer-info-item drawer-tag-container">
               {event.tags.map((tag, index) => (
                 <Typography key={index} component="span" className="drawer-event-tag">
@@ -156,7 +151,7 @@ function MobileEventDrawer({ event, open, onClose }) {
               className={`drawer-event-description ${isExpanded ? 'expanded' : ''}`}
               style={{
                 display: '-webkit-box',
-                WebkitLineClamp: isExpanded ? 'unset' : 8, // Show only 8 lines when not expanded
+                WebkitLineClamp: isExpanded ? 'unset' : 8,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 whiteSpace: 'normal',
@@ -170,7 +165,9 @@ function MobileEventDrawer({ event, open, onClose }) {
             >
               {isExpanded ? 'see less' : 'see more'}
             </Button>
-            <MobileDrawerMap latitude={event.latitude} longitude={event.longitude} />
+            {hasValidCoordinates && (
+              <MobileDrawerMap latitude={event.latitude} longitude={event.longitude} />
+            )}
           </Box>
         )}
       </Box>
