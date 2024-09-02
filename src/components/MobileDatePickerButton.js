@@ -57,8 +57,10 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
     };
 
     const handleSelect = (time) => {
-        setTime(time);
-        setSelectedDate(time.toISOString().split('T')[0]);
+        // Convert selected time to a date string in UTC format
+        const selectedDate = new Date(Date.UTC(time.getFullYear(), time.getMonth(), time.getDate()));
+        setTime(selectedDate);
+        setSelectedDate(selectedDate.toISOString().split('T')[0]); // Format as 'YYYY-MM-DD'
         setIsOpen(false);
         setTimeout(() => setShowPicker(false), 500); // Match the CSS transition duration
     };
@@ -79,8 +81,8 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
                             confirmText="Submit"
                             cancelText="Cancel"
                             dateConfig={dateConfig}
-                            theme="ios" // Assuming you are using a theme that supports customization
-                            style={{ borderRadius: '20px 20px 0 0' }} // Inline style for rounding
+                            theme="ios"
+                            style={{ borderRadius: '20px 20px 0 0' }}
                         />
                     </div>
                 </div>
