@@ -39,11 +39,17 @@ const MapComponent = ({ events }) => {
         }
       });
 
-      // Ensure bounds are valid before applying them
-      if (!bounds.isEmpty()) {
-        map.fitBounds(bounds);
-      } else {
-        console.warn('Bounds are empty, defaulting map center.');
+      // Ensure bounds are valid and not corrupted
+      try {
+        if (!bounds.isEmpty()) {
+          map.fitBounds(bounds);
+        } else {
+          console.warn('Bounds are empty, defaulting map center.');
+          map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
+          map.setZoom(10);
+        }
+      } catch (error) {
+        console.error('Error with bounds:', error);
         map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
         map.setZoom(10);
       }
