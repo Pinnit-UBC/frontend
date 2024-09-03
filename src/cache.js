@@ -43,12 +43,8 @@ async function fetchImageAsBase64(url) {
 }
 
 export async function cacheEvents(date, events) {
-  const db = await openDB();
-  const transaction = db.transaction([STORE_NAME], 'readwrite');
-  const store = transaction.objectStore(STORE_NAME);
-
   try {
-    // Cache images as base64 data URLs
+    // Gather all data first, outside of the transaction
     const eventsWithBase64Images = await Promise.all(
       events.map(async (event) => {
         if (event.image_url) {
@@ -58,11 +54,25 @@ export async function cacheEvents(date, events) {
       })
     );
 
+    const db = await openDB();
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+
     store.put({ date, events: eventsWithBase64Images });
-    await transaction.complete;
+
+    transaction.oncomplete = () => {
+      console.log('Transaction completed');
+    };
+
+    transaction.onerror = (event) => {
+      console.error('Transaction error:', event.target.errorCode);
+    };
+
+    transaction.onabort = (event) => {
+      console.error('Transaction aborted:', event.target.errorCode);
+    };
   } catch (error) {
-    console.error('Error caching events:', error);
-    transaction.abort(); // Rollback transaction on error
+    console.error('Error during caching operation:', error);
   }
 }
 
@@ -85,20 +95,31 @@ export async function loadCachedEvents(date) {
 }
 
 export async function cacheSponsoredEvent(date, sponsoredEvent) {
-  const db = await openDB();
-  const transaction = db.transaction([STORE_NAME], 'readwrite');
-  const store = transaction.objectStore(STORE_NAME);
-
   try {
+    // Gather data first
     if (sponsoredEvent && sponsoredEvent.image_url) {
       sponsoredEvent.image_base64 = await fetchImageAsBase64(sponsoredEvent.image_url);
     }
 
+    const db = await openDB();
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+
     store.put({ date: `sponsored_${date}`, events: sponsoredEvent });
-    await transaction.complete;
+
+    transaction.oncomplete = () => {
+      console.log('Transaction completed');
+    };
+
+    transaction.onerror = (event) => {
+      console.error('Transaction error:', event.target.errorCode);
+    };
+
+    transaction.onabort = (event) => {
+      console.error('Transaction aborted:', event.target.errorCode);
+    };
   } catch (error) {
-    console.error('Error caching sponsored event:', error);
-    transaction.abort(); // Rollback transaction on error
+    console.error('Error during caching operation:', error);
   }
 }
 
