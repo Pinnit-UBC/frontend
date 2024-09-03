@@ -30,6 +30,8 @@ const MapComponent = ({ events }) => {
       return null;
     }).filter(marker => marker !== null);
 
+    markerClustererRef.current = new MarkerClusterer({ map, markers });
+
     if (markers.length > 0) {
       const bounds = new window.google.maps.LatLngBounds();
       markers.forEach(marker => {
@@ -39,11 +41,10 @@ const MapComponent = ({ events }) => {
         }
       });
 
-      // Ensure bounds are valid before applying them
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds);
       } else {
-        console.warn('Bounds are empty, defaulting map center.');
+        console.warn('Bounds are empty, setting map to default center.');
         map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
         map.setZoom(10);
       }
@@ -51,8 +52,6 @@ const MapComponent = ({ events }) => {
       map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
       map.setZoom(10);
     }
-
-    markerClustererRef.current = new MarkerClusterer({ map, markers });
   }, []);
 
   const initMap = useCallback(() => {
@@ -64,7 +63,7 @@ const MapComponent = ({ events }) => {
       });
 
       mapRef.current.mapInstance = map;
-      setMapInitialized(true); // Set mapInitialized to true when map is initialized
+      setMapInitialized(true);
     }
   }, []);
 
@@ -85,7 +84,7 @@ const MapComponent = ({ events }) => {
     if (mapInitialized && mapRef.current && mapRef.current.mapInstance) {
       updateMarkers(mapRef.current.mapInstance, events);
     }
-  }, [mapInitialized, events, updateMarkers]); // Ensure that markers are updated when map is initialized and events change
+  }, [mapInitialized, events, updateMarkers]);
 
   return <div className="map-container" ref={mapRef} style={containerStyle}></div>;
 };

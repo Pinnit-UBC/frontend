@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 
 const loadScript = (url) => {
   return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${url}"]`)) {
+      // If script is already present, resolve immediately
+      resolve();
+      return;
+    }
+    
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
