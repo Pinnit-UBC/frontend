@@ -130,3 +130,30 @@
     font-size: 14px;
     color: #FFFFFF;
 }
+
+
+/* Styling for the sponsored events button */
+.sponsored-events-button {
+    background-color: #6AA6F8;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px;
+    height: 60px;
+    font-size: 16px;
+    width: 100%; /* Full width */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sponsored-events-button:hover {
+    background-color: #5f94e6;
+}
+
+.sponsored-events-button.active {
+    background-color: #5f94e6;
+}
