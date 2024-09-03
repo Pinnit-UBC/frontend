@@ -30,16 +30,29 @@ const MapComponent = ({ events }) => {
       return null;
     }).filter(marker => marker !== null);
 
-    markerClustererRef.current = new MarkerClusterer({ map, markers });
-
     if (markers.length > 0) {
       const bounds = new window.google.maps.LatLngBounds();
-      markers.forEach(marker => bounds.extend(marker.getPosition()));
-      map.fitBounds(bounds);
+      markers.forEach(marker => {
+        const position = marker.getPosition();
+        if (position) {
+          bounds.extend(position);
+        }
+      });
+
+      // Ensure bounds are valid before applying them
+      if (!bounds.isEmpty()) {
+        map.fitBounds(bounds);
+      } else {
+        console.warn('Bounds are empty, defaulting map center.');
+        map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
+        map.setZoom(10);
+      }
     } else {
       map.setCenter({ lat: 49.263036774736136, lng: -123.24970352478029 });
       map.setZoom(10);
     }
+
+    markerClustererRef.current = new MarkerClusterer({ map, markers });
   }, []);
 
   const initMap = useCallback(() => {
