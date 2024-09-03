@@ -39,6 +39,7 @@ const MapComponent = ({ events }) => {
         }
       });
 
+      // Ensure bounds are valid before applying them
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds);
       } else {
