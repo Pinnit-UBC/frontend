@@ -89,6 +89,9 @@ function MenuDrawer({
         <Box className="menu-item" onClick={() => handleExternalLink('https://docs.google.com/forms/d/e/1FAIpQLScTPtbg73l1FViQWTdzCrMsgjG-wfjtNlvnT1VC46PuLDgtfw/viewform?vc=0&c=0&w=1&flr=0')}>
           <span className="menu-item-text">Join the team!</span>
         </Box>
+        <Box className="menu-item" onClick={() => handleExternalLink('https://www.instagram.com/pinnit_ubc/')}>
+          <span className="menu-item-text">Follow us on Instagram</span>
+        </Box>
         {showDarkMode && (
           <Box className="drawer-footer">
             <Stack direction="row" spacing={2} justifyContent="center">
