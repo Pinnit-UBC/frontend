@@ -28,14 +28,14 @@ const DarkModeButton = styled(Button)(({ theme, darkMode }) => ({
   },
 }));
 
-function MenuDrawer({ // Adjust controls for visibility
+function MenuDrawer({ 
   open, 
   onClose, 
-  showNews = false, //Adjust News
-  showClubs = false,  //Adjust Clubs & Organizations
-  showAbout = false, // About 
-  showHelp = false, // Help
-  showDarkMode = false  //Dark Mode
+  showNews = false, 
+  showClubs = false,  
+  showAbout = false, 
+  showHelp = false, 
+  showDarkMode = false 
 }) {
   const [darkMode, setDarkMode] = React.useState(false);
   const navigate = useNavigate();
@@ -47,6 +47,12 @@ function MenuDrawer({ // Adjust controls for visibility
   const handleNavigation = (path) => {
     navigate(path);
     onClose(); // Close the drawer after navigating
+  };
+
+  const handleExternalLink = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null; // Prevents the new window from accessing the original page
+    onClose(); // Close the drawer after clicking the link
   };
 
   return (
@@ -80,6 +86,9 @@ function MenuDrawer({ // Adjust controls for visibility
             <span className="menu-item-text">Help</span>
           </Box>
         )}
+        <Box className="menu-item" onClick={() => handleExternalLink('https://docs.google.com/forms/d/e/1FAIpQLScTPtbg73l1FViQWTdzCrMsgjG-wfjtNlvnT1VC46PuLDgtfw/viewform?vc=0&c=0&w=1&flr=0')}>
+          <span className="menu-item-text">Join the team!</span>
+        </Box>
         {showDarkMode && (
           <Box className="drawer-footer">
             <Stack direction="row" spacing={2} justifyContent="center">
