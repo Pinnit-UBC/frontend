@@ -32,7 +32,7 @@ function MenuDrawer({
   open, 
   onClose, 
   showNews = false, 
-  showClubs = false,  
+  showClubs = true,  
   showAbout = false, 
   showHelp = false, 
   showDarkMode = false 
@@ -72,7 +72,7 @@ function MenuDrawer({
           </Box>
         )}
         {showClubs && (
-          <Box className="menu-item" onClick={() => handleNavigation('/clubs')}>
+          <Box className="menu-item" onClick={() => handleNavigation('/clubs-organizations')}>
             <span className="menu-item-text">Clubs & Organizations</span>
           </Box>
         )}

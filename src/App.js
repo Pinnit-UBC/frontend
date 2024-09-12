@@ -19,6 +19,8 @@ import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import NotFound from './components/NotFound';
+import MessageScreen from './components/MessageScreen'; 
+import ClubsAndOrganizations from './components/ClubsAndOrganizations'; // Add the import for ClubsAndOrganizations
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -30,7 +32,7 @@ function App() {
   const [sponsoredEvent, setSponsoredEvent] = useState(null);
   const [isEventDrawerOpen, setIsEventDrawerOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [isPopularEventsActive, setIsPopularEventsActive] = useState(false); // New state to track popular events filter
+  const [isPopularEventsActive, setIsPopularEventsActive] = useState(false); 
   const isMobile = useMediaQuery('(max-width: 600px)');
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -61,8 +63,8 @@ function App() {
           const data = await response.json();
           if (Array.isArray(data)) {
             setEvents(data);
-            setFilteredEvents(data); // Also set filteredEvents to the fetched data initially
-            await cacheEvents(date, data); // Cache events after fetching
+            setFilteredEvents(data);
+            await cacheEvents(date, data);
           } else {
             console.error('Error: Data is not an array');
           }
@@ -88,7 +90,7 @@ function App() {
           const response = await fetch(`https://backend-8eis.onrender.com/sponsored_event?date=${date}`);
           const data = await response.json();
           setSponsoredEvent(data);
-          await cacheSponsoredEvent(date, data); // Cache sponsored event after fetching
+          await cacheSponsoredEvent(date, data);
         } catch (error) {
           console.error('Error fetching sponsored event:', error);
           setSponsoredEvent(null);
@@ -108,7 +110,6 @@ function App() {
     fetchSponsoredEvent(selectedDate);
   }, [selectedDate]);
 
-  // Normalize tags for comparison
   const normalizeTag = (tag) => tag.toLowerCase().replace(/ & /g, '-');
 
   const handleFilterChange = (selectedTags, selectedFaculty, selectedDegreeLevel) => {
@@ -132,10 +133,8 @@ function App() {
 
   const handlePopularEventsClick = async () => {
     if (isPopularEventsActive) {
-      // If the popular events filter is active, reset to all events for the day
       setFilteredEvents(events);
     } else {
-      // Fetch and display popular events
       try {
         const response = await fetch(`https://backend-8eis.onrender.com/popular_events?date=${selectedDate}`);
         const popularEvents = await response.json();
@@ -146,12 +145,13 @@ function App() {
       }
     }
 
-    setIsPopularEventsActive(!isPopularEventsActive); // Toggle the state
+    setIsPopularEventsActive(!isPopularEventsActive);
   };
 
   return (
     <GoogleMapsScriptLoader apiKey={googleMapsApiKey}>
       <div className="App">
+        <MessageScreen />
         <Header onMenuClick={toggleMenuDrawer} />
         <MenuDrawer open={isMenuOpen} onClose={toggleMenuDrawer} />
         <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
@@ -166,7 +166,7 @@ function App() {
                       <div className="filter-button-container">
                         <MobileFilterButton 
                           onFilterChange={handleFilterChange} 
-                          onPopularEventsClick={handlePopularEventsClick} // Pass the popular events click handler
+                          onPopularEventsClick={handlePopularEventsClick}
                         />
                       </div>
                       <div className="mobile-timeline-container">
@@ -209,9 +209,11 @@ function App() {
               </>
             }
           />
+          {/* Add the clubs-organizations route */}
+          <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} /> 
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
-          <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </GoogleMapsScriptLoader>
