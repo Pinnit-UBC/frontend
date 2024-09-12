@@ -33,6 +33,11 @@ function ClubsAndOrganizations() {
 
   return (
     <div className="clubs-container">
+      {/* Adding Hello World text */}
+      <Typography variant="h4" className="hello-world-text">
+        Hello, world!
+        </Typography>
+        
       <SearchBar
         value={textFieldValue}
         onChange={handleSearch}
