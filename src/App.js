@@ -19,6 +19,7 @@ import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import NotFound from './components/NotFound';
+import ClubsAndOrganizations from './components/ClubsAndOrganizations'; 
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -211,6 +212,7 @@ function App() {
           />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
+          <Route path="/clubs" element={<ClubsAndOrganizations />} />
           <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
         </Routes>
       </div>
