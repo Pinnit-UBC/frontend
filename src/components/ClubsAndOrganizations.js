@@ -23,8 +23,7 @@ function ClubsAndOrganizations() {
     const fetchXLSX = async () => {
       try {
         const response = await fetch('Pinnit Accounts.xlsx'); // IS IN \PUBLIC file. XLSX place there
-        if (!response.ok) 
-        {
+        if (!response.ok) {
           throw new Error('Network response was not ok.');
         }
 
@@ -76,17 +75,15 @@ function ClubsAndOrganizations() {
 
   const handleSheet1Filter = (faculty) => {
     setFilterSheet1(faculty);
-    setShowSheet2(false); // 
-    setShowSheet1(true); 
+    setShowSheet2(false); // Hide Sheet 2 data
+    setShowSheet1(true); // Show Sheet 1 data
   };
 
   const handleSheet2Filter = (faculty) => {
     setFilterSheet2(faculty);
-    setShowSheet1(false); 
-    setShowSheet2(true); 
+    setShowSheet1(false); // Hide Sheet 1 data
+    setShowSheet2(true); // Show Sheet 2 data
   };
-
-
 
   // ===============================
   // Actual Display Code
@@ -94,46 +91,51 @@ function ClubsAndOrganizations() {
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Clubs and Organizations</h1>
       
       <div style={{ marginBottom: '20px' }}>
-        <h2>Sheet 1 Filters</h2>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-          <button
-            onClick={() => handleSheet1Filter('all')}
-            style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid #ccc', background: '#f0f0f0', cursor: 'pointer' }}
-          >
-            All
-          </button>
+        
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+            Search for Category
+          </span>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+          <div onClick={() => handleSheet1Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
+            <img src="/PLACEHOLDER.png" alt="All Categories" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Categories</div>
+          </div>
           {facultiesSheet1.map((faculty, index) => (
-            <button
-              key={index}
-              onClick={() => handleSheet1Filter(faculty)}
-              style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid #ccc', background: '#f0f0f0', cursor: 'pointer' }}
-            >
-              {faculty}
-            </button>
+            <div key={index} onClick={() => handleSheet1Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', justifyContent: 'center', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+            </div>
           ))}
         </div>
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        <h2>Sheet 2 Filters</h2>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-          <button
-            onClick={() => handleSheet2Filter('all')}
-            style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid #ccc', background: '#f0f0f0', cursor: 'pointer' }}
-          >
-            All
-          </button>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+            Search for Faculty
+          </span>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center',gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+          <div onClick={() => handleSheet2Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
+            <img src="/PLACEHOLDER.png" alt="All Faculties" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
+          </div>
           {facultiesSheet2.map((faculty, index) => (
-            <button
-              key={index}
-              onClick={() => handleSheet2Filter(faculty)}
-              style={{ padding: '10px 20px', borderRadius: '5px', border: '1px solid #ccc', background: '#f0f0f0', cursor: 'pointer' }}
-            >
-              {faculty}
-            </button>
+            <div key={index} onClick={() => handleSheet2Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+            </div>
           ))}
         </div>
       </div>
@@ -141,7 +143,7 @@ function ClubsAndOrganizations() {
       {showSheet1 && filteredSheet1Data.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
           <h2>Sheet 1 Data</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{ display: 'flex',  flexWrap: 'wrap', gap: '20px' }}>
             {filteredSheet1Data.map((club, index) => (
               <div key={index} style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '15px', width: '300px', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
                 <h3>{club['Account Title']}</h3>
