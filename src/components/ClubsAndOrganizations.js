@@ -92,18 +92,6 @@ function ClubsAndOrganizations() {
   // ===============================
 
 
-  // Fetch clubs by faculty
-  const fetchClubsByFaculty = async (faculty) => {
-    try {
-      const query = faculty && faculty !== 'All' ? `?faculty=${faculty}` : '';
-      const response = await fetch(`http://localhost:3001/clubs-organizations${query}`);
-      const data = await response.json();
-      setFilteredClubs(data);
-    } catch (error) {
-      console.error('Error fetching clubs:', error);
-    }
-  };
-
   // Render UI
   return (
 

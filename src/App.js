@@ -19,7 +19,7 @@ import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import NotFound from './components/NotFound';
-
+import MessageScreen from './components/MessageScreen'; 
 import ClubsAndOrganizations from './components/ClubsAndOrganizations'; 
 
 
