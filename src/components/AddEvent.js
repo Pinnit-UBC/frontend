@@ -22,8 +22,11 @@ const tagOptions = [
   { value: 'sports-fitness', label: 'Sports & Fitness' },
   { value: 'arts-performance', label: 'Arts & Performance' },
   { value: 'social', label: 'Social' },
+  { value: 'varsity-sports', label: 'Varsity Sports' }, // New tag
+  { value: 'health-wellness', label: 'Health & Wellness' }, // New tag
   { value: 'other', label: 'Other' }
 ];
+
 
 const facultyOptions = [
   { value: 'applied-science', label: 'Applied Science' },
