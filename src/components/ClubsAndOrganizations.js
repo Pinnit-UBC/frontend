@@ -46,16 +46,26 @@ function ClubsAndOrganizations() {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setViewCategory(false);
-    const filtered = sheet1Data.filter(club => club['Faculty'] === category);
-    setFilteredData(filtered);
+    if (category === 'all') {
+      // If "All Categories" is selected, show all data from sheet1
+      setFilteredData(sheet1Data);
+    } else {
+      const filtered = sheet1Data.filter(club => club['Faculty'] === category);
+      setFilteredData(filtered);
+    }
   };
 
   // Handle faculty selection
   const handleFacultyClick = (faculty) => {
     setSelectedFaculty(faculty);
     setViewCategory(false);
-    const filtered = sheet2Data.filter(club => club['Faculty'] === faculty);
-    setFilteredData(filtered);
+    if (faculty === 'all') {
+      // If "All Faculties" is selected, show all data from sheet2
+      setFilteredData(sheet2Data);
+    } else {
+      const filtered = sheet2Data.filter(club => club['Faculty'] === faculty);
+      setFilteredData(filtered);
+    }
   };
 
   // Handle back button to go to the main view
@@ -66,16 +76,16 @@ function ClubsAndOrganizations() {
     setFilteredData([]);
   };
 
+  // Updated order of categories, with "All Categories" first, and "Culture & Community" before "Fraternities & Sororities"
   const categories = [
-    { label: 'Academic & Professional', key: 'Academic & Professional' },
-    { label: 'Arts & Performance', key: 'Arts & Performance' },
-    { label: 'Fraternities & Sororities', key: 'Fraternities & Sororities' },
+    { label: 'All Categories', key: 'all' },
     { label: 'Culture & Community', key: 'Culture & Community' },
+    { label: 'Fraternities & Sororities', key: 'Fraternities & Sororities' },
+    { label: 'Arts & Performance', key: 'Arts & Performance' },
     { label: 'Health & Wellness', key: 'Health & Wellness' },
     { label: 'Social', key: 'Social' },
     { label: 'Sports & Fitness', key: 'Sports & Fitness' },
-    { label: 'Varsity Clubs', key: 'Varsity Clubs' },
-    { label: 'All Categories', key: 'all' }
+    { label: 'Varsity Clubs', key: 'Varsity Clubs' }
   ];
 
   return (
@@ -125,6 +135,17 @@ function ClubsAndOrganizations() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+              {/* "All Faculties" option */}
+              <div onClick={() => handleFacultyClick('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
+                <img
+                  src="/PLACEHOLDER.png"
+                  alt="All Faculties"
+                  style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }}
+                />
+                <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
+              </div>
+
+              {/* Individual Faculties */}
               {facultiesSheet2.map((faculty, index) => (
                 <div key={index} onClick={() => handleFacultyClick(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
                   <img
