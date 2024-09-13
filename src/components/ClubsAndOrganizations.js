@@ -14,12 +14,7 @@ function ClubsAndOrganizations() {
   const [showSheet1, setShowSheet1] = useState(true);
   const [showSheet2, setShowSheet2] = useState(true);
 
-  // ===============================
   // useEffect Hooks
-  // ===============================
-
-  // Uses our XLSX import to fetch & load .xlsx file
-
   useEffect(() => {
     const fetchXLSX = async () => {
       try {
@@ -33,10 +28,6 @@ function ClubsAndOrganizations() {
 
         const sheet1 = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
         const sheet2 = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[1]]);
-
-        if (sheet1.length === 0 || sheet2.length === 0) {
-          console.error('Error: XLSX file is empty or contains no valid data.');
-        }
 
         setSheet1Data(sheet1);
         setSheet2Data(sheet2);
@@ -56,9 +47,6 @@ function ClubsAndOrganizations() {
     fetchXLSX();
   }, []);
 
-
-  // Sheet filtering hide / show code
-  // Note: Without these it will not toggle (should be like XOR?)
   useEffect(() => {
     if (filterSheet1 === 'all') {
       setFilteredSheet1Data(sheet1Data);
@@ -87,68 +75,70 @@ function ClubsAndOrganizations() {
     setShowSheet2(true); // Show Sheet 2 data
   };
 
-  // ===============================
-  // Actual Display Code
-  // ===============================
+  const categories = [
+    { label: 'Academic & Professional', key: 'Academic & Professional' },
+    { label: 'Arts & Performance', key: 'Arts & Performance' },
+    { label: 'Fraternities & Sororities', key: 'Fraternities & Sororities' },
+    { label: 'Culture & Community', key: 'Culture & Community' },
+    { label: 'Health & Wellness', key: 'Health & Wellness' },
+    { label: 'Social', key: 'Social' },
+    { label: 'Sports & Fitness', key: 'Sports & Fitness' },
+    { label: 'Varsity Clubs', key: 'Varsity Clubs' },
+    { label: 'All Categories', key: 'all' }
+  ];
 
-
-  // Render UI
   return (
-
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       
+      {/* Search for Category */}
       <div style={{ marginBottom: '20px' }}>
-        
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
-          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold', fontSize: '20px' }}>
             Search for Category
           </span>
           <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
-          <div onClick={() => handleSheet1Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
-            <img src="/PLACEHOLDER.png" alt="All Categories" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
-            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Categories</div>
-          </div>
-          {facultiesSheet1.map((faculty, index) => (
-            <div key={index} onClick={() => handleSheet1Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
-              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
-              <div style={{ marginTop: '5px', justifyContent: 'center', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+          {categories.map((category, index) => (
+            <div key={index} onClick={() => handleSheet1Filter(category.key)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <img src="/PLACEHOLDER.png" alt={category.label} style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{category.label}</div> {/* Increased font size */}
             </div>
           ))}
         </div>
       </div>
 
+      {/* Search for Faculty */}
       <div style={{ marginBottom: '20px' }}>
-        
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
-          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold', fontSize: '20px' }}>
             Search for Faculty
           </span>
           <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center',gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
           <div onClick={() => handleSheet2Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
-            <img src="/PLACEHOLDER.png" alt="All Faculties" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
-            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
+            <img src="/PLACEHOLDER.png" alt="All Faculties" style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div> {/* Increased font size */}
           </div>
           {facultiesSheet2.map((faculty, index) => (
             <div key={index} onClick={() => handleSheet2Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
-              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
-              <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div> {/* Increased font size */}
             </div>
           ))}
         </div>
       </div>
 
+      {/* Display Sheet 1 Data */}
       {showSheet1 && filteredSheet1Data.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
           <h2>Sheet 1 Data</h2>
-          <div style={{ display: 'flex',  flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
             {filteredSheet1Data.map((club, index) => (
               <div key={index} style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '15px', width: '300px', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
                 <h3>{club['Account Title']}</h3>
@@ -164,6 +154,7 @@ function ClubsAndOrganizations() {
         </div>
       )}
 
+      {/* Display Sheet 2 Data */}
       {showSheet2 && filteredSheet2Data.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
           <h2>Sheet 2 Data</h2>
@@ -182,7 +173,6 @@ function ClubsAndOrganizations() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
