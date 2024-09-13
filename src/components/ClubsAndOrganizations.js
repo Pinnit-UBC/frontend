@@ -19,6 +19,7 @@ function ClubsAndOrganizations() {
   // ===============================
 
   // Uses our XLSX import to fetch & load .xlsx file
+
   useEffect(() => {
     const fetchXLSX = async () => {
       try {
@@ -55,6 +56,7 @@ function ClubsAndOrganizations() {
     fetchXLSX();
   }, []);
 
+
   // Sheet filtering hide / show code
   // Note: Without these it will not toggle (should be like XOR?)
   useEffect(() => {
@@ -89,7 +91,22 @@ function ClubsAndOrganizations() {
   // Actual Display Code
   // ===============================
 
+
+  // Fetch clubs by faculty
+  const fetchClubsByFaculty = async (faculty) => {
+    try {
+      const query = faculty && faculty !== 'All' ? `?faculty=${faculty}` : '';
+      const response = await fetch(`http://localhost:3001/clubs-organizations${query}`);
+      const data = await response.json();
+      setFilteredClubs(data);
+    } catch (error) {
+      console.error('Error fetching clubs:', error);
+    }
+  };
+
+  // Render UI
   return (
+
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       
       <div style={{ marginBottom: '20px' }}>
@@ -177,6 +194,7 @@ function ClubsAndOrganizations() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
