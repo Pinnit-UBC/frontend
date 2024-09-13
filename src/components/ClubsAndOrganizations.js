@@ -1,68 +1,96 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import '../styles/ClubsAndOrganizations.css';
+import * as XLSX from 'xlsx';
 
-const faculties = [
-  'All',
-  'Faculty & Academic',
-  'Arts & Performance',
-  'Culture & Community',
-  'Health & Wellness',
-  'Social',
-  'Sorority & Fraternity',
-  'Sports & Fitness',
-  'Varcity Sports'
-];
-
-const facultiesAcademic = [
-  'All',
-  'Applied Science',
-  'Arts',
-  'Commerce',
-  'Kinesiology',
-  'Land & Food Systems',
-  'Law',
-  'Sciences'
-];
-
+// Vars for holding sheet data and display data
 function ClubsAndOrganizations() {
-  const [clubs, setClubs] = useState([]);
-  const [selectedFaculty, setSelectedFaculty] = useState('All'); // Default to "All"
-  const [filteredClubs, setFilteredClubs] = useState([]);
-  const [selectedSubFaculty, setSelectedSubFaculty] = useState(''); // For sub-tabs in Faculty & Academic
+  const [sheet1Data, setSheet1Data] = useState([]);
+  const [sheet2Data, setSheet2Data] = useState([]);
+  const [filteredSheet1Data, setFilteredSheet1Data] = useState([]);
+  const [filteredSheet2Data, setFilteredSheet2Data] = useState([]);
+  const [filterSheet1, setFilterSheet1] = useState('all');
+  const [filterSheet2, setFilterSheet2] = useState('all');
+  const [facultiesSheet1, setFacultiesSheet1] = useState([]);
+  const [facultiesSheet2, setFacultiesSheet2] = useState([]);
+  const [showSheet1, setShowSheet1] = useState(true);
+  const [showSheet2, setShowSheet2] = useState(true);
 
-  // Fetch clubs data on component mount
+  // ===============================
+  // useEffect Hooks
+  // ===============================
+
+  // Uses our XLSX import to fetch & load .xlsx file
+
   useEffect(() => {
-    const fetchClubs = async () => {
+    const fetchXLSX = async () => {
       try {
-        const response = await fetch('http://localhost:3001/clubs-organizations');
-        const data = await response.json();
-        setClubs(data);
+        const response = await fetch('Pinnit Accounts.xlsx'); // IS IN \PUBLIC file. XLSX place there
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+
+        const sheet1 = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+        const sheet2 = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[1]]);
+
+        if (sheet1.length === 0 || sheet2.length === 0) {
+          console.error('Error: XLSX file is empty or contains no valid data.');
+        }
+
+        setSheet1Data(sheet1);
+        setSheet2Data(sheet2);
+        setFilteredSheet1Data(sheet1);
+        setFilteredSheet2Data(sheet2);
+
+        const uniqueFacultiesSheet1 = Array.from(new Set(sheet1.map(club => club['Faculty'])));
+        const uniqueFacultiesSheet2 = Array.from(new Set(sheet2.map(club => club['Faculty'])));
+        
+        setFacultiesSheet1(uniqueFacultiesSheet1);
+        setFacultiesSheet2(uniqueFacultiesSheet2);
       } catch (error) {
-        console.error('Error fetching clubs:', error);
+        console.error('Error fetching or parsing XLSX:', error);
       }
     };
 
-    fetchClubs();
+    fetchXLSX();
   }, []);
 
-  // Handle main faculty tab change
-  const handleFacultyChange = (event, newValue) => {
-    setSelectedFaculty(newValue);
-    setSelectedSubFaculty(''); // Reset sub-tab when main tab changes
-    fetchClubsByFaculty(newValue); // Fetch clubs when the tab is changed
+
+  // Sheet filtering hide / show code
+  // Note: Without these it will not toggle (should be like XOR?)
+  useEffect(() => {
+    if (filterSheet1 === 'all') {
+      setFilteredSheet1Data(sheet1Data);
+    } else {
+      setFilteredSheet1Data(sheet1Data.filter(club => club['Faculty'] === filterSheet1));
+    }
+  }, [filterSheet1, sheet1Data]);
+
+  useEffect(() => {
+    if (filterSheet2 === 'all') {
+      setFilteredSheet2Data(sheet2Data);
+    } else {
+      setFilteredSheet2Data(sheet2Data.filter(club => club['Faculty'] === filterSheet2));
+    }
+  }, [filterSheet2, sheet2Data]);
+
+  const handleSheet1Filter = (faculty) => {
+    setFilterSheet1(faculty);
+    setShowSheet2(false); // Hide Sheet 2 data
+    setShowSheet1(true); // Show Sheet 1 data
   };
 
-  // Handle sub-tabs change under "Faculty & Academic"
-  const handleSubFacultyChange = (event, newValue) => {
-    setSelectedSubFaculty(newValue);
-    fetchClubsByFaculty(newValue); // Fetch clubs when the sub-tab is changed
+  const handleSheet2Filter = (faculty) => {
+    setFilterSheet2(faculty);
+    setShowSheet1(false); // Hide Sheet 1 data
+    setShowSheet2(true); // Show Sheet 2 data
   };
+
+  // ===============================
+  // Actual Display Code
+  // ===============================
+
 
   // Fetch clubs by faculty
   const fetchClubsByFaculty = async (faculty) => {
@@ -78,96 +106,95 @@ function ClubsAndOrganizations() {
 
   // Render UI
   return (
-    <div className="clubs-container">
-      {/* Main Faculty Tabs */}
-      <Box sx={{ width: '100%', marginBottom: '20px' }}>
-        <Tabs
-          value={selectedFaculty}
-          onChange={handleFacultyChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable faculty tabs"
-          TabIndicatorProps={{ style: { display: 'none' } }} // Remove the blue underline
-        >
-          {faculties.map((faculty) => (
-            <Tab
-              key={faculty}
-              label={faculty}
-              value={faculty}
-              sx={{
-                backgroundColor: '#5A5A5A',  // Set background color for each tab
-                color: '#FFFFFF',            // Set text color to white
-                '&.Mui-selected': {
-                  backgroundColor: '#6aa6f8', // Set selected tab color
-                  color: '#FFFFFF',            // Ensure text is white for selected tab
-                  fontWeight: 'bold',          // Bolden the selected tab text
-                },
-                borderRadius: '4px',          // Add a slight border-radius
-                marginRight: '10px',          // Add margin between tabs
-                fontWeight: 'normal',         // Normal font weight for unselected tabs
-              }}
-            />
-          ))}
-        </Tabs>
-      </Box>
 
-      {/* Sub-tabs for Faculty & Academic */}
-      {selectedFaculty === 'Faculty & Academic' && (
-        <Box sx={{ width: '100%', marginBottom: '20px' }}>
-          <Tabs
-            value={selectedSubFaculty}
-            onChange={handleSubFacultyChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="scrollable sub-faculty tabs"
-            TabIndicatorProps={{ style: { display: 'none' } }} // Remove the blue underline
-          >
-            {facultiesAcademic.map((subFaculty) => (
-              <Tab
-                key={subFaculty}
-                label={subFaculty}
-                value={subFaculty}
-                sx={{
-                  backgroundColor: '#5A5A5A',
-                  color: '#FFFFFF',
-                  '&.Mui-selected': {
-                    backgroundColor: '#6aa6f8',
-                    color: '#FFFFFF',
-                    fontWeight: 'bold',
-                  },
-                  borderRadius: '4px',
-                  marginRight: '10px',
-                  fontWeight: 'normal',
-                }}
-              />
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
+      
+      <div style={{ marginBottom: '20px' }}>
+        
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+            Search for Category
+          </span>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+          <div onClick={() => handleSheet1Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
+            <img src="/PLACEHOLDER.png" alt="All Categories" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Categories</div>
+          </div>
+          {facultiesSheet1.map((faculty, index) => (
+            <div key={index} onClick={() => handleSheet1Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', justifyContent: 'center', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '20px' }}>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+          <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>
+            Search for Faculty
+          </span>
+          <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center',gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+          <div onClick={() => handleSheet2Filter('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
+            <img src="/PLACEHOLDER.png" alt="All Faculties" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
+          </div>
+          {facultiesSheet2.map((faculty, index) => (
+            <div key={index} onClick={() => handleSheet2Filter(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <img src="/PLACEHOLDER.png" alt={faculty} style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+              <div style={{ marginTop: '5px', fontSize: '9px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {showSheet1 && filteredSheet1Data.length > 0 && (
+        <div style={{ marginBottom: '20px' }}>
+          <h2>Sheet 1 Data</h2>
+          <div style={{ display: 'flex',  flexWrap: 'wrap', gap: '20px' }}>
+            {filteredSheet1Data.map((club, index) => (
+              <div key={index} style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '15px', width: '300px', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
+                <h3>{club['Account Title']}</h3>
+                <p><strong>Faculty:</strong> {club['Faculty']}</p>
+                {club['Image Link'] && (
+                  <img src={club['Image Link']} alt={club['Account Title']} style={{ maxWidth: '100%', borderRadius: '5px' }} />
+                )}
+                <p><strong>Account Link:</strong> <a href={club['Account Link']} target="_blank" rel="noopener noreferrer">{club['Account Link']}</a></p>
+                <p><strong># of followers:</strong> {club['# of followers']}</p>
+              </div>
             ))}
-          </Tabs>
-        </Box>
+          </div>
+        </div>
       )}
 
-      {/* Display Clubs based on selected faculty or sub-faculty */}
-      <Stack direction="row" spacing={4} className="avatar-stack" flexWrap="wrap" justifyContent="center">
-        {filteredClubs.length > 0 ? (
-          filteredClubs.map((club) => (
-            <div key={club.title} className="avatar-item" onClick={() => window.open(club.account_link, '_blank')}>
-              <Avatar
-                alt={club.title}
-                src={club.image_link}
-                sx={{ width: 150, height: 150 }}
-                onError={(e) => {
-                  e.target.onerror = null; // Prevents infinite loop if fallback image also fails
-                  e.target.src = '/path-to-fallback-image.png'; // Fallback image path
-                }}
-              />
-              <Typography variant="caption" className="avatar-name">
-                {club.title}
-              </Typography>
-            </div>
-          ))
-        ) : (
-          <Typography>No clubs found for the selected category or faculty.</Typography>
-        )}
-      </Stack>
+      {showSheet2 && filteredSheet2Data.length > 0 && (
+        <div style={{ marginBottom: '20px' }}>
+          <h2>Sheet 2 Data</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            {filteredSheet2Data.map((club, index) => (
+              <div key={index} style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '15px', width: '300px', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
+                <h3>{club['Account Title']}</h3>
+                <p><strong>Faculty:</strong> {club['Faculty']}</p>
+                {club['Image Link'] && (
+                  <img src={club['Image Link']} alt={club['Account Title']} style={{ maxWidth: '100%', borderRadius: '5px' }} />
+                )}
+                <p><strong>Account Link:</strong> <a href={club['Account Link']} target="_blank" rel="noopener noreferrer">{club['Account Link']}</a></p>
+                <p><strong># of followers:</strong> {club['# of followers']}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
