@@ -32,7 +32,7 @@ function MenuDrawer({
   open, 
   onClose, 
   showNews = false, 
-  showClubs = true,  
+  showClubs = 1,  
   showAbout = false, 
   showHelp = false, 
   showDarkMode = false 
