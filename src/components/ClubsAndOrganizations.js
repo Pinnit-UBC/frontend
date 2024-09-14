@@ -47,7 +47,6 @@ function ClubsAndOrganizations() {
     setSelectedCategory(category);
     setViewCategory(false);
     if (category === 'all') {
-      // If "All Categories" is selected, show all data from sheet1
       setFilteredData(sheet1Data.sort((a, b) => b['# of followers'] - a['# of followers']));
     } else {
       const filtered = sheet1Data
@@ -62,7 +61,6 @@ function ClubsAndOrganizations() {
     setSelectedFaculty(faculty);
     setViewCategory(false);
     if (faculty === 'all') {
-      // If "All Faculties" is selected, show all data from sheet2
       setFilteredData(sheet2Data.sort((a, b) => b['# of followers'] - a['# of followers']));
     } else {
       const filtered = sheet2Data
@@ -168,36 +166,43 @@ function ClubsAndOrganizations() {
       {/* Display Filtered Data */}
       {!viewCategory && filteredData.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
-          <h2>{selectedCategory || selectedFaculty} Data</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{
+            display: 'flex', 
+            justifyContent: 'center', 
+            flexWrap: 'wrap', 
+            gap: '15px', 
+            maxWidth: '100%', 
+            margin: '0 auto',
+            width: '100%'
+          }}>
             {filteredData.map((club, index) => (
               <div
                 key={index}
                 style={{
-                  border: '1px solid #ddd',
-                  borderRadius: '10px',
-                  padding: '15px',
-                  width: '300px',
-                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
+                  borderRadius: '10px', 
+                  padding: '10px',
+                  flex: '1 1 240px', // Allow flexible width with a minimum width of 240px
+                  textAlign: 'center', 
+                  boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)' 
                 }}
               >
-                {/* Account Title */}
-                <h3 style={{ color: '#FFF', fontWeight: 'bold' }}>
-                  <a href={club['Account Link']} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-                    {club['Account Title']}
-                  </a>
-                </h3>
-
                 {/* Profile Picture */}
                 {club['Username'] && (
                   <a href={club['Account Link']} target="_blank" rel="noopener noreferrer">
                     <img
                       src={`/assets/PFP/${club['Username']}.jpg`}
                       alt={club['Account Title']}
-                      style={{ width: '90%', height: 'auto', borderRadius: '5px', cursor: 'pointer' }} // Reduced image size for profile picture
+                      style={{ width: '100px', height: '100px', borderRadius: '50%', cursor: 'pointer', marginBottom: '10px' }} 
                     />
                   </a>
                 )}
+
+                {/* Account Title */}
+                <h3 style={{ color: '#FFF', fontWeight: 'bold', marginBottom: '10px' }}>
+                  <a href={club['Account Link']} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {club['Account Title']}
+                  </a>
+                </h3>
               </div>
             ))}
           </div>
