@@ -86,6 +86,10 @@ function MenuDrawer({
             <span className="menu-item-text">Help</span>
           </Box>
         )}
+        {/* New Feedback Form Tab */}
+        <Box className="menu-item" onClick={() => handleNavigation('/feedback')}>
+          <span className="menu-item-text">Feedback & Suggestions</span>
+        </Box>
         <Box className="menu-item" onClick={() => handleExternalLink('https://docs.google.com/forms/d/e/1FAIpQLScTPtbg73l1FViQWTdzCrMsgjG-wfjtNlvnT1VC46PuLDgtfw/viewform?vc=0&c=0&w=1&flr=0')}>
           <span className="menu-item-text">Join the team!</span>
         </Box>
