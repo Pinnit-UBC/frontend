@@ -32,9 +32,11 @@ const MessageScreen = () => {
       <div className="message-box">
         <h2>Welcome to Pinnit UBC!</h2>
         <p>Check out everything happening on campus!</p>
-        <h3 className="update-notes">September 7 update notes</h3>
+        <h3 className="update-notes">September 14 update notes</h3>
+        <p>Thanks for a great first week! We've heard your feedback and here’s the new update!</p>
         <ul>
-          <li><strong>Added master list</strong> with all clubs and faculties on campus</li>
+          <li><strong>Added Master List</strong> with all club and faculty accounts</li>
+          <li><strong>Added Feedback Form</strong> for comments & suggestions!</li>
           <li><strong>UI changes</strong> to mobile viewing</li>
           <li><strong>Bug fix</strong> to mobile viewing</li>
         </ul>
