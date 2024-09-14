@@ -179,9 +179,9 @@ function ClubsAndOrganizations() {
               >
                 <h3>{club['Account Title']}</h3>
                 <p><strong>Faculty:</strong> {club['Faculty']}</p>
-                {club['Image Link'] && (
+                {club['Username'] && (
                   <img
-                    src={club['Image Link']}
+                    src={`/assets/PFP/${club['Username']}.jpg`}
                     alt={club['Account Title']}
                     style={{ maxWidth: '100%', borderRadius: '5px' }}
                   />
