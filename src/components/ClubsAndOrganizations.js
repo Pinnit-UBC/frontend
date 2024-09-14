@@ -109,7 +109,7 @@ function ClubsAndOrganizations() {
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
               <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
               <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold', fontSize: '20px' }}>
-                Search for Category
+                Browse by Category
               </span>
               <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
             </div>
@@ -118,11 +118,11 @@ function ClubsAndOrganizations() {
               {categories.map((category, index) => (
                 <div key={index} onClick={() => handleCategoryClick(category.key)} style={{ textAlign: 'center', cursor: 'pointer' }}>
                   <img
-                    src="/PLACEHOLDER.png"
+                    src={`/assets/Category/${category.label}.png`}  // Dynamically load category images
                     alt={category.label}
-                    style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
+                    style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} // Increased image size
                   />
-                  <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{category.label}</div>
+                  <div style={{ marginTop: '5px', fontSize: '16px', fontWeight: 'bold', wordWrap: 'break-word' }}>{category.label}</div>
                 </div>
               ))}
             </div>
@@ -133,7 +133,7 @@ function ClubsAndOrganizations() {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
               <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
               <span style={{ padding: '0 10px', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif', fontWeight: 'bold', fontSize: '20px' }}>
-                Search for Faculty
+                Browse by Faculty
               </span>
               <div style={{ flex: 1, borderBottom: '1px solid #ccc' }}></div>
             </div>
@@ -142,22 +142,22 @@ function ClubsAndOrganizations() {
               {/* "All Faculties" option */}
               <div onClick={() => handleFacultyClick('all')} style={{ textAlign: 'center', cursor: 'pointer' }}>
                 <img
-                  src="/PLACEHOLDER.png"
+                  src={`/assets/Faculty/All Faculties.png`}  // Dynamically load "All Faculties" image
                   alt="All Faculties"
-                  style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
+                  style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} // Increased image size
                 />
-                <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
+                <div style={{ marginTop: '5px', fontSize: '16px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
               </div>
 
               {/* Individual Faculties */}
               {facultiesSheet2.map((faculty, index) => (
                 <div key={index} onClick={() => handleFacultyClick(faculty)} style={{ textAlign: 'center', cursor: 'pointer' }}>
                   <img
-                    src="/PLACEHOLDER.png"
+                    src={`/assets/Faculty/${faculty}.png`}  // Dynamically load faculty images
                     alt={faculty}
-                    style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
+                    style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} // Increased image size
                   />
-                  <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
+                  <div style={{ marginTop: '5px', fontSize: '16px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
                 </div>
               ))}
             </div>
@@ -194,7 +194,7 @@ function ClubsAndOrganizations() {
                     <img
                       src={`/assets/PFP/${club['Username']}.jpg`}
                       alt={club['Account Title']}
-                      style={{ width: '70%', height: 'auto', borderRadius: '5px', cursor: 'pointer' }} // Reduced image size for profile picture
+                      style={{ width: '90%', height: 'auto', borderRadius: '5px', cursor: 'pointer' }} // Reduced image size for profile picture
                     />
                   </a>
                 )}
