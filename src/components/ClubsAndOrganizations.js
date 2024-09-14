@@ -7,7 +7,6 @@ function ClubsAndOrganizations() {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
-  const [facultiesSheet1, setFacultiesSheet1] = useState([]);
   const [facultiesSheet2, setFacultiesSheet2] = useState([]);
   const [viewCategory, setViewCategory] = useState(true);
 
@@ -29,10 +28,7 @@ function ClubsAndOrganizations() {
         setSheet1Data(sheet1);
         setSheet2Data(sheet2);
 
-        const uniqueFacultiesSheet1 = Array.from(new Set(sheet1.map(club => club['Faculty'])));
         const uniqueFacultiesSheet2 = Array.from(new Set(sheet2.map(club => club['Faculty'])));
-
-        setFacultiesSheet1(uniqueFacultiesSheet1);
         setFacultiesSheet2(uniqueFacultiesSheet2);
       } catch (error) {
         console.error('Error fetching or parsing XLSX:', error);
