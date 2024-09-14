@@ -48,9 +48,11 @@ function ClubsAndOrganizations() {
     setViewCategory(false);
     if (category === 'all') {
       // If "All Categories" is selected, show all data from sheet1
-      setFilteredData(sheet1Data);
+      setFilteredData(sheet1Data.sort((a, b) => b['# of followers'] - a['# of followers']));
     } else {
-      const filtered = sheet1Data.filter(club => club['Faculty'] === category);
+      const filtered = sheet1Data
+        .filter(club => club['Faculty'] === category)
+        .sort((a, b) => b['# of followers'] - a['# of followers']);
       setFilteredData(filtered);
     }
   };
@@ -61,9 +63,11 @@ function ClubsAndOrganizations() {
     setViewCategory(false);
     if (faculty === 'all') {
       // If "All Faculties" is selected, show all data from sheet2
-      setFilteredData(sheet2Data);
+      setFilteredData(sheet2Data.sort((a, b) => b['# of followers'] - a['# of followers']));
     } else {
-      const filtered = sheet2Data.filter(club => club['Faculty'] === faculty);
+      const filtered = sheet2Data
+        .filter(club => club['Faculty'] === faculty)
+        .sort((a, b) => b['# of followers'] - a['# of followers']);
       setFilteredData(filtered);
     }
   };
@@ -116,7 +120,7 @@ function ClubsAndOrganizations() {
                   <img
                     src="/PLACEHOLDER.png"
                     alt={category.label}
-                    style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }}
+                    style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
                   />
                   <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{category.label}</div>
                 </div>
@@ -140,7 +144,7 @@ function ClubsAndOrganizations() {
                 <img
                   src="/PLACEHOLDER.png"
                   alt="All Faculties"
-                  style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }}
+                  style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
                 />
                 <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>All Faculties</div>
               </div>
@@ -151,7 +155,7 @@ function ClubsAndOrganizations() {
                   <img
                     src="/PLACEHOLDER.png"
                     alt={faculty}
-                    style={{ width: '125px', height: '125px', borderRadius: '50%', objectFit: 'cover' }}
+                    style={{ width: '115px', height: '115px', borderRadius: '50%', objectFit: 'cover' }} // Reduced image size
                   />
                   <div style={{ marginTop: '5px', fontSize: '14px', fontWeight: 'bold', wordWrap: 'break-word' }}>{faculty}</div>
                 </div>
@@ -177,24 +181,23 @@ function ClubsAndOrganizations() {
                   boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
                 }}
               >
-                <h3>{club['Account Title']}</h3>
-                <p><strong>Faculty:</strong> {club['Faculty']}</p>
-                {club['Username'] && (
-                  <img
-                    src={`/assets/PFP/${club['Username']}.jpg`}
-                    alt={club['Account Title']}
-                    style={{ maxWidth: '100%', borderRadius: '5px' }}
-                  />
-                )}
-                <p>
-                  <strong>Account Link:</strong>{' '}
-                  <a href={club['Account Link']} target="_blank" rel="noopener noreferrer">
-                    {club['Account Link']}
+                {/* Account Title */}
+                <h3 style={{ color: '#FFF', fontWeight: 'bold' }}>
+                  <a href={club['Account Link']} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {club['Account Title']}
                   </a>
-                </p>
-                <p>
-                  <strong># of followers:</strong> {club['# of followers']}
-                </p>
+                </h3>
+
+                {/* Profile Picture */}
+                {club['Username'] && (
+                  <a href={club['Account Link']} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={`/assets/PFP/${club['Username']}.jpg`}
+                      alt={club['Account Title']}
+                      style={{ width: '70%', height: 'auto', borderRadius: '5px', cursor: 'pointer' }} // Reduced image size for profile picture
+                    />
+                  </a>
+                )}
               </div>
             ))}
           </div>
