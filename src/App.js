@@ -19,9 +19,9 @@ import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import NotFound from './components/NotFound';
-import MessageScreen from './components/MessageScreen'; 
-import ClubsAndOrganizations from './components/ClubsAndOrganizations'; 
-
+import MessageScreen from './components/MessageScreen';
+import ClubsAndOrganizations from './components/ClubsAndOrganizations';
+import FeedbackForm from './components/FeedbackForm'; // Import the FeedbackForm component
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -33,7 +33,7 @@ function App() {
   const [sponsoredEvent, setSponsoredEvent] = useState(null);
   const [isEventDrawerOpen, setIsEventDrawerOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [isPopularEventsActive, setIsPopularEventsActive] = useState(false); 
+  const [isPopularEventsActive, setIsPopularEventsActive] = useState(false);
   const isMobile = useMediaQuery('(max-width: 600px)');
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -215,9 +215,9 @@ function App() {
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
 
+          <Route path="/feedback" element={<FeedbackForm />} /> {/* Add feedback form route */}
           <Route path="/clubs" element={<ClubsAndOrganizations />} />
           <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
-
         </Routes>
       </div>
     </GoogleMapsScriptLoader>
