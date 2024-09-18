@@ -46,6 +46,28 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
         setTime(new Date(selectedDate));
     }, [selectedDate]);
 
+    useEffect(() => {
+        const lockBodyScroll = () => {
+            document.body.style.overflow = 'hidden'; 
+            document.documentElement.style.overflow = 'hidden'; // Ensure no scroll on the entire document
+        };
+
+        const unlockBodyScroll = () => {
+            document.body.style.overflow = ''; 
+            document.documentElement.style.overflow = ''; // Reset to allow scrolling
+        };
+
+        if (showPicker) {
+            lockBodyScroll();
+        } else {
+            unlockBodyScroll();
+        }
+
+        return () => {
+            unlockBodyScroll(); // Clean up to restore scrolling when component unmounts
+        };
+    }, [showPicker]);
+
     const handleClick = () => {
         setIsOpen(true);
         setShowPicker(true);
@@ -57,7 +79,6 @@ const MobileDatePickerButton = ({ selectedDate, setSelectedDate }) => {
     };
 
     const handleSelect = (time) => {
-        // Convert selected time to a date string in UTC format
         const selectedDate = new Date(Date.UTC(time.getFullYear(), time.getMonth(), time.getDate()));
         setTime(selectedDate);
         setSelectedDate(selectedDate.toISOString().split('T')[0]); // Format as 'YYYY-MM-DD'

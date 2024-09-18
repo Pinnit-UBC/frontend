@@ -4,15 +4,12 @@ import Button from '@mui/material/Button';
 import '../styles/MobileFilterButton.css';
 import filterIcon from '../assets/Filter.png';
 
-const tagOptions = ['Culture & Community', 'Academic & Professional', 'Sports & Fitness', 'Arts & Performance', 'Social', 'Other'];
-const facultyOptions = ['Applied Science', 'Arts', 'Commerce', 'Economics', 'Forestry', 'Kinesiology', 'Land & Food Systems', 'Law', 'Science', 'Other', 'None'];
-const degreeLevelOptions = ['Undergraduate', 'Graduate'];
+// Removed 'Other' from the tag options
+const tagOptions = ['Culture & Community', 'Academic & Professional', 'Sports & Fitness', 'Arts & Performance', 'Social', 'Health & Wellness', 'Varsity Sports'];
 
 function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
-    const [selectedFaculty, setSelectedFaculty] = useState([]);
-    const [selectedDegreeLevel, setSelectedDegreeLevel] = useState([]);
     const [isPopularEventsActive, setIsPopularEventsActive] = useState(false);
 
     const toggleDrawer = (open) => (event) => {
@@ -27,23 +24,7 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
             ? selectedTags.filter((t) => t !== tag)
             : [...selectedTags, tag];
         setSelectedTags(updatedTags);
-        onFilterChange(updatedTags, selectedFaculty, selectedDegreeLevel);
-    };
-
-    const handleFacultyChange = (faculty) => {
-        const updatedFaculty = selectedFaculty.includes(faculty)
-            ? selectedFaculty.filter((f) => f !== faculty)
-            : [...selectedFaculty, faculty];
-        setSelectedFaculty(updatedFaculty);
-        onFilterChange(selectedTags, updatedFaculty, selectedDegreeLevel);
-    };
-
-    const handleDegreeLevelChange = (degree) => {
-        const updatedDegreeLevel = selectedDegreeLevel.includes(degree)
-            ? selectedDegreeLevel.filter((d) => d !== degree)
-            : [...selectedDegreeLevel, degree];
-        setSelectedDegreeLevel(updatedDegreeLevel);
-        onFilterChange(selectedTags, selectedFaculty, updatedDegreeLevel);
+        onFilterChange(updatedTags, [], []); // Pass empty arrays for faculty and degree levels
     };
 
     const handlePopularEventsClick = () => {
@@ -93,7 +74,7 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
                         View Popular Events
                     </Button>
                     <div className="filter-group">
-                        <h4>Tags</h4>
+                        <h4>Filter</h4> {/* Changed 'Tags' to 'Filter' */}
                         {tagOptions.map((tag, index) => (
                             <div
                                 key={index}
@@ -105,32 +86,7 @@ function MobileFilterButton({ onFilterChange, onPopularEventsClick }) {
                             </div>
                         ))}
                     </div>
-                    <div className="filter-group">
-                        <h4>Faculty</h4>
-                        {facultyOptions.map((faculty, index) => (
-                            <div
-                                key={index}
-                                className={`dropdown-item ${selectedFaculty.includes(faculty) ? 'selected' : ''}`}
-                                onClick={() => handleFacultyChange(faculty)}
-                            >
-                                {faculty}
-                                {selectedFaculty.includes(faculty) && <span className="checkmark">✔</span>}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="filter-group">
-                        <h4>Degree Level</h4>
-                        {degreeLevelOptions.map((degree, index) => (
-                            <div
-                                key={index}
-                                className={`dropdown-item ${selectedDegreeLevel.includes(degree) ? 'selected' : ''}`}
-                                onClick={() => handleDegreeLevelChange(degree)}
-                            >
-                                {degree}
-                                {selectedDegreeLevel.includes(degree) && <span className="checkmark">✔</span>}
-                            </div>
-                        ))}
-                    </div>
+                    {/* Faculty and Degree Level sections are hidden */}
                 </div>
             </Drawer>
         </div>

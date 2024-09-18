@@ -26,6 +26,10 @@
   text-align: left; /* Ensure text is aligned to the left */
 }
 
+.mobile-event-time {
+  font-weight: bold; /* Bold the start and end time */
+}
+
 .mobile-event-location,
 .mobile-event-host,
 .mobile-event-registration {
@@ -48,21 +52,21 @@
 }
 
 .mobile-event-image {
-  display: flex; /* Add this */
-  justify-content: center; /* Add this */
-  width: 100%; /* Adjust the width to 100% */
+  display: flex;
+  justify-content: center;
+  width: 100%;
   height: 300px;
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  margin: 0; /* Remove auto margin */
+  margin: 0;
 }
 
 .mobile-event-image img {
   height: 100%;
   width: auto;
   max-height: 100%;
-  border-radius: 10px; /* Apply border-radius to the image */
+  border-radius: 10px;
 }
 
 .mobile-tag {
@@ -71,15 +75,15 @@
   padding: 2px 5px;
   margin-right: 5px;
   display: inline-block;
-  border: 2px solid #C5C5C5; /* Set the border color to #C5C5C5 */
+  border: 2px solid #C5C5C5;
 }
 
 .drawer-event-tag {
-  margin-top: 10px; /* Adjust to position below the registration icon */
+  margin-top: 10px;
   background-color: transparent;
   border-radius: 10px;
   padding: 4px;
-  font-size: 12px; /* Font size for tags */
-  color: #C5C5C5; /* Text color for tags */
-  border: 2px solid #C5C5C5; /* Set the border color to #C5C5C5 */
+  font-size: 12px;
+  color: #C5C5C5;
+  border: 2px solid #C5C5C5;
 }
