@@ -11,6 +11,13 @@ function formatTime(time) {
   return `${formattedHours}:${minutes}${period}`;
 }
 
+function formatTag(tag) {
+  return tag
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' & ');
+}
+
 function MobileEvent({ event, onEventClick }) {
   const [imageSrc, setImageSrc] = useState(
     event.image_base64 || '/path/to/local/placeholder.png'
@@ -56,11 +63,29 @@ function MobileEvent({ event, onEventClick }) {
             <img src="/assets/Signing A Document.png" alt="Registration Logo" className="mobile-registration-logo" />
             {event.registration_status || 'Registration status not available'}
           </div>
-          {event.tags && event.tags.length > 0 && (
+
+          {/* Tags Section - includes tags, faculty, and degree_level */}
+          {((event.tags && event.tags.length > 0) ||
+            (event.faculty && event.faculty.length > 0) ||
+            (event.degree_level && event.degree_level.length > 0)) && (
             <div className="mobile-event-tags">
-              {event.tags.map((tag, index) => (
-                <span key={index} className="mobile-tag">{tag}</span>
-              ))}
+              {/* Render event tags */}
+              {event.tags &&
+                event.tags.map((tag, index) => (
+                  <span key={index} className="mobile-tag">{formatTag(tag)}</span>
+                ))}
+
+              {/* Render faculty tags */}
+              {event.faculty &&
+                event.faculty.map((faculty, index) => (
+                  <span key={index} className="mobile-tag">{formatTag(faculty)}</span>
+                ))}
+
+              {/* Render degree level tags */}
+              {event.degree_level &&
+                event.degree_level.map((degree, index) => (
+                  <span key={index} className="mobile-tag">{formatTag(degree)}</span>
+                ))}
             </div>
           )}
         </div>
@@ -89,8 +114,10 @@ MobileEvent.propTypes = {
     host_organization: PropTypes.string,
     location: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
+    faculty: PropTypes.arrayOf(PropTypes.string), // Added faculty prop
+    degree_level: PropTypes.arrayOf(PropTypes.string), // Added degree_level prop
     image_url: PropTypes.string,
-    image_base64: PropTypes.string, // Added propType for image_base64
+    image_base64: PropTypes.string,
     registration_status: PropTypes.string,
   }).isRequired,
   onEventClick: PropTypes.func.isRequired,
