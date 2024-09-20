@@ -25,6 +25,17 @@
   border: none;
   background: none;
   color: white;
+  outline: none; /* Remove focus outline */
+  box-shadow: none; /* Remove the focus shadow */
+  top: -20px !important;
+  
+}
+
+.drawer-close-button:hover {
+  background: none; /* Prevent any background change on hover */
+  color: white; /* Ensure the text color remains white */
+  outline: none; /* Ensure no outline on hover */
+  box-shadow: none; /* Remove any box shadow */
 }
 
 .drawer-share-button {
@@ -178,6 +189,8 @@
 .drawer-tag:hover {
   background-color: #e0e0e0;
 }
+
+
 
 
 @media (max-width: 768px) {
