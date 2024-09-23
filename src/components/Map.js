@@ -100,8 +100,8 @@ MapComponent.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
       event_name: PropTypes.string,
     })
   ),

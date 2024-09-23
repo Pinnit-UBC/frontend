@@ -14,18 +14,29 @@ const center = {
 const SimpleMap = ({ markerPosition, handleMapClick }) => {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-  console.log('API Key:', apiKey); // Log API key to ensure it's being used
+  if (!apiKey) {
+    console.error('Google Maps API key is missing');
+    return <div>Error: Google Maps API key is missing</div>;
+  }
+
   console.log('Marker Position:', markerPosition); // Log marker position
 
   return (
-    <LoadScriptNext googleMapsApiKey={apiKey}>
+    <LoadScriptNext
+      googleMapsApiKey={apiKey}
+      onLoad={() => console.log('Google Maps script loaded')}
+      onError={(e) => console.error('Error loading Google Maps script', e)}
+    >
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={14.5}
         onClick={handleMapClick}
+        onLoad={(map) => console.log('Map loaded:', map)}
       >
-        {markerPosition && <Marker position={markerPosition} />}
+        {markerPosition && (
+          <Marker position={markerPosition} />
+        )}
       </GoogleMap>
     </LoadScriptNext>
   );

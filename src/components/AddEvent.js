@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Checkbox from '@mui/material/Checkbox'; 
+import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from 'react-select';
 import SimpleMap from './SimpleMap';
@@ -22,11 +22,10 @@ const tagOptions = [
   { value: 'sports-fitness', label: 'Sports & Fitness' },
   { value: 'arts-performance', label: 'Arts & Performance' },
   { value: 'social', label: 'Social' },
-  { value: 'varsity-sports', label: 'Varsity Sports' }, // New tag
-  { value: 'health-wellness', label: 'Health & Wellness' }, // New tag
+  { value: 'varsity-sports', label: 'Varsity Sports' },
+  { value: 'health-wellness', label: 'Health & Wellness' },
   { value: 'other', label: 'Other' }
 ];
-
 
 const facultyOptions = [
   { value: 'applied-science', label: 'Applied Science' },
@@ -62,9 +61,9 @@ function AddEvent() {
     activity_description: '',
     registration_status: '',
     reference_link: '',
-    tags: [], // Add tags to formData
-    faculty: [], // Add faculty to formData
-    degree_level: [] // Add degree level to formData
+    tags: [],
+    faculty: [],
+    degree_level: []
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -74,6 +73,7 @@ function AddEvent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    console.log('AddEvent component mounted');
     window.scrollTo(0, 0); // Scroll to top on component mount
   }, []);
 
@@ -116,6 +116,7 @@ function AddEvent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting event form...');
     if (isSubmitting) return;
 
     setIsSubmitting(true);
@@ -134,7 +135,6 @@ function AddEvent() {
       return;
     }
 
-    // Verify the pass key
     const verifyKeyResponse = await fetch('https://backend-8eis.onrender.com/verify-key', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -150,11 +150,10 @@ function AddEvent() {
       return;
     }
 
-    // Prepare form data for submission
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       if (key === 'tags' || key === 'faculty' || key === 'degree_level') {
-        formDataToSend.append(key, JSON.stringify(formData[key].map(option => option.value))); // Convert array to JSON string
+        formDataToSend.append(key, JSON.stringify(formData[key].map(option => option.value)));
       } else {
         formDataToSend.append(key, formData[key]);
       }
@@ -190,6 +189,7 @@ function AddEvent() {
   };
 
   const handleBackClick = () => {
+    console.log('Navigating back to the home page...');
     const today = dayjs().format('YYYY-MM-DD');
     navigate(`/?date=${today}`);
     window.scrollTo(0, 0); // Ensure the page scrolls to the top
@@ -205,11 +205,11 @@ function AddEvent() {
   const customStyles = {
     option: (provided) => ({
       ...provided,
-      color: 'black',  // Set the text color to black
+      color: 'black',
     }),
     multiValueLabel: (provided) => ({
       ...provided,
-      color: 'black',  // Set the selected option text color to black
+      color: 'black',
     }),
   };
 
