@@ -127,11 +127,6 @@ function App() {
     }
   };
 
-  const handleEventDrawerClose = () => {
-    setIsEventDrawerOpen(false);
-    setSelectedEvent(null);
-  };
-
   const handleEventClick = (event) => {
     if (event !== selectedEvent) {
       setSelectedEvent(event);
@@ -176,10 +171,6 @@ function App() {
     }
 
     setIsPopularEventsActive(!isPopularEventsActive);
-  };
-
-  const handleAddEventClick = () => {
-    navigate('/add-event');
   };
 
   const isAddEventPage = location.pathname === '/add-event';
