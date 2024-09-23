@@ -69,6 +69,14 @@ body, html {
   max-width: 80px; /* Limit the max width for buttons */
 }
 
+/* Center and adjust the date display */
+h2 {
+  text-align: center; /* Center the text */
+  margin-top: -5px;  /* Move the text up slightly */
+  font-size: 1.75em;   /* Adjust font size if needed */
+  color: #ffffff;     /* Ensure the text color fits your design */
+}
+
 /* Drawer Container Logic */
 .drawer-container {
   position: relative;

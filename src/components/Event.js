@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Event.css';
 
 function formatTime(time) {
@@ -20,6 +21,7 @@ function Event({ event, onEventClick }) {
   const [imageSrc, setImageSrc] = useState(
     event.image_base64 || '/path/to/local/placeholder.png'
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (navigator.onLine && event.image_url && !event.image_base64) {
@@ -30,8 +32,19 @@ function Event({ event, onEventClick }) {
     }
   }, [event.image_url, event.image_base64]);
 
+  const handleClick = () => {
+    if (onEventClick) {
+      onEventClick(event);
+    }
+    if (event._id) { // Ensure that the event ID is available
+      navigate(`/event/${event._id}`);
+    } else {
+      console.error("Event ID is undefined");
+    }
+  };
+
   return (
-    <div className="event-container" onClick={() => onEventClick(event)}>
+    <div className="event-container" onClick={handleClick}>
       <div className="event-details">
         <div className="event-time">
           {formatTime(event.start_time)}
@@ -86,16 +99,17 @@ function Event({ event, onEventClick }) {
 
 Event.propTypes = {
   event: PropTypes.shape({
+    _id: PropTypes.string, // Ensure that _id is included in the propTypes
     start_time: PropTypes.string,
     end_time: PropTypes.string,
     event_title: PropTypes.string,
     host_organization: PropTypes.string,
     location: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
-    faculty: PropTypes.arrayOf(PropTypes.string), // Added propType for faculty
-    degree_level: PropTypes.arrayOf(PropTypes.string), // Added propType for degree_level
+    faculty: PropTypes.arrayOf(PropTypes.string),
+    degree_level: PropTypes.arrayOf(PropTypes.string),
     image_url: PropTypes.string,
-    image_base64: PropTypes.string, // Added propType for image_base64
+    image_base64: PropTypes.string,
     registration_status: PropTypes.string,
   }).isRequired,
   onEventClick: PropTypes.func.isRequired,
