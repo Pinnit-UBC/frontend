@@ -72,9 +72,10 @@ body, html {
 /* Center and adjust the date display */
 h2 {
   text-align: center; /* Center the text */
-  margin-top: -5px;  /* Move the text up slightly */
-  font-size: 1.75em;   /* Adjust font size if needed */
+  margin-top: 5px;  /* Move the text up slightly */
+  font-size: 2em;   /* Adjust font size if needed */
   color: #ffffff;     /* Ensure the text color fits your design */
+  padding-bottom: 10px; 
 }
 
 /* Drawer Container Logic */
