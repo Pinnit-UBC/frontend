@@ -20,7 +20,6 @@ import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
 import MessageScreen from './components/MessageScreen';
 import ClubsAndOrganizations from './components/ClubsAndOrganizations';
 import FeedbackForm from './components/FeedbackForm';
-// Removed NotFound import
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -37,7 +36,6 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Function to format the selected date
   const formatSelectedDate = () => {
     return dayjs(selectedDate).format('dddd, MMMM D');
   };
@@ -180,61 +178,65 @@ function App() {
     setIsPopularEventsActive(!isPopularEventsActive);
   };
 
+  const handleAddEventClick = () => {
+    navigate('/add-event');
+  };
+
+  const isAddEventPage = location.pathname === '/add-event';
+  const isClubsOrganizationsPage = location.pathname === '/clubs-organizations';
+  const isFeedbackPage = location.pathname === '/feedback';
+
   return (
     <GoogleMapsScriptLoader apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div className="App">
         <MessageScreen />
         <Header onMenuClick={toggleMenuDrawer} />
         <MenuDrawer open={isMenuOpen} onClose={toggleMenuDrawer} />
-        <main className="main-content">
-          {isMobile ? (
-            <div className="mobile-header">
-              <div className="mobile-button-container">
-                <div className="filter-button-container">
-                  <MobileFilterButton 
-                    onFilterChange={handleFilterChange} 
-                    onPopularEventsClick={handlePopularEventsClick}
+        {!isAddEventPage && !isClubsOrganizationsPage && !isFeedbackPage && (
+          <main className="main-content">
+            {isMobile ? (
+              <div className="mobile-header">
+                <div className="mobile-button-container">
+                  <div className="filter-button-container">
+                    <MobileFilterButton 
+                      onFilterChange={handleFilterChange} 
+                      onPopularEventsClick={handlePopularEventsClick}
+                    />
+                  </div>
+                  <div className="mobile-timeline-container">
+                    <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
+                  </div>
+                  <div className="date-picker-button-container">
+                    <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                  </div>
+                </div>
+                {filteredEvents.length > 0 ? (
+                  <MobileEventsList events={filteredEvents} onEventClick={handleEventClick} />
+                ) : (
+                  <div>No events found.</div>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="left-content">
+                  <h2>{formatSelectedDate()}</h2>
+                  <EventsList events={filteredEvents} onEventClick={handleEventClick} />
+                </div>
+                <div className="right-content">
+                  <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
+                    <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                  </div>
+                  <Summary
+                    eventCount={filteredEvents.length}
+                    sponsoredEvent={sponsoredEvent}
+                    onSponsoredEventClick={handleSponsoredEventClick}
                   />
+                  <MapComponent events={filteredEvents} />
                 </div>
-                <div className="mobile-timeline-container">
-                  <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
-                </div>
-                <div className="date-picker-button-container">
-                  <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                </div>
-              </div>
-              {filteredEvents.length > 0 ? (
-                <MobileEventsList events={filteredEvents} onEventClick={handleEventClick} />
-              ) : (
-                <div>No events found.</div>
-              )}
-            </div>
-          ) : (
-            <>
-              <div className="left-content">
-                {/* Date Display */}
-                <h2>{formatSelectedDate()}</h2>
-                <EventsList events={filteredEvents} onEventClick={handleEventClick} />
-              </div>
-              <div className="right-content">
-                <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
-                  <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                </div>
-                <Summary
-                  eventCount={filteredEvents.length}
-                  sponsoredEvent={sponsoredEvent}
-                  onSponsoredEventClick={handleSponsoredEventClick}
-                />
-                <MapComponent events={filteredEvents} />
-              </div>
-            </>
-          )}
-          {/* Render EventDrawer only if selectedEvent exists */}
-          {selectedEvent && (
-            <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
-          )}
-        </main>
-        {/* Removed NotFound Route */}
+              </>
+            )}
+          </main>
+        )}
         <Routes>
           <Route path="/event/:eventId" element={<EventDrawer />} />
           <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} />
@@ -242,7 +244,6 @@ function App() {
           <Route path="/subscribe" element={<SubscriptionForm />} />
           <Route path="/feedback" element={<FeedbackForm />} />
           <Route path="/clubs" element={<ClubsAndOrganizations />} />
-          {/* Removed wildcard route */}
         </Routes>
       </div>
     </GoogleMapsScriptLoader>

@@ -14,10 +14,12 @@ function Header() {
 
   const handleAddEventClick = () => {
     navigate('/add-event');
+    window.scrollTo(0, 0); // Ensure the page scrolls to the top when navigating
   };
 
   const handleSubscribeClick = () => {
     navigate('/subscribe');
+    window.scrollTo(0, 0);
   };
 
   const toggleMenuDrawer = () => {
