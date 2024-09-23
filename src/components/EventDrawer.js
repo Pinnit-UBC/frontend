@@ -41,15 +41,23 @@ function EventDrawer({ event, open, onClose }) {
     setIsExpanded(!isExpanded);
   };
 
-  const handleShareClick = () => {
-    const eventUrl = `https://pinnitubc.com/event/${event._id}`; // Dynamic URL for the event
+  const handleShareClick = async () => {
+    const eventUrl = `https://pinnitubc.com/event/${event._id}`;
     const shareText = `Check out this event happening on campus! ${eventUrl}`;
-    
-    navigator.clipboard.writeText(shareText).then(() => {
-      alert('Share message copied to clipboard! Open Instagram and paste the message.');
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
-    });
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: event.event_title,
+          text: shareText,
+          url: eventUrl,
+        });
+      } catch (error) {
+        console.error('Error sharing event:', error);
+      }
+    } else {
+      alert('Your browser does not support the share feature.');
+    }
   };
 
   const handleClose = () => {
@@ -173,6 +181,25 @@ function EventDrawer({ event, open, onClose }) {
               </Button>
             </Box>
           )}
+          {/* Move the Share Event button below the Check it out button */}
+          <Box className="drawer-info-item" sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="contained"
+              onClick={handleShareClick}
+              sx={{
+                color: 'white',
+                fontWeight: 'bold',
+                backgroundColor: '#FF6347',
+                borderColor: 'transparent',
+                width: '75%',
+                '&:hover': {
+                  backgroundColor: '#FF4500',
+                },
+              }}
+            >
+              Share Event
+            </Button>
+          </Box>
         </Box>
         {event.activity_description && (
           <Box className="drawer-event-details-container">
@@ -207,25 +234,6 @@ function EventDrawer({ event, open, onClose }) {
             <DrawerMap latitude={event.latitude} longitude={event.longitude} />
           </Box>
         )}
-        {/* Share Button */}
-        <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="contained"
-            onClick={handleShareClick}
-            sx={{
-              color: 'white',
-              fontWeight: 'bold',
-              backgroundColor: '#FF6347',
-              borderColor: 'transparent',
-              width: '75%',
-              '&:hover': {
-                backgroundColor: '#FF4500',
-              },
-            }}
-          >
-            Share Event
-          </Button>
-        </Box>
       </Box>
     </Drawer>
   );

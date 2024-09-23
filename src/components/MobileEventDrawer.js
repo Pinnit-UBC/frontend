@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -20,6 +20,45 @@ function MobileEventDrawer({ event, open, onClose }) {
   const descriptionRef = useRef(null);
 
   const handleToggleExpand = () => setIsExpanded(!isExpanded);
+
+  const handleShareClick = async () => {
+    const eventUrl = `https://pinnitubc.com/event/${event._id}`;
+    const shareText = `Check out this event happening on campus! ${eventUrl}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: event.event_title,
+          text: shareText,
+          url: eventUrl,
+        });
+      } catch (error) {
+        console.error('Error sharing event:', error);
+      }
+    } else {
+      alert('Your browser does not support the share feature.');
+    }
+  };
+
+  // Prevent background scrolling when the drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+    };
+  }, [open]);
 
   if (!event) {
     return (
@@ -138,6 +177,29 @@ function MobileEventDrawer({ event, open, onClose }) {
               </Button>
             </Box>
           )}
+          {/* Share Button */}
+          <Box className="drawer-info-item drawer-check-it-out-container">
+            <Button
+              variant="contained"
+              onClick={handleShareClick}
+              sx={{
+                color: 'white',
+                fontWeight: 'bold',
+                backgroundColor: '#FF6347',
+                borderColor: 'transparent',
+                width: '75%',
+                textAlign: 'center',
+                margin: '8px auto 0',
+                borderRadius: '10px',
+                boxShadow: 'none',
+                '&:hover': {
+                  backgroundColor: '#FF4500',
+                },
+              }}
+            >
+              Share Event
+            </Button>
+          </Box>
         </Box>
         {event.activity_description && (
           <Box className="drawer-event-details-container">

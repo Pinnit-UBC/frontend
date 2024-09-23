@@ -200,4 +200,8 @@
   margin-bottom: 10px;
 }
 
-
+/* Prevent background scrolling when applied */
+.no-scroll {
+  overflow: hidden;
+  background-color: red; /* Temporary debug style */
+}
