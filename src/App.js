@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import './App.css';
@@ -7,7 +7,6 @@ import EventsList from './components/EventsList';
 import Summary from './components/Summary';
 import Header from './components/Header';
 import DatePickerComponent from './components/DatePickerComponent';
-import Timeline from './components/Timeline';
 import MapComponent from './components/Map';
 import AddEvent from './components/AddEvent';
 import MobileTimeline from './components/MobileTimeline';
@@ -18,10 +17,10 @@ import MenuDrawer from './components/MenuDrawer';
 import EventDrawer from './components/EventDrawer';
 import SubscriptionForm from './components/SubscriptionForm';
 import GoogleMapsScriptLoader from './components/GoogleMapsScriptLoader';
-import NotFound from './components/NotFound';
 import MessageScreen from './components/MessageScreen';
 import ClubsAndOrganizations from './components/ClubsAndOrganizations';
-import FeedbackForm from './components/FeedbackForm'; // Import the FeedbackForm component
+import FeedbackForm from './components/FeedbackForm';
+// Removed NotFound import
 
 import { cacheEvents, loadCachedEvents, cacheSponsoredEvent, loadCachedSponsoredEvent } from './cache';
 
@@ -35,25 +34,12 @@ function App() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isPopularEventsActive, setIsPopularEventsActive] = useState(false);
   const isMobile = useMediaQuery('(max-width: 600px)');
-  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const toggleMenuDrawer = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleSponsoredEventClick = () => {
-    if (sponsoredEvent) {
-      const matchingEvent = events.find(e => e.event_title.trim() === sponsoredEvent.event_title.trim());
-      if (matchingEvent) {
-        setSelectedEvent(matchingEvent);
-        setIsEventDrawerOpen(true);
-      }
-    }
-  };
-
-  const handleEventDrawerClose = () => {
-    setIsEventDrawerOpen(false);
-    setSelectedEvent(null);
+  // Function to format the selected date
+  const formatSelectedDate = () => {
+    return dayjs(selectedDate).format('dddd, MMMM D');
   };
 
   useEffect(() => {
@@ -111,6 +97,51 @@ function App() {
     fetchSponsoredEvent(selectedDate);
   }, [selectedDate]);
 
+  useEffect(() => {
+    const pathParts = location.pathname.split('/');
+    const eventId = pathParts[2];
+    if (eventId && events.length > 0) {
+      const event = events.find(e => e._id === eventId);
+      if (event) {
+        setSelectedEvent(event);
+        setIsEventDrawerOpen(true);
+      } else {
+        navigate('/');
+      }
+    } else {
+      setSelectedEvent(null);
+      setIsEventDrawerOpen(false);
+    }
+  }, [location.pathname, events, navigate, isEventDrawerOpen]);
+
+  const toggleMenuDrawer = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleSponsoredEventClick = () => {
+    if (sponsoredEvent) {
+      const matchingEvent = events.find(e => e.event_title.trim() === sponsoredEvent.event_title.trim());
+      if (matchingEvent) {
+        setSelectedEvent(matchingEvent);
+        setIsEventDrawerOpen(true);
+        navigate(`/event/${matchingEvent._id}`, { replace: true });
+      }
+    }
+  };
+
+  const handleEventDrawerClose = () => {
+    setIsEventDrawerOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const handleEventClick = (event) => {
+    if (event !== selectedEvent) {
+      setSelectedEvent(event);
+      setIsEventDrawerOpen(true);
+      navigate(`/event/${event._id}`, { replace: true });
+    }
+  };
+
   const normalizeTag = (tag) => tag.toLowerCase().replace(/ & /g, '-');
 
   const handleFilterChange = (selectedTags, selectedFaculty, selectedDegreeLevel) => {
@@ -150,74 +181,68 @@ function App() {
   };
 
   return (
-    <GoogleMapsScriptLoader apiKey={googleMapsApiKey}>
+    <GoogleMapsScriptLoader apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div className="App">
         <MessageScreen />
         <Header onMenuClick={toggleMenuDrawer} />
         <MenuDrawer open={isMenuOpen} onClose={toggleMenuDrawer} />
-        <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
+        <main className="main-content">
+          {isMobile ? (
+            <div className="mobile-header">
+              <div className="mobile-button-container">
+                <div className="filter-button-container">
+                  <MobileFilterButton 
+                    onFilterChange={handleFilterChange} 
+                    onPopularEventsClick={handlePopularEventsClick}
+                  />
+                </div>
+                <div className="mobile-timeline-container">
+                  <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
+                </div>
+                <div className="date-picker-button-container">
+                  <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                </div>
+              </div>
+              {filteredEvents.length > 0 ? (
+                <MobileEventsList events={filteredEvents} onEventClick={handleEventClick} />
+              ) : (
+                <div>No events found.</div>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="left-content">
+                {/* Date Display */}
+                <h2>{formatSelectedDate()}</h2>
+                <EventsList events={filteredEvents} onEventClick={handleEventClick} />
+              </div>
+              <div className="right-content">
+                <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
+                  <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                </div>
+                <Summary
+                  eventCount={filteredEvents.length}
+                  sponsoredEvent={sponsoredEvent}
+                  onSponsoredEventClick={handleSponsoredEventClick}
+                />
+                <MapComponent events={filteredEvents} />
+              </div>
+            </>
+          )}
+          {/* Render EventDrawer only if selectedEvent exists */}
+          {selectedEvent && (
+            <EventDrawer open={isEventDrawerOpen} onClose={handleEventDrawerClose} event={selectedEvent} />
+          )}
+        </main>
+        {/* Removed NotFound Route */}
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                {isMobile ? (
-                  <div className="mobile-header">
-                    <div className="mobile-button-container">
-                      <div className="filter-button-container">
-                        <MobileFilterButton 
-                          onFilterChange={handleFilterChange} 
-                          onPopularEventsClick={handlePopularEventsClick}
-                        />
-                      </div>
-                      <div className="mobile-timeline-container">
-                        <MobileTimeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
-                      </div>
-                      <div className="date-picker-button-container">
-                        <MobileDatePickerButton selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                      </div>
-                    </div>
-                    {filteredEvents.length > 0 ? (
-                      <MobileEventsList events={filteredEvents} onEventClick={(event) => {
-                        setSelectedEvent(event);
-                        setIsEventDrawerOpen(true);
-                      }} />
-                    ) : (
-                      <div>No events found.</div>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    <Timeline selectedDate={selectedDate} onDateChange={setSelectedDate} />
-                    <main className="main-content">
-                      <div className="left-content">
-                        <EventsList events={filteredEvents} />
-                      </div>
-                      <div className="right-content">
-                        <div className="date-picker-box" style={{ width: '100%', display: 'flex' }}>
-                          <DatePickerComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-                        </div>
-                        <Summary
-                          eventCount={filteredEvents.length}
-                          sponsoredEvent={sponsoredEvent}
-                          onSponsoredEventClick={handleSponsoredEventClick}
-                        />
-                        <MapComponent events={filteredEvents} />
-                      </div>
-                    </main>
-                  </>
-                )}
-              </>
-            }
-          />
-          {/* Add the clubs-organizations route */}
-          <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} /> 
+          <Route path="/event/:eventId" element={<EventDrawer />} />
+          <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
-
-          <Route path="/feedback" element={<FeedbackForm />} /> {/* Add feedback form route */}
+          <Route path="/feedback" element={<FeedbackForm />} />
           <Route path="/clubs" element={<ClubsAndOrganizations />} />
-          <Route path="*" element={<NotFound />} /> {/* Add a catch-all route */}
+          {/* Removed wildcard route */}
         </Routes>
       </div>
     </GoogleMapsScriptLoader>

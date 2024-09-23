@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import DrawerMap from './DrawerMap';
+import { useNavigate } from 'react-router-dom';
 import '../styles/EventDrawer.css';
 
 function formatTime(time) {
@@ -26,8 +27,6 @@ function formatTag(tag) {
       return 'Arts & Performance';
     case 'social':
       return 'Social';
-    case 'other':
-      return 'Other';
     default:
       return tag;
   }
@@ -36,9 +35,26 @@ function formatTag(tag) {
 function EventDrawer({ event, open, onClose }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const descriptionRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleShareClick = () => {
+    const eventUrl = `https://pinnitubc.com/event/${event._id}`; // Dynamic URL for the event
+    const shareText = `Check out this event happening on campus! ${eventUrl}`;
+    
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('Share message copied to clipboard! Open Instagram and paste the message.');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  };
+
+  const handleClose = () => {
+    onClose();
+    navigate('/');
   };
 
   if (!event) {
@@ -46,7 +62,7 @@ function EventDrawer({ event, open, onClose }) {
       <Drawer
         anchor="right"
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         PaperProps={{
           sx: {
             width: '50vw',
@@ -72,7 +88,7 @@ function EventDrawer({ event, open, onClose }) {
     <Drawer
       anchor="right"
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       PaperProps={{
         sx: {
           width: '50vw',
@@ -85,7 +101,7 @@ function EventDrawer({ event, open, onClose }) {
     >
       <Box className="drawer-container">
         <Box className="drawer-header">
-          <button className="drawer-close-button" onClick={onClose}>
+          <button className="drawer-close-button" onClick={handleClose}>
             &times;
           </button>
         </Box>
@@ -191,6 +207,25 @@ function EventDrawer({ event, open, onClose }) {
             <DrawerMap latitude={event.latitude} longitude={event.longitude} />
           </Box>
         )}
+        {/* Share Button */}
+        <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="contained"
+            onClick={handleShareClick}
+            sx={{
+              color: 'white',
+              fontWeight: 'bold',
+              backgroundColor: '#FF6347',
+              borderColor: 'transparent',
+              width: '75%',
+              '&:hover': {
+                backgroundColor: '#FF4500',
+              },
+            }}
+          >
+            Share Event
+          </Button>
+        </Box>
       </Box>
     </Drawer>
   );
