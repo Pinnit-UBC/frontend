@@ -180,13 +180,17 @@ function App() {
         alert('Unable to fetch popular events at this time.');
       }
     }
-
     setIsPopularEventsActive(!isPopularEventsActive);
   };
 
   const isAddEventPage = location.pathname === '/add-event';
   const isClubsOrganizationsPage = location.pathname === '/clubs-organizations';
   const isFeedbackPage = location.pathname === '/feedback';
+
+  const handleEventDrawerClose = () => {
+    setSelectedEvent(null);
+    navigate('/');
+  };
 
   return (
     <GoogleMapsScriptLoader apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
@@ -242,7 +246,7 @@ function App() {
         <Routes>
           <Route 
             path="/event/:eventId" 
-            element={<EventDrawer event={selectedEvent} open={!!selectedEvent} onClose={() => setSelectedEvent(null)} />} 
+            element={<EventDrawer event={selectedEvent} open={!!selectedEvent} onClose={handleEventDrawerClose} />} 
           />
           <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} />
           <Route path="/add-event" element={<AddEvent />} />
