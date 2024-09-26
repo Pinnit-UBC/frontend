@@ -29,7 +29,6 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sponsoredEvent, setSponsoredEvent] = useState(null);
-  const [isEventDrawerOpen, setIsEventDrawerOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isPopularEventsActive, setIsPopularEventsActive] = useState(false);
   const isMobile = useMediaQuery('(max-width: 600px)');
@@ -98,19 +97,33 @@ function App() {
   useEffect(() => {
     const pathParts = location.pathname.split('/');
     const eventId = pathParts[2];
-    if (eventId && events.length > 0) {
-      const event = events.find(e => e._id === eventId);
-      if (event) {
-        setSelectedEvent(event);
-        setIsEventDrawerOpen(true);
-      } else {
-        navigate('/');
+
+    const fetchEventById = async (eventId) => {
+      try {
+        const response = await fetch(`https://backend-8eis.onrender.com/event/${eventId}`);
+        const event = await response.json();
+        if (event) {
+          setSelectedEvent(event);
+        } else {
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Error fetching event:', error);
+        navigate('/'); // Redirect if the event is not found or if there's an error
+      }
+    };
+
+    if (eventId) {
+      const existingEvent = events.find(e => e._id === eventId);
+      if (existingEvent) {
+        setSelectedEvent(existingEvent);
+      } else if (events.length === 0) {
+        fetchEventById(eventId);
       }
     } else {
       setSelectedEvent(null);
-      setIsEventDrawerOpen(false);
     }
-  }, [location.pathname, events, navigate, isEventDrawerOpen]);
+  }, [location.pathname, events, navigate]);
 
   const toggleMenuDrawer = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -121,7 +134,6 @@ function App() {
       const matchingEvent = events.find(e => e.event_title.trim() === sponsoredEvent.event_title.trim());
       if (matchingEvent) {
         setSelectedEvent(matchingEvent);
-        setIsEventDrawerOpen(true);
         navigate(`/event/${matchingEvent._id}`, { replace: true });
       }
     }
@@ -130,7 +142,6 @@ function App() {
   const handleEventClick = (event) => {
     if (event !== selectedEvent) {
       setSelectedEvent(event);
-      setIsEventDrawerOpen(true);
       navigate(`/event/${event._id}`, { replace: true });
     }
   };
@@ -229,7 +240,10 @@ function App() {
           </main>
         )}
         <Routes>
-          <Route path="/event/:eventId" element={<EventDrawer />} />
+          <Route 
+            path="/event/:eventId" 
+            element={<EventDrawer event={selectedEvent} open={!!selectedEvent} onClose={() => setSelectedEvent(null)} />} 
+          />
           <Route path="/clubs-organizations" element={<ClubsAndOrganizations />} />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/subscribe" element={<SubscriptionForm />} />
