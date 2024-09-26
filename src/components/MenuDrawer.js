@@ -64,7 +64,7 @@ function MenuDrawer({
     >
       <Box className="drawer-container">
         <Box className="menu-item" onClick={() => handleNavigation('/')}>
-          <span className="menu-item-text">Home</span>
+          <span className="menu-item-text">📍 Home</span>
         </Box>
         {showNews && (
           <Box className="menu-item" onClick={() => handleNavigation('/news')}>
@@ -73,12 +73,12 @@ function MenuDrawer({
         )}
         {showClubs && (
           <Box className="menu-item" onClick={() => handleNavigation('/clubs-organizations')}>
-            <span className="menu-item-text">Clubs & Organizations</span>
+            <span className="menu-item-text">👥 Clubs & Organizations</span>
           </Box>
         )}
         {showAbout && (
           <Box className="menu-item" onClick={() => handleNavigation('/about')}>
-            <span className="menu-item-text">About</span>
+            <span className="menu-item-text">🛈 About</span>
           </Box>
         )}
         {showHelp && (
@@ -88,13 +88,16 @@ function MenuDrawer({
         )}
         {/* New Feedback Form Tab */}
         <Box className="menu-item" onClick={() => handleNavigation('/feedback')}>
-          <span className="menu-item-text">Feedback & Suggestions</span>
+          <span className="menu-item-text">🗣 Feedback & Suggestions</span>
         </Box>
         <Box className="menu-item" onClick={() => handleExternalLink('https://docs.google.com/forms/d/e/1FAIpQLScTPtbg73l1FViQWTdzCrMsgjG-wfjtNlvnT1VC46PuLDgtfw/viewform?vc=0&c=0&w=1&flr=0')}>
-          <span className="menu-item-text">Join the team!</span>
+          <span className="menu-item-text">🤝 Join the team!</span>
+        </Box>
+        <Box className="menu-item" onClick={() => handleExternalLink('https://docs.google.com/forms/d/e/1FAIpQLScuZEnNpbyRafrRsjLwzwnsHgBxqK6x6nQUSEA753uUCeM1gQ/viewform?usp=sf_link')}>
+          <span className="menu-item-text">🙋‍♂️ Contact Us</span>
         </Box>
         <Box className="menu-item" onClick={() => handleExternalLink('https://www.instagram.com/pinnit_ubc/')}>
-          <span className="menu-item-text">Follow us on Instagram</span>
+          <span className="menu-item-text">📱 Follow us on Instagram</span>
         </Box>
         {showDarkMode && (
           <Box className="drawer-footer">
